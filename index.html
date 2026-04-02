@@ -467,6 +467,10 @@
         .item-cookie { position:relative; width:18px; height:18px; background:#c8843a; border-radius:50%; border:1px solid #a06028; box-shadow:inset -2px -2px 3px rgba(0,0,0,0.2); }
         .item-cookie::before { content:''; position:absolute; width:3px; height:3px; background:#4a2008; border-radius:50%; top:3px; left:4px; box-shadow:6px 1px 0 #4a2008,1px 7px 0 #4a2008,7px 8px 0 #4a2008; }
 
+        .item-choc-egg { position:relative; width:14px; height:18px; background:#5c3317; border-radius:50% 50% 50% 50%/60% 60% 40% 40%; overflow:hidden; border:1px solid #3a1f0a; box-shadow:0 0 5px rgba(92,51,23,0.6); }
+        .item-choc-egg::before { content:''; position:absolute; width:100%; height:4px; background:#8b5a2b; top:4px; left:0; }
+        .item-choc-egg::after  { content:''; position:absolute; width:100%; height:3px; background:#a0522d; top:10px; left:0; }
+
         /* STICKMAN PET */
         .pet-stick { position:relative; width:16px; height:26px; }
         .pet-stick .head { width:8px; height:8px; border:2px solid #222; border-radius:50%; position:absolute; top:0; left:4px; background:#f5deb3; }
@@ -1150,7 +1154,8 @@
             { id: 'pumpkin', name: 'Pumpkin',    price: 50,  html: `<div class="item-pumpkin"><div class="stem"></div><div class="body"></div><div class="face"></div></div>` },
             { id: 'plant',   name: 'Plant',      price: 40,  html: `<div class="item-plant"><div class="leaf-l"></div><div class="leaf-r"></div><div class="stm"></div><div class="pot"></div></div>` },
             { id: 'egg',     name: 'Easter Egg', price: 70,  html: `<div class="item-egg"></div>` },
-            { id: 'cookie',  name: 'Cookie',     price: 30,  html: `<div class="item-cookie"></div>` },
+            { id: 'cookie',   name: 'Cookie',       price: 30,  html: `<div class="item-cookie"></div>` },
+            { id: 'choc-egg', name: 'Chocolate Egg', price: 0, eggUnlock: true, html: `<div class="item-choc-egg"></div>` },
         ];
 
         function loadData() {
@@ -1602,13 +1607,21 @@
             const itemGrid = document.getElementById('itemGrid');
             itemGrid.innerHTML = '';
             ITEMS.forEach(it => {
-                const owned = it.price === 0 || d.ownedItems.includes(it.id);
+                const isOwned = d.ownedItems.includes(it.id);
+                const owned = it.price === 0 && !it.eggUnlock || isOwned;
                 const equipped = d.equippedItem === it.id;
                 const canAfford = d.coins >= it.price;
                 const previewHtml = it.html
                     ? `<div style="display:flex;align-items:flex-end;justify-content:center;height:60px;transform:scale(2);transform-origin:bottom center;">${it.html}</div>`
                     : `<div style="height:60px;display:flex;align-items:center;justify-content:center;color:#555;font-size:12px;">None</div>`;
-                itemGrid.appendChild(buildCard(it, owned, equipped, canAfford, 'buyItem', 'equipItem', previewHtml));
+                if (it.eggUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `${previewHtml}<div class="pet-name">${it.name}</div><div class="pet-price" style="color:#d4a8e0">🥚 Break the egg</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    itemGrid.appendChild(card);
+                } else {
+                    itemGrid.appendChild(buildCard(it, owned, equipped, canAfford, 'buyItem', 'equipItem', previewHtml));
+                }
             });
 
             // Backgrounds tab
@@ -1865,7 +1878,23 @@
         loadBtnColor();
 
         // ─── CONFETTI ──────────────────────────────────────────────────
+        function playConfettiSound() {
+            const notes = [523, 659, 784, 1047, 1319];
+            notes.forEach((freq, i) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                const t = audioCtx.currentTime + i * 0.1;
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(freq, t);
+                gain.gain.setValueAtTime(0.18, t);
+                gain.gain.linearRampToValueAtTime(0, t + 0.18);
+                osc.start(t); osc.stop(t + 0.18);
+            });
+        }
+
         function launchConfetti() {
+            playConfettiSound();
             const container = document.createElement('div');
             container.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden;';
             document.body.appendChild(container);
@@ -1905,6 +1934,14 @@
             eggClicks++;
             this.className = 'visible egg-stage-' + Math.min(eggClicks, 3);
             if (eggClicks >= 3) {
+                const d = loadData();
+                if (!d.ownedItems.includes('choc-egg')) {
+                    d.ownedItems.push('choc-egg');
+                    saveData(d); gameData = d;
+                    renderIngameItem();
+                    if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+                }
+                playSound('buy');
                 setTimeout(() => {
                     this.className = '';
                     eggClicks = 0;
