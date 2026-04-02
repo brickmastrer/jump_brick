@@ -412,6 +412,15 @@
         #gameContainer.bg-easter    { background: linear-gradient(to bottom, #d4b8f0 0%, #f0c8f8 30%, #f8f0e0 65%, #c8e8a0 100%); }
         #gameContainer.bg-gold      { background: linear-gradient(to bottom, #ffe066 0%, #ffd700 30%, #ffb700 60%, #cc8800 100%); }
 
+        /* RAINBOW HAT */
+        @keyframes rainbowHatAnim { 0%{filter:hue-rotate(0deg)} 100%{filter:hue-rotate(360deg)} }
+        .hat-rainbow .hat-dome { width:28px; height:13px; background:linear-gradient(90deg,#ff0000,#ff8800,#ffff00,#00ff00,#0088ff,#8800ff); border-radius:50% 50% 0 0; margin:0 auto; animation:rainbowHatAnim 2s linear infinite; }
+        .hat-rainbow .hat-brim { width:36px; height:4px; background:linear-gradient(90deg,#ff0000,#ff8800,#ffff00,#00ff00,#0088ff,#8800ff); border-radius:0 2px 2px 0; margin-left:4px; animation:rainbowHatAnim 2s linear infinite; }
+
+        /* RAINBOW BACKGROUND */
+        @keyframes rainbowBgAnim { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+        #gameContainer.bg-rainbow { background:linear-gradient(135deg,#ff9999,#ffcc88,#ffff88,#88ff88,#88ccff,#cc88ff,#ff9999); background-size:400% 400%; animation:rainbowBgAnim 3s ease infinite; }
+
         .bg-card-preview { width:100%; height:54px; border-radius:5px; margin-bottom:8px; border:1px solid #333; }
 
         /* HELD ITEMS */
@@ -455,6 +464,73 @@
 
         .item-cookie { position:relative; width:18px; height:18px; background:#c8843a; border-radius:50%; border:1px solid #a06028; box-shadow:inset -2px -2px 3px rgba(0,0,0,0.2); }
         .item-cookie::before { content:''; position:absolute; width:3px; height:3px; background:#4a2008; border-radius:50%; top:3px; left:4px; box-shadow:6px 1px 0 #4a2008,1px 7px 0 #4a2008,7px 8px 0 #4a2008; }
+
+        /* SECRET BUTTON */
+        @keyframes secretBtnRainbow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+        #secretBtn {
+            position: fixed;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg,#ff0000,#ff8800,#ffff00,#00ff00,#0088ff,#8800ff,#ff0000);
+            background-size: 400% 400%;
+            animation: secretBtnRainbow 2s ease infinite;
+            border: 3px solid #fff;
+            cursor: pointer;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            z-index: 500;
+            transition: transform 0.15s;
+        }
+        #secretBtn:hover { transform: translateY(-50%) scale(1.15); }
+
+        /* SECRET POPUP */
+        #secretPopup {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+        #secretPopup.open { display: flex; }
+        #secretPopupContent {
+            background: #1a1a2e;
+            border: 3px solid #aa44ff;
+            border-radius: 14px;
+            padding: 28px 32px;
+            text-align: center;
+            color: white;
+            max-width: 340px;
+            box-shadow: 0 0 30px rgba(170,68,255,0.4);
+        }
+        #secretPopupContent h3 { margin: 0 0 8px; font-size: 22px; }
+        #secretPopupContent p  { color: #aaa; font-size: 14px; margin: 0 0 20px; }
+        .secret-choices { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .secret-choice-btn {
+            padding: 11px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            background: linear-gradient(135deg,#ff0000,#ff8800,#ffff00,#00ff00,#0088ff,#8800ff);
+            background-size: 300% 300%;
+            animation: secretBtnRainbow 2s ease infinite;
+            color: white;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+        }
+        .secret-choice-btn:hover { opacity: 0.85; }
+        .secret-choice-btn:disabled { background: #444; color: #777; cursor: default; text-shadow: none; animation: none; }
+        #secretPopupClose { margin-top: 16px; background: none; border: 1px solid #555; color: #aaa; padding: 6px 18px; border-radius: 5px; cursor: pointer; display: block; width: 100%; }
+        #secretPopupClose:hover { background: #333; }
     </style>
 </head>
 <body>
@@ -502,6 +578,17 @@
     </div>
     <button id="storeBtn" onclick="openStore()">🛒 Pet Store</button>
 
+    <button id="secretBtn" onclick="openSecretPopup()" title="Secret unlock!">🌈</button>
+
+    <!-- SECRET POPUP -->
+    <div id="secretPopup">
+        <div id="secretPopupContent">
+            <h3>🌈 Secret Unlock!</h3>
+            <p>Choose a rainbow item to unlock in the store!</p>
+            <div class="secret-choices" id="secretChoices"></div>
+            <button id="secretPopupClose" onclick="closeSecretPopup()">Close</button>
+        </div>
+    </div>
 
     <!-- STORE MODAL -->
     <div id="storeModal">
@@ -627,6 +714,7 @@
             { id: 'mask',     name: 'Mask',        price: 80,  html: `<div class="hat-mask"><div class="mask-body"></div></div>` },
             { id: 'easter',   name: 'Bunny Ears',  price: 70,  html: `<div class="hat-easter"><div class="ear-l"></div><div class="ear-r"></div><div class="inner-l"></div><div class="inner-r"></div><div class="headband"></div></div>` },
             { id: 'crown',    name: 'Crown',       price: 0,   html: `<div class="hat-crown-hat"><div class="crown-body"></div><div class="crown-band"></div></div>` },
+            { id: 'rainbow',  name: 'Rainbow Hat', price: 0,   secretUnlock: true, html: `<div class="hat-rainbow"><div class="hat-dome"></div><div class="hat-brim"></div></div>` },
         ];
 
         const AVATARS = [
@@ -664,6 +752,7 @@
             { id: 'beach',     name: 'Beach',     price: 70,  gradient: 'linear-gradient(to bottom, #87ceeb 0%, #60b8e8 40%, #f5e6a3 70%, #e8c97a 100%)',     cls: 'bg-beach'  },
             { id: 'easter',    name: 'Easter',    price: 80,  gradient: 'linear-gradient(to bottom, #d4b8f0 0%, #f0c8f8 30%, #f8f0e0 65%, #c8e8a0 100%)',       cls: 'bg-easter' },
             { id: 'gold',      name: 'Gold',      price: 150, gradient: 'linear-gradient(to bottom, #ffe066 0%, #ffd700 30%, #ffb700 60%, #cc8800 100%)',        cls: 'bg-gold'   },
+            { id: 'rainbow',   name: 'Rainbow',   price: 0,   secretUnlock: true, gradient: 'linear-gradient(135deg,#ff9999,#ffcc88,#ffff88,#88ff88,#88ccff,#cc88ff)', cls: 'bg-rainbow' },
         ];
 
         const ITEMS = [
@@ -771,7 +860,7 @@
         }
 
         // ─── BACKGROUND DISPLAY ────────────────────────────────────────
-        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold'];
+        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold','bg-rainbow'];
         function applyBackground() {
             BG_CLASSES.forEach(cls => gameContainer.classList.remove(cls));
             const bg = BACKGROUNDS.find(b => b.id === gameData.equippedBg);
@@ -1052,14 +1141,17 @@
             const hatGrid = document.getElementById('hatGrid');
             hatGrid.innerHTML = '';
             HATS.forEach(hat => {
-                const owned = d.ownedHats.includes(hat.id) || (hat.price === 0 && hat.id !== 'crown');
-                if (hat.id === 'crown' && !owned) {
+                const isOwned = d.ownedHats.includes(hat.id);
+                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock;
+                const owned = isOwned || freeOwned;
+                if ((hat.winUnlock || hat.secretUnlock) && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
+                    const lockLabel = hat.winUnlock ? '🏆 Win to Unlock' : '🌈 Secret Unlock';
                     card.innerHTML = `
                         <div class="pet-preview">${hat.html}</div>
                         <div class="pet-name">${hat.name}</div>
-                        <div class="pet-price" style="color:#FFD700">🏆 Win to Unlock</div>
+                        <div class="pet-price" style="color:#FFD700">${lockLabel}</div>
                         <button class="btn-cantafford">🔒 Locked</button>
                     `;
                     hatGrid.appendChild(card);
@@ -1115,29 +1207,39 @@
             const bgGrid = document.getElementById('bgGrid');
             bgGrid.innerHTML = '';
             BACKGROUNDS.forEach(bg => {
-                const owned = bg.price === 0 || d.ownedBgs.includes(bg.id);
+                const isOwned = d.ownedBgs.includes(bg.id);
+                const freeOwned = bg.price === 0 && !bg.winUnlock && !bg.secretUnlock;
+                const owned = isOwned || freeOwned;
                 const equipped = d.equippedBg === bg.id;
                 const canAfford = d.coins >= bg.price;
                 const previewHtml = `<div class="bg-card-preview" style="background:${bg.gradient}"></div>`;
-                const card = document.createElement('div');
-                card.className = 'pet-card' + (owned ? ' owned' : '') + (equipped ? ' equipped' : '');
-                let btn = '';
-                if (owned) {
-                    btn = equipped
-                        ? `<button class="btn-equipped">✓ Equipped</button>`
-                        : `<button class="btn-equip" onclick="equipBg('${bg.id}')">Equip</button>`;
+                if ((bg.winUnlock || bg.secretUnlock) && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    const lockLabel = bg.winUnlock ? '🏆 Win to Unlock' : '🌈 Secret Unlock';
+                    card.innerHTML = `${previewHtml}<div class="pet-name">${bg.name}</div><div class="pet-price" style="color:#FFD700">${lockLabel}</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    bgGrid.appendChild(card);
                 } else {
-                    btn = canAfford
-                        ? `<button class="btn-buy" onclick="buyBg('${bg.id}', ${bg.price})">Buy — 🪙${bg.price}</button>`
-                        : `<button class="btn-cantafford">🪙${bg.price}</button>`;
+                    const card = document.createElement('div');
+                    card.className = 'pet-card' + (owned ? ' owned' : '') + (equipped ? ' equipped' : '');
+                    let btn = '';
+                    if (owned) {
+                        btn = equipped
+                            ? `<button class="btn-equipped">✓ Equipped</button>`
+                            : `<button class="btn-equip" onclick="equipBg('${bg.id}')">Equip</button>`;
+                    } else {
+                        btn = canAfford
+                            ? `<button class="btn-buy" onclick="buyBg('${bg.id}', ${bg.price})">Buy — 🪙${bg.price}</button>`
+                            : `<button class="btn-cantafford">🪙${bg.price}</button>`;
+                    }
+                    card.innerHTML = `
+                        ${previewHtml}
+                        <div class="pet-name">${bg.name}</div>
+                        <div class="pet-price">${owned ? (equipped ? '✓ Equipped' : 'Owned') : '🪙 ' + bg.price}</div>
+                        ${btn}
+                    `;
+                    bgGrid.appendChild(card);
                 }
-                card.innerHTML = `
-                    ${previewHtml}
-                    <div class="pet-name">${bg.name}</div>
-                    <div class="pet-price">${owned ? (equipped ? '✓ Equipped' : 'Owned') : '🪙 ' + bg.price}</div>
-                    ${btn}
-                `;
-                bgGrid.appendChild(card);
             });
         }
 
@@ -1301,6 +1403,47 @@
             if (e.key === 'Enter') setUsername();
         });
         applyUsername();
+
+        // ─── SECRET POPUP ──────────────────────────────────────────────
+        function openSecretPopup() {
+            const d = loadData();
+            const choices = document.getElementById('secretChoices');
+            choices.innerHTML = '';
+
+            const hatOwned = d.ownedHats.includes('rainbow');
+            const hatBtn = document.createElement('button');
+            hatBtn.className = 'secret-choice-btn';
+            hatBtn.textContent = hatOwned ? '✓ Hat Unlocked' : '🌈 Rainbow Hat';
+            hatBtn.disabled = hatOwned;
+            if (!hatOwned) hatBtn.onclick = () => unlockSecret('hat');
+            choices.appendChild(hatBtn);
+
+            const bgOwned = d.ownedBgs.includes('rainbow');
+            const bgBtn = document.createElement('button');
+            bgBtn.className = 'secret-choice-btn';
+            bgBtn.textContent = bgOwned ? '✓ BG Unlocked' : '🌈 Rainbow BG';
+            bgBtn.disabled = bgOwned;
+            if (!bgOwned) bgBtn.onclick = () => unlockSecret('bg');
+            choices.appendChild(bgBtn);
+
+            document.getElementById('secretPopup').classList.add('open');
+        }
+        function closeSecretPopup() {
+            document.getElementById('secretPopup').classList.remove('open');
+        }
+        function unlockSecret(type) {
+            const d = loadData();
+            if (type === 'hat' && !d.ownedHats.includes('rainbow')) d.ownedHats.push('rainbow');
+            if (type === 'bg'  && !d.ownedBgs.includes('rainbow'))  d.ownedBgs.push('rainbow');
+            saveData(d);
+            gameData = d;
+            playSound('buy');
+            closeSecretPopup();
+            if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+        }
+        document.getElementById('secretPopup').addEventListener('click', function(e) {
+            if (e.target === this) closeSecretPopup();
+        });
 
         // ─── START ─────────────────────────────────────────────────────
         setInterval(createObstacle, 1500);
