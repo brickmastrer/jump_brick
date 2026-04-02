@@ -344,6 +344,8 @@
         .pants-silver   { background-color:#b8b8b8; background-image:linear-gradient(135deg,rgba(255,255,255,0.5) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.5) 50%,rgba(255,255,255,0.5) 75%,transparent 75%); background-size:6px 6px; }
         .pants-easter   { background-color:#c8f0c8; background-image:radial-gradient(circle 3px at 20% 40%,#ffb6c1 100%,transparent 0),radial-gradient(circle 3px at 65% 60%,#ffe066 100%,transparent 0),radial-gradient(circle 2px at 80% 20%,#b8d4ff 100%,transparent 0); }
         .pants-gold     { background-color:#FFD700; background-image:linear-gradient(rgba(255,255,255,0.25) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.08) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:0 0 8px rgba(255,215,0,0.7); }
+        @keyframes rainbowPantsAnim { 0%{filter:hue-rotate(0deg)} 100%{filter:hue-rotate(360deg)} }
+        .pants-rainbow  { background:linear-gradient(90deg,#ff6666,#ffaa44,#ffff44,#44ff88,#44aaff,#aa44ff); background-size:200% 100%; animation:rainbowHatAnim 2s linear infinite; }
         /* pants store preview */
         .pants-full-prev { position:relative; width:36px; height:40px; border-radius:2px; background-color:#B5451B; background-image:linear-gradient(rgba(0,0,0,0.2) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.2) 1px,transparent 1px); background-size:100% 50%,50% 100%; }
         .pants-full-prev .pant { position:absolute; bottom:0; left:0; right:0; height:18px; border-radius:0 0 2px 2px; }
@@ -740,7 +742,8 @@
             { id: 'pink',     name: 'Pink',       price: 50, cls: 'pants-pink',     preview: `<div class="pants-full-prev"><div class="pant pants-pink"></div></div>` },
             { id: 'silver',   name: 'Silver',     price: 80, cls: 'pants-silver',   preview: `<div class="pants-full-prev"><div class="pant pants-silver"></div></div>` },
             { id: 'easter',   name: 'Easter',     price: 60, cls: 'pants-easter', preview: `<div class="pants-full-prev"><div class="pant pants-easter"></div></div>` },
-            { id: 'gold',     name: 'Gold',       price: 0,  winUnlock: true, cls: 'pants-gold', preview: `<div class="pants-full-prev"><div class="pant pants-gold"></div></div>` },
+            { id: 'gold',     name: 'Gold',       price: 0,  winUnlock: true, cls: 'pants-gold',    preview: `<div class="pants-full-prev"><div class="pant pants-gold"></div></div>` },
+            { id: 'rainbow',  name: 'Rainbow',    price: 0,  winsUnlock: 3,   cls: 'pants-rainbow', preview: `<div class="pants-full-prev"><div class="pant pants-rainbow"></div></div>` },
         ];
 
         const BACKGROUNDS = [
@@ -868,7 +871,7 @@
         }
 
         // ─── PANTS DISPLAY ─────────────────────────────────────────────
-        const PANTS_CLASSES = ['pants-brick','pants-concrete','pants-blue','pants-red','pants-green','pants-pink','pants-silver','pants-easter','pants-gold'];
+        const PANTS_CLASSES = ['pants-brick','pants-concrete','pants-blue','pants-red','pants-green','pants-pink','pants-silver','pants-easter','pants-gold','pants-rainbow'];
         const pantsEl = document.getElementById('player-pants');
         function renderIngamePants() {
             PANTS_CLASSES.forEach(cls => pantsEl.classList.remove(cls));
@@ -1179,13 +1182,21 @@
             const pantsGrid = document.getElementById('pantsGrid');
             pantsGrid.innerHTML = '';
             PANTS.forEach(p => {
-                if (p.winUnlock && !d.ownedPants.includes(p.id)) {
+                const isOwned = d.ownedPants.includes(p.id);
+                if (p.winsUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    const winsLeft = Math.max(0, p.winsUnlock - d.wins);
+                    const lockLabel = winsLeft > 0 ? `🏆 Win ${winsLeft} more time${winsLeft > 1 ? 's' : ''}` : '🏆 Win to Unlock';
+                    card.innerHTML = `<div class="pet-preview">${p.preview}</div><div class="pet-name">${p.name}</div><div class="pet-price" style="color:#FFD700">${lockLabel}</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    pantsGrid.appendChild(card);
+                } else if (p.winUnlock && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${p.preview}</div><div class="pet-name">${p.name}</div><div class="pet-price" style="color:#FFD700">🏆 Win to Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
                     pantsGrid.appendChild(card);
                 } else {
-                    const owned = p.price === 0 || d.ownedPants.includes(p.id);
+                    const owned = p.price === 0 || isOwned;
                     pantsGrid.appendChild(buildCard(p, owned, d.equippedPants === p.id, d.coins >= p.price, 'buyPants', 'equipPants', p.preview));
                 }
             });
@@ -1366,6 +1377,7 @@
             if (!gameData.owned.includes('gold'))             gameData.owned.push('gold');
             if (!gameData.ownedAvatars.includes('gold'))      gameData.ownedAvatars.push('gold');
             if (!gameData.ownedPants.includes('gold'))        gameData.ownedPants.push('gold');
+            if (gameData.wins >= 3 && !gameData.ownedPants.includes('rainbow')) gameData.ownedPants.push('rainbow');
             saveData(gameData);
 
 
