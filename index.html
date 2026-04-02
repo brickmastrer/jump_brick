@@ -78,19 +78,6 @@
         #usernameBtn { padding: 6px 14px; font-size: 14px; font-weight: bold; background: #FFD700; border: 2px solid #cc8800; border-radius: 5px; cursor: pointer; }
         #usernameBtn:hover { background: #ffe033; }
 
-        /* LEADERBOARDS */
-        #leaderboards { display:flex; gap:16px; margin-top:14px; width:800px; }
-        .lb-panel { flex:1; background:#1a1a2e; border:2px solid #FFD700; border-radius:10px; padding:12px 14px; color:white; }
-        .lb-panel h3 { color:#FFD700; margin:0 0 8px 0; font-size:15px; text-align:center; }
-        .lb-entry { display:flex; align-items:center; gap:6px; padding:4px 0; border-bottom:1px solid #2a2a4a; font-size:13px; }
-        .lb-entry:last-child { border-bottom:none; }
-        .lb-rank { color:#888; font-size:12px; width:22px; flex-shrink:0; }
-        .lb-rank.gold-rank { color:#FFD700; font-weight:bold; }
-        .lb-rank.silver-rank { color:#c0c0c0; font-weight:bold; }
-        .lb-rank.bronze-rank { color:#cd7f32; font-weight:bold; }
-        .lb-name { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-        .lb-value { color:#FFD700; font-weight:bold; flex-shrink:0; }
-        .lb-empty { color:#555; text-align:center; font-size:12px; padding:8px 0; }
 
         /* RUNNING LEGS */
         #player-legs { position:absolute; bottom:-9px; left:4px; display:flex; gap:8px; pointer-events:none; }
@@ -446,16 +433,6 @@
     </div>
     <button id="storeBtn" onclick="openStore()">🛒 Pet Store</button>
 
-    <div id="leaderboards">
-        <div class="lb-panel">
-            <h3>🏆 Most Wins</h3>
-            <div id="lbWins"><div class="lb-empty">No entries yet</div></div>
-        </div>
-        <div class="lb-panel">
-            <h3>🪙 Most Coins</h3>
-            <div id="lbCoins"><div class="lb-empty">No entries yet</div></div>
-        </div>
-    </div>
 
     <!-- STORE MODAL -->
     <div id="storeModal">
@@ -870,10 +847,6 @@
             gameData.coins += coinsThisRun;
             saveData(gameData);
 
-            // Update leaderboards
-            const _name = localStorage.getItem('wg_username') || 'Anonymous';
-            updateCoinsLB(_name, gameData.coins);
-            renderLeaderboards();
 
             // Hat fall off
             const pRect = player.getBoundingClientRect();
@@ -1160,11 +1133,6 @@
             if (!gameData.ownedPants.includes('gold'))        gameData.ownedPants.push('gold');
             saveData(gameData);
 
-            // Update leaderboards
-            const _wname = localStorage.getItem('wg_username') || 'Anonymous';
-            updateWinsLB(_wname);
-            updateCoinsLB(_wname, gameData.coins);
-            renderLeaderboards();
 
             const pRect = player.getBoundingClientRect();
             const cRect = gameContainer.getBoundingClientRect();
@@ -1181,43 +1149,6 @@
             }, 400);
         }
 
-        // ─── LEADERBOARDS ─────────────────────────────────────────────
-        function getLB(key) { return JSON.parse(localStorage.getItem(key) || '[]'); }
-
-        function updateWinsLB(name) {
-            const lb = getLB('wg_lb_wins');
-            const e = lb.find(x => x.name === name);
-            if (e) e.count++; else lb.push({ name, count: 1 });
-            lb.sort((a, b) => b.count - a.count);
-            lb.splice(10);
-            localStorage.setItem('wg_lb_wins', JSON.stringify(lb));
-        }
-
-        function updateCoinsLB(name, total) {
-            const lb = getLB('wg_lb_coins');
-            const e = lb.find(x => x.name === name);
-            if (e) { if (total > e.coins) e.coins = total; } else lb.push({ name, coins: total });
-            lb.sort((a, b) => b.coins - a.coins);
-            lb.splice(10);
-            localStorage.setItem('wg_lb_coins', JSON.stringify(lb));
-        }
-
-        function renderLBPanel(elId, entries, valueFn) {
-            const el = document.getElementById(elId);
-            if (!entries.length) { el.innerHTML = '<div class="lb-empty">No entries yet</div>'; return; }
-            const rankClass = i => i === 0 ? 'gold-rank' : i === 1 ? 'silver-rank' : i === 2 ? 'bronze-rank' : '';
-            el.innerHTML = entries.map((e, i) => `
-                <div class="lb-entry">
-                    <span class="lb-rank ${rankClass(i)}">#${i+1}</span>
-                    <span class="lb-name">${e.name}</span>
-                    <span class="lb-value">${valueFn(e)}</span>
-                </div>`).join('');
-        }
-
-        function renderLeaderboards() {
-            renderLBPanel('lbWins',  getLB('wg_lb_wins'),  e => e.count + (e.count === 1 ? ' win' : ' wins'));
-            renderLBPanel('lbCoins', getLB('wg_lb_coins'), e => '🪙 ' + e.coins);
-        }
 
         // ─── USERNAME ──────────────────────────────────────────────────
         const playerNameEl = document.getElementById('player-name');
@@ -1235,7 +1166,6 @@
             if (e.key === 'Enter') setUsername();
         });
         applyUsername();
-        renderLeaderboards();
 
         // ─── START ─────────────────────────────────────────────────────
         setInterval(createObstacle, 1500);
