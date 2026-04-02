@@ -134,6 +134,14 @@
         .hat-cap .hat-dome { width:28px; height:13px; background:#2244aa; margin:0 auto; border-radius:50% 50% 0 0; }
         .hat-cap .hat-brim { width:36px; height:4px; background:#1a3388; border-radius:0 2px 2px 0; margin-left:4px; }
 
+        /* EASTER BUNNY EARS HAT */
+        .hat-easter { position:relative; width:32px; height:22px; }
+        .hat-easter .headband { position:absolute; bottom:0; left:0; width:32px; height:5px; background:#d4b8e0; border-radius:2px; }
+        .hat-easter .ear-l { position:absolute; bottom:4px; left:5px; width:7px; height:17px; background:#f5f5f5; border-radius:50% 50% 0 0; border:1px solid #ddd; }
+        .hat-easter .ear-r { position:absolute; bottom:4px; right:5px; width:7px; height:17px; background:#f5f5f5; border-radius:50% 50% 0 0; border:1px solid #ddd; }
+        .hat-easter .inner-l { position:absolute; bottom:7px; left:7px; width:3px; height:11px; background:#ffb6c1; border-radius:50% 50% 0 0; }
+        .hat-easter .inner-r { position:absolute; bottom:7px; right:7px; width:3px; height:11px; background:#ffb6c1; border-radius:50% 50% 0 0; }
+
         /* CROWN */
         .hat-crown-hat { filter:drop-shadow(0 0 4px rgba(255,215,0,0.9)); }
         .hat-crown-hat .crown-body { width:28px; height:18px; background:#FFD700; clip-path:polygon(0% 100%,0% 55%,16% 0%,32% 55%,50% 0%,68% 55%,84% 0%,100% 55%,100% 100%); }
@@ -210,6 +218,18 @@
         .pet-robot .antenna { width:2px; height:5px; background:#666; position:absolute; top:-6px; left:50%; transform:translateX(-50%); }
         .pet-robot .antenna::after { content:''; position:absolute; width:4px; height:4px; background:#FF4444; border-radius:50%; top:-3px; left:-1px; }
         .pet-robot .mouth { width:8px; height:2px; background:#555; position:absolute; bottom:3px; left:5px; }
+
+        /* BUNNY */
+        .pet-bunny { position:relative; width:18px; height:24px; }
+        .pet-bunny .ear-l { width:5px; height:13px; background:#f5f5f5; border-radius:50% 50% 0 0; position:absolute; top:0; right:7px; border:1px solid #ddd; }
+        .pet-bunny .ear-r { width:5px; height:13px; background:#f5f5f5; border-radius:50% 50% 0 0; position:absolute; top:0; right:1px; border:1px solid #ddd; }
+        .pet-bunny .inner-l { width:3px; height:9px; background:#ffb6c1; border-radius:50% 50% 0 0; position:absolute; top:2px; right:8px; }
+        .pet-bunny .inner-r { width:3px; height:9px; background:#ffb6c1; border-radius:50% 50% 0 0; position:absolute; top:2px; right:2px; }
+        .pet-bunny .body { width:16px; height:11px; background:#f5f5f5; border-radius:40%; position:absolute; bottom:0; left:1px; border:1px solid #ddd; }
+        .pet-bunny .head { width:12px; height:11px; background:#f5f5f5; border-radius:50%; position:absolute; top:11px; right:1px; border:1px solid #ddd; }
+        .pet-bunny .eye  { width:2px; height:2px; background:#222; border-radius:50%; position:absolute; top:14px; right:3px; }
+        .pet-bunny .nose { width:3px; height:2px; background:#ffb6c1; border-radius:50%; position:absolute; top:18px; right:2px; }
+        .pet-bunny .tail { width:5px; height:5px; background:#fff; border-radius:50%; position:absolute; bottom:1px; left:0; border:1px solid #ddd; }
 
         /* GOLD PET */
         .pet-gold-pet { position:relative; width:20px; height:20px; }
@@ -319,6 +339,7 @@
         .pants-green    { background-color:#3a8a3a; }
         .pants-pink     { background-color:#d44a8a; }
         .pants-silver   { background-color:#b8b8b8; background-image:linear-gradient(135deg,rgba(255,255,255,0.5) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.5) 50%,rgba(255,255,255,0.5) 75%,transparent 75%); background-size:6px 6px; }
+        .pants-easter   { background-color:#c8f0c8; background-image:radial-gradient(circle 3px at 20% 40%,#ffb6c1 100%,transparent 0),radial-gradient(circle 3px at 65% 60%,#ffe066 100%,transparent 0),radial-gradient(circle 2px at 80% 20%,#b8d4ff 100%,transparent 0); }
         .pants-gold     { background-color:#FFD700; background-image:linear-gradient(rgba(255,255,255,0.25) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.08) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:0 0 8px rgba(255,215,0,0.7); }
         /* pants store preview */
         .pants-full-prev { position:relative; width:36px; height:40px; border-radius:2px; background-color:#B5451B; background-image:linear-gradient(rgba(0,0,0,0.2) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.2) 1px,transparent 1px); background-size:100% 50%,50% 100%; }
@@ -385,6 +406,7 @@
         #gameContainer.bg-mountain  { background: linear-gradient(to bottom, #4a5568 0%, #718096 40%, #c0ccd8 100%); }
         #gameContainer.bg-grassland { background: linear-gradient(to bottom, #4ec0e4 0%, #87CEEB 50%, #7ec87e 80%, #5aaa5a 100%); }
         #gameContainer.bg-beach     { background: linear-gradient(to bottom, #87ceeb 0%, #60b8e8 40%, #f5e6a3 70%, #e8c97a 100%); }
+        #gameContainer.bg-easter    { background: linear-gradient(to bottom, #d4b8f0 0%, #f0c8f8 30%, #f8f0e0 65%, #c8e8a0 100%); }
         #gameContainer.bg-gold      { background: linear-gradient(to bottom, #ffe066 0%, #ffd700 30%, #ffb700 60%, #cc8800 100%); }
 
         .bg-card-preview { width:100%; height:54px; border-radius:5px; margin-bottom:8px; border:1px solid #333; }
@@ -587,6 +609,7 @@
             { id: 'puppy',      name: 'Puppy',        price: 60,  html: `<div class="pet-puppy"><div class="ear-l"></div><div class="ear-r"></div><div class="body"></div><div class="head"></div><div class="nose"></div></div>` },
             { id: 'polarbear',  name: 'Polar Bear',   price: 120, html: `<div class="pet-polarbear"><div class="body"></div><div class="head"></div><div class="ear-l"></div><div class="ear-r"></div><div class="nose"></div><div class="eye-l"></div><div class="eye-r"></div></div>` },
             { id: 'robot',      name: 'Mini Robot',   price: 180, html: `<div class="pet-robot"><div class="body"></div><div class="head"></div><div class="eye-l"></div><div class="eye-r"></div><div class="antenna"></div><div class="mouth"></div></div>` },
+            { id: 'bunny',      name: 'Bunny',        price: 90,  html: `<div class="pet-bunny"><div class="ear-l"></div><div class="ear-r"></div><div class="inner-l"></div><div class="inner-r"></div><div class="body"></div><div class="head"></div><div class="eye"></div><div class="nose"></div><div class="tail"></div></div>` },
             { id: 'gold',       name: 'Gold Pet',     price: 0,   winUnlock: true, html: `<div class="pet-gold-pet"><div class="body"></div><div class="head"></div><div class="eye"></div><div class="shine"></div></div>` },
         ];
 
@@ -599,6 +622,7 @@
             { id: 'cowboy',   name: 'Cowboy Hat',  price: 100, html: `<div class="hat-cowboy"><div class="hat-crown"></div><div class="hat-brim"></div></div>` },
             { id: 'sombrero', name: 'Sombrero',    price: 120, html: `<div class="hat-sombrero"><div class="hat-crown"></div><div class="hat-band"></div><div class="hat-brim"></div></div>` },
             { id: 'mask',     name: 'Mask',        price: 80,  html: `<div class="hat-mask"><div class="mask-body"></div></div>` },
+            { id: 'easter',   name: 'Bunny Ears',  price: 70,  html: `<div class="hat-easter"><div class="ear-l"></div><div class="ear-r"></div><div class="inner-l"></div><div class="inner-r"></div><div class="headband"></div></div>` },
             { id: 'crown',    name: 'Crown',       price: 0,   html: `<div class="hat-crown-hat"><div class="crown-body"></div><div class="crown-band"></div></div>` },
         ];
 
@@ -623,6 +647,7 @@
             { id: 'green',    name: 'Green',      price: 40, cls: 'pants-green',    preview: `<div class="pants-full-prev"><div class="pant pants-green"></div></div>` },
             { id: 'pink',     name: 'Pink',       price: 50, cls: 'pants-pink',     preview: `<div class="pants-full-prev"><div class="pant pants-pink"></div></div>` },
             { id: 'silver',   name: 'Silver',     price: 80, cls: 'pants-silver',   preview: `<div class="pants-full-prev"><div class="pant pants-silver"></div></div>` },
+            { id: 'easter',   name: 'Easter',     price: 60, cls: 'pants-easter', preview: `<div class="pants-full-prev"><div class="pant pants-easter"></div></div>` },
             { id: 'gold',     name: 'Gold',       price: 0,  winUnlock: true, cls: 'pants-gold', preview: `<div class="pants-full-prev"><div class="pant pants-gold"></div></div>` },
         ];
 
@@ -633,6 +658,7 @@
             { id: 'mountain',  name: 'Mountain',  price: 80, gradient: 'linear-gradient(to bottom, #4a5568 0%, #718096 40%, #c0ccd8 100%)',                   cls: 'bg-mountain'  },
             { id: 'grassland', name: 'Grassland', price: 50, gradient: 'linear-gradient(to bottom, #4ec0e4 0%, #87CEEB 50%, #7ec87e 80%, #5aaa5a 100%)',     cls: 'bg-grassland' },
             { id: 'beach',     name: 'Beach',     price: 70,  gradient: 'linear-gradient(to bottom, #87ceeb 0%, #60b8e8 40%, #f5e6a3 70%, #e8c97a 100%)',     cls: 'bg-beach'  },
+            { id: 'easter',    name: 'Easter',    price: 80,  gradient: 'linear-gradient(to bottom, #d4b8f0 0%, #f0c8f8 30%, #f8f0e0 65%, #c8e8a0 100%)',       cls: 'bg-easter' },
             { id: 'gold',      name: 'Gold',      price: 150, gradient: 'linear-gradient(to bottom, #ffe066 0%, #ffd700 30%, #ffb700 60%, #cc8800 100%)',        cls: 'bg-gold'   },
         ];
 
@@ -741,7 +767,7 @@
         }
 
         // ─── BACKGROUND DISPLAY ────────────────────────────────────────
-        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach'];
+        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold'];
         function applyBackground() {
             BG_CLASSES.forEach(cls => gameContainer.classList.remove(cls));
             const bg = BACKGROUNDS.find(b => b.id === gameData.equippedBg);
@@ -749,7 +775,7 @@
         }
 
         // ─── PANTS DISPLAY ─────────────────────────────────────────────
-        const PANTS_CLASSES = ['pants-brick','pants-concrete','pants-blue','pants-red','pants-green','pants-pink','pants-silver','pants-gold'];
+        const PANTS_CLASSES = ['pants-brick','pants-concrete','pants-blue','pants-red','pants-green','pants-pink','pants-silver','pants-easter','pants-gold'];
         const pantsEl = document.getElementById('player-pants');
         function renderIngamePants() {
             PANTS_CLASSES.forEach(cls => pantsEl.classList.remove(cls));
