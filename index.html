@@ -446,8 +446,6 @@
     </div>
     <button id="storeBtn" onclick="openStore()">🛒 Pet Store</button>
 
-    <button onclick="resetLeaderboard()" style="margin-top:6px;padding:5px 16px;font-size:13px;background:#555;color:#ccc;border:1px solid #888;border-radius:5px;cursor:pointer;">Reset Leaderboard</button>
-
     <div id="leaderboards">
         <div class="lb-panel">
             <h3>🏆 Most Wins</h3>
@@ -1214,13 +1212,6 @@
                     <span class="lb-name">${e.name}</span>
                     <span class="lb-value">${valueFn(e)}</span>
                 </div>`).join('');
-        }
-
-        function resetLeaderboard() {
-            if (!confirm('Reset the leaderboard? This cannot be undone.')) return;
-            localStorage.removeItem('wg_lb_wins');
-            localStorage.removeItem('wg_lb_coins');
-            renderLeaderboards();
         }
 
         function renderLeaderboards() {
