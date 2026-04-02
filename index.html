@@ -559,6 +559,61 @@
         }
         #secretBtn:hover { transform: translateY(-50%) scale(1.15); }
 
+        /* COLOR PICKER BUTTON */
+        #colorPickerBtn {
+            position: fixed;
+            right: 16px;
+            top: calc(50% + 64px);
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 3px solid #aaa;
+            cursor: pointer;
+            font-size: 22px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            z-index: 500;
+            transition: transform 0.15s;
+        }
+        #colorPickerBtn:hover { transform: scale(1.15); }
+
+        /* COLOR PICKER POPUP */
+        #colorPickerPopup {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+        #colorPickerPopup.open { display: flex; }
+        #colorPickerContent {
+            background: #1a1a2e;
+            border: 3px solid #888;
+            border-radius: 14px;
+            padding: 24px 28px;
+            text-align: center;
+            color: white;
+            min-width: 280px;
+        }
+        #colorPickerContent h3 { margin: 0 0 14px; font-size: 20px; }
+        .color-swatches { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 14px; }
+        .color-swatch {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: transform 0.12s;
+        }
+        .color-swatch:hover { transform: scale(1.2); border-color: #fff; }
+        .color-swatch.selected { border-color: #FFD700; transform: scale(1.15); }
+        #customColorRow { display: flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 16px; }
+        #customColorRow label { color: #aaa; font-size: 14px; }
+        #customColorInput { width: 44px; height: 36px; border: none; border-radius: 6px; cursor: pointer; padding: 2px; background: none; }
+        #colorPickerClose { background: none; border: 1px solid #555; color: #aaa; padding: 6px 20px; border-radius: 5px; cursor: pointer; }
+        #colorPickerClose:hover { background: #333; }
+
 
         /* SECRET POPUP */
         #secretPopup {
@@ -651,7 +706,21 @@
     <button id="catBtn" onclick="unlockCat()" title="Unlock cat pet">🐱</button>
     <button id="counterBtn" onclick="bumpCounter()" title="Click to count up">➕</button>
     <div id="cornerCounter">0</div>
+    <button id="colorPickerBtn" onclick="openColorPicker()" title="Change button color">🎨</button>
     <button id="secretBtn" onclick="openSecretPopup()" title="Secret unlock!">🌈</button>
+
+    <!-- COLOR PICKER POPUP -->
+    <div id="colorPickerPopup">
+        <div id="colorPickerContent">
+            <h3>🎨 Button Color</h3>
+            <div class="color-swatches" id="colorSwatches"></div>
+            <div id="customColorRow">
+                <label>Custom:</label>
+                <input type="color" id="customColorInput" value="#ffffff">
+            </div>
+            <button id="colorPickerClose" onclick="closeColorPicker()">Close</button>
+        </div>
+    </div>
 
     <!-- SECRET POPUP -->
     <div id="secretPopup">
@@ -1501,6 +1570,57 @@
             if (e.key === 'Enter') setUsername();
         });
         applyUsername();
+
+        // ─── BUTTON COLOR PICKER ───────────────────────────────────────
+        const BTN_COLORS = ['#ffffff','#111111','#e74c3c','#2563eb','#16a34a','#f59e0b','#8b5cf6','#f97316','#ec4899','#06b6d4','#6b7280','#a16207'];
+        const COLOR_BTNS = ['catBtn','counterBtn','colorPickerBtn'];
+
+        function applyBtnColor(color) {
+            COLOR_BTNS.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.background = color;
+            });
+            document.getElementById('colorPickerBtn').style.borderColor = color === '#ffffff' ? '#aaa' : color;
+        }
+
+        function loadBtnColor() {
+            const saved = localStorage.getItem('wg_btn_color');
+            if (saved) applyBtnColor(saved);
+        }
+
+        function openColorPicker() {
+            const saved = localStorage.getItem('wg_btn_color') || '#ffffff';
+            document.getElementById('customColorInput').value = saved;
+            const grid = document.getElementById('colorSwatches');
+            grid.innerHTML = '';
+            BTN_COLORS.forEach(color => {
+                const s = document.createElement('div');
+                s.className = 'color-swatch' + (saved === color ? ' selected' : '');
+                s.style.background = color;
+                s.onclick = () => {
+                    localStorage.setItem('wg_btn_color', color);
+                    applyBtnColor(color);
+                    document.getElementById('customColorInput').value = color;
+                    grid.querySelectorAll('.color-swatch').forEach(el => el.classList.remove('selected'));
+                    s.classList.add('selected');
+                };
+                grid.appendChild(s);
+            });
+            document.getElementById('customColorInput').oninput = function() {
+                localStorage.setItem('wg_btn_color', this.value);
+                applyBtnColor(this.value);
+                grid.querySelectorAll('.color-swatch').forEach(el => el.classList.remove('selected'));
+            };
+            document.getElementById('colorPickerPopup').classList.add('open');
+        }
+
+        function closeColorPicker() {
+            document.getElementById('colorPickerPopup').classList.remove('open');
+        }
+        document.getElementById('colorPickerPopup').addEventListener('click', function(e) {
+            if (e.target === this) closeColorPicker();
+        });
+        loadBtnColor();
 
         // ─── CAT UNLOCK BUTTON ─────────────────────────────────────────
         function unlockCat() {
