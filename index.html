@@ -513,6 +513,27 @@
         }
         #winBtn:hover { background: #1d4ed8; transform: scale(1.15); }
 
+        /* SELL WIN BUTTON */
+        #sellWinBtn {
+            position: fixed;
+            right: 16px;
+            top: calc(50% + 124px);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #dc2626;
+            border: 3px solid #fca5a5;
+            cursor: pointer;
+            font-size: 19px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            z-index: 500;
+            transition: transform 0.15s, background 0.15s;
+        }
+        #sellWinBtn:hover { background: #b91c1c; transform: scale(1.15); }
+
         /* SECRET POPUP */
         #secretPopup {
             display: none;
@@ -603,6 +624,7 @@
 
     <button id="secretBtn" onclick="openSecretPopup()" title="Secret unlock!">🌈</button>
     <button id="winBtn" onclick="buyWin()" title="+1 Win — costs 750 coins">🏆</button>
+    <button id="sellWinBtn" onclick="sellWin()" title="Sell 1 Win for 750 coins">💰</button>
 
     <!-- SECRET POPUP -->
     <div id="secretPopup">
@@ -1456,6 +1478,22 @@
             gameData = d;
             coinDisplay.textContent = '🪙 ' + d.coins;
             playSound('buy');
+            if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+        }
+
+        // ─── SELL WIN BUTTON ───────────────────────────────────────────
+        function sellWin() {
+            const d = loadData();
+            if (d.wins < 1) {
+                alert('No wins to sell!');
+                return;
+            }
+            d.wins -= 1;
+            d.coins += 750;
+            saveData(d);
+            gameData = d;
+            coinDisplay.textContent = '🪙 ' + d.coins;
+            playSound('coin');
             if (document.getElementById('storeModal').classList.contains('open')) renderStore();
         }
 
