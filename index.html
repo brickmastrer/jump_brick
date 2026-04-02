@@ -145,6 +145,23 @@
         .hat-easter .inner-r { position:absolute; bottom:7px; right:7px; width:3px; height:11px; background:#ffb6c1; border-radius:50% 50% 0 0; }
 
         /* CROWN */
+        /* TOMATO HAT */
+        .hat-tomato { position:relative; width:30px; }
+        .hat-tomato .stem  { width:4px; height:7px; background:#2d8a1a; border-radius:2px 2px 0 0; margin:0 auto; }
+        .hat-tomato .leaf-l { position:absolute; top:2px; left:2px; width:10px; height:5px; background:#3aaa2a; border-radius:80% 0 80% 0; transform:rotate(-25deg); }
+        .hat-tomato .leaf-r { position:absolute; top:2px; right:2px; width:10px; height:5px; background:#3aaa2a; border-radius:0 80% 0 80%; transform:rotate(25deg); }
+        .hat-tomato .body  { width:30px; height:22px; background:radial-gradient(ellipse at 38% 32%, #ff7755, #cc1a0a); border-radius:50%; }
+
+        /* CANDY CANE HAT */
+        .hat-candycane { position:relative; width:24px; height:30px; }
+        .hat-candycane .stick { position:absolute; bottom:0; left:8px; width:8px; height:20px; background:repeating-linear-gradient(0deg,#fff 0,#fff 4px,#dd1a1a 4px,#dd1a1a 8px); border-radius:3px 3px 0 0; }
+        .hat-candycane .hook  { position:absolute; top:2px; left:4px; width:14px; height:14px; border:8px solid transparent; border-top-color:#dd1a1a; border-right-color:#dd1a1a; border-radius:50%; }
+
+        /* BROKEN EGG HAT */
+        .hat-broken-egg { position:relative; width:32px; }
+        .hat-broken-egg .shell { width:32px; height:20px; background:radial-gradient(ellipse at 40% 30%, #fffdf0, #f0e8d0); border:2px solid #c8a870; border-bottom:none; border-radius:50% 50% 0 0 / 80% 80% 0 0; clip-path:polygon(0% 0%,100% 0%,100% 100%,88% 58%,78% 78%,62% 48%,50% 72%,36% 50%,22% 76%,10% 60%,0% 100%); }
+        .hat-broken-egg .crack { position:absolute; top:4px; left:15px; width:2px; height:11px; background:#c0a060; transform:rotate(10deg); border-radius:1px; }
+
         .hat-crown-hat { filter:drop-shadow(0 0 4px rgba(255,215,0,0.9)); }
         .hat-crown-hat .crown-body { width:28px; height:18px; background:#FFD700; clip-path:polygon(0% 100%,0% 55%,16% 0%,32% 55%,50% 0%,68% 55%,84% 0%,100% 55%,100% 100%); }
         .hat-crown-hat .crown-band { width:28px; height:5px; background:#e6960a; }
@@ -1103,8 +1120,11 @@
             { id: 'sombrero', name: 'Sombrero',    price: 120, html: `<div class="hat-sombrero"><div class="hat-crown"></div><div class="hat-band"></div><div class="hat-brim"></div></div>` },
             { id: 'mask',     name: 'Mask',        price: 80,  html: `<div class="hat-mask"><div class="mask-body"></div></div>` },
             { id: 'easter',   name: 'Bunny Ears',  price: 70,  html: `<div class="hat-easter"><div class="ear-l"></div><div class="ear-r"></div><div class="inner-l"></div><div class="inner-r"></div><div class="headband"></div></div>` },
-            { id: 'crown',    name: 'Crown',       price: 0,   html: `<div class="hat-crown-hat"><div class="crown-body"></div><div class="crown-band"></div></div>` },
-            { id: 'rainbow',  name: 'Rainbow Hat', price: 0,   secretUnlock: true, html: `<div class="hat-rainbow"><div class="hat-dome"></div><div class="hat-brim"></div></div>` },
+            { id: 'crown',      name: 'Crown',       price: 0,   html: `<div class="hat-crown-hat"><div class="crown-body"></div><div class="crown-band"></div></div>` },
+            { id: 'rainbow',    name: 'Rainbow Hat', price: 0,   secretUnlock: true, html: `<div class="hat-rainbow"><div class="hat-dome"></div><div class="hat-brim"></div></div>` },
+            { id: 'tomato',     name: 'Tomato',      price: 70,  html: `<div class="hat-tomato"><div class="stem"></div><div class="leaf-l"></div><div class="leaf-r"></div><div class="body"></div></div>` },
+            { id: 'candycane',  name: 'Candy Cane',  price: 90,  html: `<div class="hat-candycane"><div class="hook"></div><div class="stick"></div></div>` },
+            { id: 'brokenegg',  name: 'Broken Egg',  price: 0,   eggUnlock: true, html: `<div class="hat-broken-egg"><div class="shell"></div><div class="crack"></div></div>` },
         ];
 
         const AVATARS = [
@@ -1547,16 +1567,16 @@
             hatGrid.innerHTML = '';
             HATS.forEach(hat => {
                 const isOwned = d.ownedHats.includes(hat.id);
-                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock;
+                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock && !hat.eggUnlock;
                 const owned = isOwned || freeOwned;
-                if ((hat.winUnlock || hat.secretUnlock) && !isOwned) {
+                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock) && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
-                    const lockLabel = hat.winUnlock ? '🏆 Win to Unlock' : '🌈 Secret Unlock';
+                    const lockLabel = hat.winUnlock ? '🏆 Win to Unlock' : hat.secretUnlock ? '🌈 Secret Unlock' : '🥚 Break the egg';
                     card.innerHTML = `
                         <div class="pet-preview">${hat.html}</div>
                         <div class="pet-name">${hat.name}</div>
-                        <div class="pet-price" style="color:#FFD700">${lockLabel}</div>
+                        <div class="pet-price" style="color:#d4a8e0">${lockLabel}</div>
                         <button class="btn-cantafford">🔒 Locked</button>
                     `;
                     hatGrid.appendChild(card);
@@ -1935,12 +1955,11 @@
             this.className = 'visible egg-stage-' + Math.min(eggClicks, 3);
             if (eggClicks >= 3) {
                 const d = loadData();
-                if (!d.ownedItems.includes('choc-egg')) {
-                    d.ownedItems.push('choc-egg');
-                    saveData(d); gameData = d;
-                    renderIngameItem();
-                    if (document.getElementById('storeModal').classList.contains('open')) renderStore();
-                }
+                if (!d.ownedItems.includes('choc-egg')) d.ownedItems.push('choc-egg');
+                if (!d.ownedHats.includes('brokenegg')) d.ownedHats.push('brokenegg');
+                saveData(d); gameData = d;
+                renderIngameItem(); renderIngameHat();
+                if (document.getElementById('storeModal').classList.contains('open')) renderStore();
                 playSound('buy');
                 setTimeout(() => {
                     this.className = '';
