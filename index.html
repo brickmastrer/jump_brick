@@ -492,47 +492,6 @@
         }
         #secretBtn:hover { transform: translateY(-50%) scale(1.15); }
 
-        /* WIN BUTTON */
-        #winBtn {
-            position: fixed;
-            right: 16px;
-            top: calc(50% + 64px);
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: #2563eb;
-            border: 3px solid #93c5fd;
-            cursor: pointer;
-            font-size: 19px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            z-index: 500;
-            transition: transform 0.15s, background 0.15s;
-        }
-        #winBtn:hover { background: #1d4ed8; transform: scale(1.15); }
-
-        /* SELL WIN BUTTON */
-        #sellWinBtn {
-            position: fixed;
-            right: 16px;
-            top: calc(50% + 124px);
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: #dc2626;
-            border: 3px solid #fca5a5;
-            cursor: pointer;
-            font-size: 19px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            z-index: 500;
-            transition: transform 0.15s, background 0.15s;
-        }
-        #sellWinBtn:hover { background: #b91c1c; transform: scale(1.15); }
 
         /* SECRET POPUP */
         #secretPopup {
@@ -623,8 +582,6 @@
     <button id="storeBtn" onclick="openStore()">🛒 Pet Store</button>
 
     <button id="secretBtn" onclick="openSecretPopup()" title="Secret unlock!">🌈</button>
-    <button id="winBtn" onclick="buyWin()" title="+1 Win — costs 750 coins">🏆</button>
-    <button id="sellWinBtn" onclick="sellWin()" title="Sell 1 Win for 750 coins">💰</button>
 
     <!-- SECRET POPUP -->
     <div id="secretPopup">
@@ -1459,43 +1416,6 @@
             if (e.key === 'Enter') setUsername();
         });
         applyUsername();
-
-        // ─── BUY WIN BUTTON ────────────────────────────────────────────
-        function buyWin() {
-            const d = loadData();
-            if (d.coins < 750) {
-                alert('Not enough coins! You need 750 🪙');
-                return;
-            }
-            d.coins -= 750;
-            d.wins += 1;
-            if (d.wins >= 3 && !d.ownedPants.includes('rainbow')) d.ownedPants.push('rainbow');
-            if (!d.ownedHats.includes('crown'))    d.ownedHats.push('crown');
-            if (!d.owned.includes('gold'))          d.owned.push('gold');
-            if (!d.ownedAvatars.includes('gold'))   d.ownedAvatars.push('gold');
-            if (!d.ownedPants.includes('gold'))     d.ownedPants.push('gold');
-            saveData(d);
-            gameData = d;
-            coinDisplay.textContent = '🪙 ' + d.coins;
-            playSound('buy');
-            if (document.getElementById('storeModal').classList.contains('open')) renderStore();
-        }
-
-        // ─── SELL WIN BUTTON ───────────────────────────────────────────
-        function sellWin() {
-            const d = loadData();
-            if (d.wins < 1) {
-                alert('No wins to sell!');
-                return;
-            }
-            d.wins -= 1;
-            d.coins += 750;
-            saveData(d);
-            gameData = d;
-            coinDisplay.textContent = '🪙 ' + d.coins;
-            playSound('coin');
-            if (document.getElementById('storeModal').classList.contains('open')) renderStore();
-        }
 
         // ─── SECRET POPUP ──────────────────────────────────────────────
         function openSecretPopup() {
