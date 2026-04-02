@@ -467,6 +467,67 @@
         .item-cookie { position:relative; width:18px; height:18px; background:#c8843a; border-radius:50%; border:1px solid #a06028; box-shadow:inset -2px -2px 3px rgba(0,0,0,0.2); }
         .item-cookie::before { content:''; position:absolute; width:3px; height:3px; background:#4a2008; border-radius:50%; top:3px; left:4px; box-shadow:6px 1px 0 #4a2008,1px 7px 0 #4a2008,7px 8px 0 #4a2008; }
 
+        /* CAT PET */
+        .pet-cat { position:relative; width:20px; height:22px; }
+        .pet-cat .body { width:18px; height:11px; background:#aaa; border-radius:40%; position:absolute; bottom:0; left:1px; }
+        .pet-cat .head { width:14px; height:12px; background:#aaa; border-radius:50%; position:absolute; top:0; right:1px; }
+        .pet-cat .ear-l { width:0; height:0; border-left:4px solid transparent; border-right:4px solid transparent; border-bottom:8px solid #aaa; position:absolute; top:-6px; right:9px; }
+        .pet-cat .ear-r { width:0; height:0; border-left:4px solid transparent; border-right:4px solid transparent; border-bottom:8px solid #aaa; position:absolute; top:-6px; right:2px; }
+        .pet-cat .eye-l { width:2px; height:2px; background:#333; border-radius:50%; position:absolute; top:4px; right:9px; }
+        .pet-cat .eye-r { width:2px; height:2px; background:#333; border-radius:50%; position:absolute; top:4px; right:3px; }
+        .pet-cat .nose  { width:3px; height:2px; background:#ffb6c1; border-radius:50%; position:absolute; top:8px; right:5px; }
+        .pet-cat .tail  { width:3px; height:13px; background:#aaa; border-radius:2px 2px 0 0; position:absolute; bottom:1px; left:-3px; transform:rotate(-25deg); transform-origin:bottom center; }
+
+        /* WHITE BUTTON */
+        #catBtn {
+            position: fixed;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 3px solid #aaa;
+            cursor: pointer;
+            font-size: 22px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            z-index: 500;
+            transition: transform 0.15s;
+        }
+        #catBtn:hover { transform: translateY(-50%) scale(1.15); }
+
+        /* BLACK BUTTON + COUNTER */
+        #counterBtn {
+            position: fixed;
+            left: 16px;
+            top: calc(50% + 64px);
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: #111;
+            border: 3px solid #555;
+            cursor: pointer;
+            font-size: 22px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            z-index: 500;
+            transition: transform 0.15s;
+        }
+        #counterBtn:hover { transform: scale(1.15); }
+        #cornerCounter {
+            position: fixed;
+            top: 12px; right: 12px;
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 6px;
+            z-index: 500;
+            font-family: Arial, sans-serif;
+            pointer-events: none;
+        }
+
         /* SECRET BUTTON */
         @keyframes secretBtnRainbow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
         #secretBtn {
@@ -581,6 +642,9 @@
     </div>
     <button id="storeBtn" onclick="openStore()">🛒 Pet Store</button>
 
+    <button id="catBtn" onclick="unlockCat()" title="Unlock cat pet">🐱</button>
+    <button id="counterBtn" onclick="bumpCounter()" title="Click to count up">➕</button>
+    <div id="cornerCounter">0</div>
     <button id="secretBtn" onclick="openSecretPopup()" title="Secret unlock!">🌈</button>
 
     <!-- SECRET POPUP -->
@@ -703,7 +767,8 @@
             { id: 'polarbear',  name: 'Polar Bear',   price: 120, html: `<div class="pet-polarbear"><div class="body"></div><div class="head"></div><div class="ear-l"></div><div class="ear-r"></div><div class="nose"></div><div class="eye-l"></div><div class="eye-r"></div></div>` },
             { id: 'robot',      name: 'Mini Robot',   price: 180, html: `<div class="pet-robot"><div class="body"></div><div class="head"></div><div class="eye-l"></div><div class="eye-r"></div><div class="antenna"></div><div class="mouth"></div></div>` },
             { id: 'bunny',      name: 'Bunny',        price: 90,  html: `<div class="pet-bunny"><div class="ear-l"></div><div class="ear-r"></div><div class="inner-l"></div><div class="inner-r"></div><div class="body"></div><div class="head"></div><div class="eye"></div><div class="nose"></div><div class="tail"></div></div>` },
-            { id: 'gold',       name: 'Gold Pet',     price: 0,   winUnlock: true, html: `<div class="pet-gold-pet"><div class="body"></div><div class="head"></div><div class="eye"></div><div class="shine"></div></div>` },
+            { id: 'gold',       name: 'Gold Pet',     price: 0,   winUnlock: true,    html: `<div class="pet-gold-pet"><div class="body"></div><div class="head"></div><div class="eye"></div><div class="shine"></div></div>` },
+            { id: 'cat',        name: 'Cat',          price: 0,   buttonUnlock: true, html: `<div class="pet-cat"><div class="tail"></div><div class="body"></div><div class="head"></div><div class="ear-l"></div><div class="ear-r"></div><div class="eye-l"></div><div class="eye-r"></div><div class="nose"></div></div>` },
         ];
 
         const TURTLE_HTML = `<div class="turtle-shell"><div class="turtle-head"></div><div class="turtle-legs"></div></div>`;
@@ -1131,13 +1196,19 @@
             `;
             petGrid.appendChild(turtleCard);
             PETS.forEach(pet => {
-                if (pet.winUnlock && !d.owned.includes(pet.id)) {
+                const isOwned = d.owned.includes(pet.id);
+                if (pet.winUnlock && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${pet.html}</div><div class="pet-name">${pet.name}</div><div class="pet-price" style="color:#FFD700">🏆 Win to Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
                     petGrid.appendChild(card);
+                } else if (pet.buttonUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${pet.html}</div><div class="pet-name">${pet.name}</div><div class="pet-price" style="color:#aaa">🔒 Secret Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    petGrid.appendChild(card);
                 } else {
-                    petGrid.appendChild(buildCard(pet, d.owned.includes(pet.id), d.equipped === pet.id, d.coins >= pet.price, 'buyPet', 'equipPet', pet.html));
+                    petGrid.appendChild(buildCard(pet, isOwned, d.equipped === pet.id, d.coins >= pet.price, 'buyPet', 'equipPet', pet.html));
                 }
             });
 
@@ -1416,6 +1487,29 @@
             if (e.key === 'Enter') setUsername();
         });
         applyUsername();
+
+        // ─── CAT UNLOCK BUTTON ─────────────────────────────────────────
+        function unlockCat() {
+            const d = loadData();
+            if (!d.owned.includes('cat')) {
+                d.owned.push('cat');
+                saveData(d);
+                gameData = d;
+                playSound('buy');
+                renderIngamePet();
+                if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+            }
+        }
+
+        // ─── COUNTER BUTTON ────────────────────────────────────────────
+        const counterEl = document.getElementById('cornerCounter');
+        let counter = parseInt(localStorage.getItem('wg_counter') || '0');
+        counterEl.textContent = counter;
+        function bumpCounter() {
+            counter++;
+            localStorage.setItem('wg_counter', counter);
+            counterEl.textContent = counter;
+        }
 
         // ─── SECRET POPUP ──────────────────────────────────────────────
         function openSecretPopup() {
