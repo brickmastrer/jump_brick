@@ -237,7 +237,7 @@
         }
 
         .obstacle { position: absolute; background-color: #8B4513; }
-        .log { width: 60px; height: 15px; bottom: 50px; }
+        .log { width: 40px; height: 20px; bottom: 20px; }
         .bird { width: 40px; height: 25px; background-color: #FFD700; clip-path: polygon(0% 30%, 20% 0%, 50% 20%, 100% 0%, 100% 40%, 50% 60%, 20% 50%, 0% 60%); }
         .obstacle.destroyed { background-color: #999; opacity: 0.3; }
 
@@ -758,11 +758,13 @@
 
         // ─── CONTROLS ──────────────────────────────────────────────────
         document.addEventListener('keydown', (e) => {
+            if (document.activeElement === document.getElementById('usernameInput')) return;
             if (e.code === 'Space')                               { e.preventDefault(); jump(); }
             if (e.code === 'KeyS' || e.code === 'ArrowDown')     { e.preventDefault(); crouch(); }
             if (e.code === 'KeyF' || e.code === 'KeyZ')          { punch(); }
         });
         document.addEventListener('keyup', (e) => {
+            if (document.activeElement === document.getElementById('usernameInput')) return;
             if (e.code === 'KeyS' || e.code === 'ArrowDown') standUp();
         });
 
@@ -783,7 +785,7 @@
             el.classList.add('obstacle');
             if (Math.random() > 0.4) {
                 el.classList.add('log');
-                el.style.bottom = '50px';
+                el.style.bottom = '20px';
             } else {
                 el.classList.add('bird');
                 el.style.bottom = (60 + Math.random() * 60) + 'px';
