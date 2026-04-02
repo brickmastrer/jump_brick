@@ -467,6 +467,12 @@
         .item-cookie { position:relative; width:18px; height:18px; background:#c8843a; border-radius:50%; border:1px solid #a06028; box-shadow:inset -2px -2px 3px rgba(0,0,0,0.2); }
         .item-cookie::before { content:''; position:absolute; width:3px; height:3px; background:#4a2008; border-radius:50%; top:3px; left:4px; box-shadow:6px 1px 0 #4a2008,1px 7px 0 #4a2008,7px 8px 0 #4a2008; }
 
+        /* NUMBER 1 PET */
+        .pet-num1 { position:relative; width:16px; height:20px; }
+        .pet-num1 .body { width:16px; height:16px; background:#FFD700; border-radius:2px; position:absolute; bottom:0; box-shadow:0 0 7px rgba(255,215,0,0.9); }
+        .pet-num1 .num { position:absolute; bottom:1px; left:0; right:0; text-align:center; font-size:12px; font-weight:900; color:#7a4a00; font-family:Arial,sans-serif; line-height:1; }
+        .pet-num1 .shine { width:4px; height:4px; background:rgba(255,255,255,0.7); border-radius:50%; position:absolute; top:2px; left:2px; }
+
         /* CAT PET */
         .pet-cat { position:relative; width:20px; height:22px; }
         .pet-cat .body { width:18px; height:11px; background:#aaa; border-radius:40%; position:absolute; bottom:0; left:1px; }
@@ -768,7 +774,8 @@
             { id: 'robot',      name: 'Mini Robot',   price: 180, html: `<div class="pet-robot"><div class="body"></div><div class="head"></div><div class="eye-l"></div><div class="eye-r"></div><div class="antenna"></div><div class="mouth"></div></div>` },
             { id: 'bunny',      name: 'Bunny',        price: 90,  html: `<div class="pet-bunny"><div class="ear-l"></div><div class="ear-r"></div><div class="inner-l"></div><div class="inner-r"></div><div class="body"></div><div class="head"></div><div class="eye"></div><div class="nose"></div><div class="tail"></div></div>` },
             { id: 'gold',       name: 'Gold Pet',     price: 0,   winUnlock: true,    html: `<div class="pet-gold-pet"><div class="body"></div><div class="head"></div><div class="eye"></div><div class="shine"></div></div>` },
-            { id: 'cat',        name: 'Cat',          price: 0,   buttonUnlock: true, html: `<div class="pet-cat"><div class="tail"></div><div class="body"></div><div class="head"></div><div class="ear-l"></div><div class="ear-r"></div><div class="eye-l"></div><div class="eye-r"></div><div class="nose"></div></div>` },
+            { id: 'cat',        name: 'Cat',          price: 0,   buttonUnlock: true,   html: `<div class="pet-cat"><div class="tail"></div><div class="body"></div><div class="head"></div><div class="ear-l"></div><div class="ear-r"></div><div class="eye-l"></div><div class="eye-r"></div><div class="nose"></div></div>` },
+            { id: 'num1',       name: 'Number 1',     price: 0,   counterUnlock: 1000,  html: `<div class="pet-num1"><div class="body"></div><div class="shine"></div><div class="num">1</div></div>` },
         ];
 
         const TURTLE_HTML = `<div class="turtle-shell"><div class="turtle-head"></div><div class="turtle-legs"></div></div>`;
@@ -1207,6 +1214,13 @@
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${pet.html}</div><div class="pet-name">${pet.name}</div><div class="pet-price" style="color:#aaa">🔒 Secret Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
                     petGrid.appendChild(card);
+                } else if (pet.counterUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    const cur = parseInt(localStorage.getItem('wg_counter') || '0');
+                    const left = Math.max(0, pet.counterUnlock - cur);
+                    card.innerHTML = `<div class="pet-preview">${pet.html}</div><div class="pet-name">${pet.name}</div><div class="pet-price" style="color:#FFD700">🔢 ${cur}/${pet.counterUnlock}</div><button class="btn-cantafford">${left > 0 ? '🔒 ' + left + ' more clicks' : '🔒 Locked'}</button>`;
+                    petGrid.appendChild(card);
                 } else {
                     petGrid.appendChild(buildCard(pet, isOwned, d.equipped === pet.id, d.coins >= pet.price, 'buyPet', 'equipPet', pet.html));
                 }
@@ -1509,6 +1523,17 @@
             counter++;
             localStorage.setItem('wg_counter', counter);
             counterEl.textContent = counter;
+            if (counter >= 1000) {
+                const d = loadData();
+                if (!d.owned.includes('num1')) {
+                    d.owned.push('num1');
+                    saveData(d);
+                    gameData = d;
+                    playSound('buy');
+                    renderIngamePet();
+                    if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+                }
+            }
         }
 
         // ─── SECRET POPUP ──────────────────────────────────────────────
