@@ -467,6 +467,14 @@
         .item-cookie { position:relative; width:18px; height:18px; background:#c8843a; border-radius:50%; border:1px solid #a06028; box-shadow:inset -2px -2px 3px rgba(0,0,0,0.2); }
         .item-cookie::before { content:''; position:absolute; width:3px; height:3px; background:#4a2008; border-radius:50%; top:3px; left:4px; box-shadow:6px 1px 0 #4a2008,1px 7px 0 #4a2008,7px 8px 0 #4a2008; }
 
+        /* STICKMAN PET */
+        .pet-stick { position:relative; width:16px; height:26px; }
+        .pet-stick .head { width:8px; height:8px; border:2px solid #222; border-radius:50%; position:absolute; top:0; left:4px; background:#f5deb3; }
+        .pet-stick .body { width:2px; height:10px; background:#222; position:absolute; top:8px; left:7px; }
+        .pet-stick .arms { width:14px; height:2px; background:#222; position:absolute; top:11px; left:1px; }
+        .pet-stick .leg-l { width:2px; height:9px; background:#222; position:absolute; bottom:0; left:5px; transform:rotate(-15deg); transform-origin:top center; }
+        .pet-stick .leg-r { width:2px; height:9px; background:#222; position:absolute; bottom:0; right:5px; transform:rotate(15deg); transform-origin:top center; }
+
         /* NUMBER 1 PET */
         .pet-num1 { position:relative; width:16px; height:20px; }
         .pet-num1 .body { width:16px; height:16px; background:#FFD700; border-radius:2px; position:absolute; bottom:0; box-shadow:0 0 7px rgba(255,215,0,0.9); }
@@ -902,6 +910,7 @@
             { id: 'gold',       name: 'Gold Pet',     price: 0,   winUnlock: true,    html: `<div class="pet-gold-pet"><div class="body"></div><div class="head"></div><div class="eye"></div><div class="shine"></div></div>` },
             { id: 'cat',        name: 'Cat',          price: 0,   buttonUnlock: true,   html: `<div class="pet-cat"><div class="tail"></div><div class="body"></div><div class="head"></div><div class="ear-l"></div><div class="ear-r"></div><div class="eye-l"></div><div class="eye-r"></div><div class="nose"></div></div>` },
             { id: 'num1',       name: 'Number 1',     price: 0,   counterUnlock: 1000,  html: `<div class="pet-num1"><div class="body"></div><div class="shine"></div><div class="num">1</div></div>` },
+            { id: 'stickman',   name: 'Stickman',     price: 110, html: `<div class="pet-stick"><div class="head"></div><div class="body"></div><div class="arms"></div><div class="leg-l"></div><div class="leg-r"></div></div>` },
         ];
 
         const TURTLE_HTML = `<div class="turtle-shell"><div class="turtle-head"></div><div class="turtle-legs"></div></div>`;
