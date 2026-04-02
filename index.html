@@ -662,6 +662,7 @@
                 equippedBg:     localStorage.getItem('wg_equipped_bg') || 'default',
                 ownedItems:     JSON.parse(localStorage.getItem('wg_owned_items') || '["none"]'),
                 equippedItem:   localStorage.getItem('wg_equipped_item') || 'none',
+                wins:           parseInt(localStorage.getItem('wg_wins') || '0'),
             };
         }
         function saveData(d) {
@@ -678,6 +679,7 @@
             localStorage.setItem('wg_equipped_bg',     d.equippedBg);
             localStorage.setItem('wg_owned_items',     JSON.stringify(d.ownedItems));
             localStorage.setItem('wg_equipped_item',   d.equippedItem);
+            localStorage.setItem('wg_wins',            d.wins);
         }
 
         let gameData = loadData();
@@ -1227,6 +1229,7 @@
             gameRunning = false;
             playSound('win');
             gameData.coins += coinsThisRun;
+            gameData.wins += 1;
             if (!gameData.ownedHats.includes('crown'))       gameData.ownedHats.push('crown');
             if (!gameData.owned.includes('gold'))             gameData.owned.push('gold');
             if (!gameData.ownedAvatars.includes('gold'))      gameData.ownedAvatars.push('gold');
@@ -1254,13 +1257,15 @@
         const playerNameEl = document.getElementById('player-name');
         function applyUsername() {
             const name = localStorage.getItem('wg_username') || '';
-            playerNameEl.textContent = name;
+            const wins = parseInt(localStorage.getItem('wg_wins') || '0');
+            playerNameEl.textContent = name ? name + ' · ' + wins + 'W' : '';
             document.getElementById('usernameInput').value = name;
         }
         function setUsername() {
             const name = document.getElementById('usernameInput').value.trim().slice(0, 16);
+            const wins = parseInt(localStorage.getItem('wg_wins') || '0');
             localStorage.setItem('wg_username', name);
-            playerNameEl.textContent = name;
+            playerNameEl.textContent = name ? name + ' · ' + wins + 'W' : '';
         }
         document.getElementById('usernameInput').addEventListener('keydown', e => {
             if (e.key === 'Enter') setUsername();
