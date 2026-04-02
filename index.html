@@ -570,6 +570,84 @@
         }
         #btn2026:hover { transform: scale(1.1); }
 
+        /* EASTER BUTTON */
+        #easterBtn {
+            position: fixed;
+            right: 16px;
+            top: calc(50% + 192px);
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: #f0c8f8;
+            border: 3px solid #d088e8;
+            cursor: pointer;
+            font-size: 22px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            z-index: 500;
+            transition: transform 0.15s;
+        }
+        #easterBtn:hover { transform: scale(1.15); }
+
+        /* EGG */
+        #eggDisplay {
+            position: fixed;
+            right: 82px;
+            top: calc(50% + 168px);
+            display: none;
+            z-index: 500;
+            cursor: pointer;
+            user-select: none;
+        }
+        #eggDisplay.visible { display: block; }
+
+        .egg-shell {
+            width: 40px; height: 50px;
+            background: radial-gradient(ellipse at 38% 32%, #fff0fb, #d4a8e0);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            border: 2px solid #b070c8;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.08s;
+        }
+        .egg-shell:active { transform: scale(0.9); }
+        .egg-band {
+            position: absolute; top: 46%; left: 0; right: 0; height: 11px;
+            background: rgba(255,182,193,0.55);
+        }
+        .egg-dot {
+            position: absolute; border-radius: 50%;
+            background: rgba(255,224,102,0.85);
+        }
+        .egg-dot-1 { width:6px; height:6px; top:10px; left:8px; }
+        .egg-dot-2 { width:5px; height:5px; top:14px; right:9px; }
+        .egg-dot-3 { width:4px; height:4px; bottom:14px; left:14px; }
+
+        /* Cracks */
+        .egg-crack { position:absolute; background:#7a3a8a; display:none; border-radius:1px; }
+        .crack-a  { width:2px; height:15px; top:6px;  left:19px; transform:rotate(8deg);  }
+        .crack-a2 { width:2px; height:8px;  top:6px;  left:22px; transform:rotate(-20deg); }
+        .crack-b  { width:2px; height:12px; top:14px; left:14px; transform:rotate(-12deg); }
+        .crack-b2 { width:2px; height:7px;  top:20px; left:24px; transform:rotate(25deg);  }
+
+        .egg-stage-1 .crack-a  { display:block; }
+        .egg-stage-2 .crack-a,
+        .egg-stage-2 .crack-a2,
+        .egg-stage-2 .crack-b  { display:block; }
+
+        @keyframes eggShake {
+            0%,100% { transform:rotate(0deg); }
+            25%      { transform:rotate(-6deg) scale(1.05); }
+            75%      { transform:rotate(6deg)  scale(1.05); }
+        }
+        @keyframes eggExplode {
+            0%   { transform:scale(1)   rotate(0deg);  opacity:1; }
+            40%  { transform:scale(1.5) rotate(-12deg); opacity:1; }
+            100% { transform:scale(0)   rotate(30deg); opacity:0; }
+        }
+        .egg-stage-1 .egg-shell { animation: eggShake 0.3s ease; }
+        .egg-stage-2 .egg-shell { animation: eggShake 0.25s ease 2; }
+        .egg-stage-3 .egg-shell { animation: eggExplode 0.55s ease-out forwards; pointer-events:none; }
+
         /* CONFETTI */
         @keyframes confettiFall {
             0%   { transform: translateY(0) rotate(0deg) scaleX(1);   opacity: 1; }
@@ -856,6 +934,19 @@
     <div id="cornerCounter">0</div>
     <button id="rockBtn" onclick="toggleRock()" title="Summon a rock">🪨</button>
     <div id="rockDisplay"><div class="rock-shape"></div></div>
+    <button id="easterBtn" onclick="spawnEgg()" title="Spawn an egg">🥚</button>
+    <div id="eggDisplay">
+        <div class="egg-shell">
+            <div class="egg-band"></div>
+            <div class="egg-dot egg-dot-1"></div>
+            <div class="egg-dot egg-dot-2"></div>
+            <div class="egg-dot egg-dot-3"></div>
+            <div class="egg-crack crack-a"></div>
+            <div class="egg-crack crack-a2"></div>
+            <div class="egg-crack crack-b"></div>
+            <div class="egg-crack crack-b2"></div>
+        </div>
+    </div>
     <button id="colorPickerBtn" onclick="openColorPicker()" title="Change button color">🎨</button>
     <button id="secretBtn" onclick="openSecretPopup()" title="Secret unlock!">🌈</button>
 
@@ -1800,6 +1891,26 @@
             }
             setTimeout(() => container.remove(), 5500);
         }
+
+        // ─── EGG BUTTON ────────────────────────────────────────────────
+        const eggDisplay = document.getElementById('eggDisplay');
+        let eggClicks = 0;
+
+        function spawnEgg() {
+            eggClicks = 0;
+            eggDisplay.className = 'visible';
+        }
+
+        eggDisplay.addEventListener('click', function() {
+            eggClicks++;
+            this.className = 'visible egg-stage-' + Math.min(eggClicks, 3);
+            if (eggClicks >= 3) {
+                setTimeout(() => {
+                    this.className = '';
+                    eggClicks = 0;
+                }, 600);
+            }
+        });
 
         // ─── ROCK BUTTON ───────────────────────────────────────────────
         const rockDisplay = document.getElementById('rockDisplay');
