@@ -904,6 +904,141 @@
         .item-chips .chip-l { position:absolute; top:2px; left:-4px; width:8px; height:6px; background:#ffe080; border-radius:3px 1px 4px 1px; transform:rotate(-20deg); border:1px solid #c8a020; }
         .item-chips .chip-r { position:absolute; top:0; right:-3px; width:8px; height:6px; background:#ffe080; border-radius:1px 3px 1px 4px; transform:rotate(15deg); border:1px solid #c8a020; }
 
+        /* CANDY BUTTON */
+        #candyBtn {
+            position:fixed; right:16px; top:calc(50% + 64px);
+            width:48px; height:48px; border-radius:50%;
+            background:#ff4488; border:3px solid #ffaacc;
+            cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #candyBtn:hover { transform:scale(1.15); }
+        @keyframes candyPopAnim {
+            0%  { opacity:0; transform:translate(-50%,-50%) scale(0.5) rotate(-10deg); }
+            15% { opacity:1; transform:translate(-50%,-50%) scale(1.1) rotate(3deg); }
+            25% { opacity:1; transform:translate(-50%,-50%) scale(1) rotate(0deg); }
+            80% { opacity:1; }
+            100%{ opacity:0; transform:translate(-50%,-50%) scale(0.9); }
+        }
+        #candyPopText {
+            position:fixed; top:38%; left:50%;
+            transform:translate(-50%,-50%);
+            font-size:42px; font-weight:900; color:#ff44aa;
+            text-shadow:3px 3px 0 #880033,-1px -1px 0 #880033;
+            z-index:9998; pointer-events:none; display:none; text-align:center;
+        }
+        #candyPopText.showing { display:block; animation:candyPopAnim 2s ease forwards; }
+
+        /* CANDY ITEM */
+        .item-candy { position:relative; width:22px; height:14px; }
+        .item-candy .twist-l { position:absolute; left:0; top:2px; width:6px; height:9px; background:#ff8888; border-radius:50%; transform:rotate(-35deg); }
+        .item-candy .twist-r { position:absolute; right:0; top:2px; width:6px; height:9px; background:#ff8888; border-radius:50%; transform:rotate(35deg); }
+        .item-candy .wrap { position:absolute; left:5px; top:1px; width:12px; height:12px; background:#ff4444; border-radius:2px; }
+        .item-candy .stripe { position:absolute; left:5px; top:5px; width:12px; height:3px; background:#fff; }
+        .item-candy .dot { position:absolute; left:8px; top:3px; width:3px; height:3px; background:#ffaacc; border-radius:50%; }
+
+        /* BUTTERFLY BUTTON */
+        #butterflyBtn {
+            position:fixed; right:16px; top:calc(50% + 128px);
+            width:48px; height:48px; border-radius:50%;
+            background:linear-gradient(135deg,#ff9922,#ffdd44);
+            border:3px solid #fff; cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #butterflyBtn:hover { transform:scale(1.15); }
+        #butterflyEl {
+            position:fixed; top:55px; left:0;
+            pointer-events:none; z-index:9000; display:none;
+        }
+        #butterflyEl.flying { display:block; animation:butterflyFly 5s linear forwards; }
+        @keyframes butterflyFly { 0%{transform:translateX(110vw)} 100%{transform:translateX(-120px)} }
+        .butterfly { position:relative; width:44px; height:32px; }
+        @keyframes wingFlap { 0%,100%{transform:scaleX(1)} 50%{transform:scaleX(0.25)} }
+        .butterfly .wtl { position:absolute; top:0; left:2px; width:18px; height:16px; background:rgba(255,150,30,0.9); border-radius:50% 10% 50% 50%; transform-origin:right center; animation:wingFlap 0.28s ease-in-out infinite; }
+        .butterfly .wtr { position:absolute; top:0; right:2px; width:18px; height:16px; background:rgba(255,150,30,0.9); border-radius:10% 50% 50% 50%; transform-origin:left center; animation:wingFlap 0.28s ease-in-out infinite; }
+        .butterfly .wbl { position:absolute; bottom:0; left:4px; width:16px; height:14px; background:rgba(220,90,0,0.85); border-radius:50% 50% 50% 10%; transform-origin:right center; animation:wingFlap 0.28s ease-in-out infinite; }
+        .butterfly .wbr { position:absolute; bottom:0; right:4px; width:16px; height:14px; background:rgba(220,90,0,0.85); border-radius:50% 50% 10% 50%; transform-origin:left center; animation:wingFlap 0.28s ease-in-out infinite; }
+        .butterfly .body { position:absolute; top:7px; left:50%; transform:translateX(-50%); width:5px; height:18px; background:#222; border-radius:50%; z-index:1; }
+        .butterfly .ant-l { position:absolute; top:-7px; left:17px; width:2px; height:9px; background:#222; border-radius:1px; transform:rotate(-22deg); }
+        .butterfly .ant-r { position:absolute; top:-7px; right:17px; width:2px; height:9px; background:#222; border-radius:1px; transform:rotate(22deg); }
+        .butterfly .ant-l::after,.butterfly .ant-r::after { content:''; position:absolute; top:-3px; left:-1px; width:4px; height:4px; background:#222; border-radius:50%; }
+
+        /* DUCK BUTTON */
+        #duckBtn {
+            position:fixed; right:16px; top:calc(50% + 192px);
+            width:48px; height:48px; border-radius:50%;
+            background:#3399cc; border:3px solid #88ddff;
+            cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #duckBtn:hover { transform:scale(1.15); }
+        #duckEl {
+            position:fixed; bottom:28%; left:0;
+            pointer-events:none; z-index:9000; display:none;
+        }
+        #duckEl.swimming { display:block; animation:duckSwim 5s linear forwards; }
+        @keyframes duckSwim { 0%{transform:translateX(-120px)} 100%{transform:translateX(110vw)} }
+        .duck-swim { position:relative; width:56px; height:38px; }
+        .duck-swim .water { position:absolute; bottom:0; left:0; width:56px; height:10px; background:rgba(80,180,255,0.5); border-radius:50%; }
+        .duck-swim .body { position:absolute; bottom:6px; left:4px; width:38px; height:20px; background:#FFD700; border-radius:50% 50% 40% 40%; }
+        .duck-swim .wing { position:absolute; bottom:10px; left:8px; width:20px; height:12px; background:#e8c000; border-radius:40% 60% 50% 30%; }
+        .duck-swim .head { position:absolute; bottom:20px; right:4px; width:20px; height:18px; background:#FFD700; border-radius:50%; }
+        .duck-swim .beak { position:absolute; bottom:25px; right:-8px; width:12px; height:6px; background:#FF8C00; border-radius:0 4px 4px 0; }
+        .duck-swim .eye  { position:absolute; bottom:28px; right:8px; width:4px; height:4px; background:#111; border-radius:50%; }
+        @keyframes duckBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+        .duck-swim { animation:duckBob 0.6s ease-in-out infinite; }
+
+        /* FIGHT PIT BUTTON */
+        #fightBtn {
+            position:fixed; left:16px; top:calc(50% + 144px);
+            width:48px; height:48px; border-radius:50%;
+            background:#cc2222; border:3px solid #ff6666;
+            cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #fightBtn:hover { transform:scale(1.15); }
+        #fightDisplay {
+            position:fixed; left:74px; top:calc(50% + 110px);
+            display:none; z-index:500; cursor:pointer; user-select:none;
+        }
+        #fightDisplay.visible { display:block; }
+        .fight-scene { position:relative; width:140px; height:90px; }
+        .fight-ground { position:absolute; bottom:0; left:0; width:140px; height:10px; background:#5a3a10; border-radius:2px; }
+        .fight-wall-l { position:absolute; left:0; bottom:10px; width:8px; height:60px; background:#4a2e0a; border-radius:2px 2px 0 0; }
+        .fight-wall-r { position:absolute; right:0; bottom:10px; width:8px; height:60px; background:#4a2e0a; border-radius:2px 2px 0 0; }
+        .fight-dirt { position:absolute; bottom:10px; left:8px; right:8px; height:8px; background:#7a5020; }
+        /* RED STICKMAN - standing */
+        .sm-red { position:absolute; left:22px; bottom:18px; }
+        .sm-red .h { width:14px; height:14px; background:#ff3333; border-radius:50%; position:absolute; top:0; left:0; }
+        .sm-red .b { position:absolute; top:14px; left:6px; width:2px; height:20px; background:#ff3333; }
+        .sm-red .al { position:absolute; top:17px; left:2px; width:14px; height:2px; background:#ff3333; border-radius:1px; transform:rotate(25deg); transform-origin:right center; }
+        .sm-red .ar { position:absolute; top:17px; left:2px; width:14px; height:2px; background:#ff3333; border-radius:1px; transform:rotate(-25deg); transform-origin:right center; }
+        .sm-red .ll { position:absolute; top:34px; left:2px; width:14px; height:2px; background:#ff3333; border-radius:1px; transform:rotate(35deg); transform-origin:top left; }
+        .sm-red .lr { position:absolute; top:34px; left:6px; width:14px; height:2px; background:#ff3333; border-radius:1px; transform:rotate(-35deg); transform-origin:top right; }
+        /* BLUE STICKMAN - standing */
+        .sm-blue { position:absolute; right:22px; bottom:18px; }
+        .sm-blue .h { width:14px; height:14px; background:#3366ff; border-radius:50%; position:absolute; top:0; left:0; }
+        .sm-blue .b { position:absolute; top:14px; left:6px; width:2px; height:20px; background:#3366ff; }
+        .sm-blue .al { position:absolute; top:17px; left:2px; width:14px; height:2px; background:#3366ff; border-radius:1px; transform:rotate(25deg); transform-origin:right center; }
+        .sm-blue .ar { position:absolute; top:17px; left:2px; width:14px; height:2px; background:#3366ff; border-radius:1px; transform:rotate(-25deg); transform-origin:right center; }
+        .sm-blue .ll { position:absolute; top:34px; left:2px; width:14px; height:2px; background:#3366ff; border-radius:1px; transform:rotate(35deg); transform-origin:top left; }
+        .sm-blue .lr { position:absolute; top:34px; left:6px; width:14px; height:2px; background:#3366ff; border-radius:1px; transform:rotate(-35deg); transform-origin:top right; }
+        /* KNOCKED OUT - red stickman flat on ground */
+        #fightDisplay.ko .sm-red { transform:rotate(90deg) translateY(20px); transform-origin:bottom center; left:14px; bottom:14px; }
+        /* VICTORY - blue stickman foot on red */
+        #fightDisplay.ko .sm-blue { bottom:14px; right:10px; }
+        #fightDisplay.ko .sm-blue .ll { transform:rotate(70deg) translateX(8px); }
+        @keyframes fightShake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-4px)} 40%{transform:translateX(4px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(3px)} }
+        #fightDisplay.ko .fight-scene { animation:fightShake 0.3s ease; }
+
         /* BUSH BUTTON */
         #bushBtn {
             position:fixed; right:16px; top:calc(50%);
@@ -1839,6 +1974,50 @@
             <div class="bear-body"></div>
         </div>
     </div>
+    <!-- CANDY BUTTON -->
+    <button id="candyBtn" onclick="giveCandy()" title="Candy!">🍬</button>
+    <div id="candyPopText">🍬 candy! 🍬</div>
+
+    <!-- BUTTERFLY BUTTON -->
+    <button id="butterflyBtn" onclick="spawnButterfly()" title="Spawn butterfly">🦋</button>
+    <div id="butterflyEl">
+        <div class="butterfly">
+            <div class="wtl"></div><div class="wtr"></div>
+            <div class="wbl"></div><div class="wbr"></div>
+            <div class="body"></div>
+            <div class="ant-l"></div><div class="ant-r"></div>
+        </div>
+    </div>
+
+    <!-- DUCK BUTTON -->
+    <button id="duckBtn" onclick="spawnDuckSwim()" title="Spawn swimming duck">🦆</button>
+    <div id="duckEl">
+        <div class="duck-swim">
+            <div class="body"></div><div class="wing"></div>
+            <div class="head"></div><div class="beak"></div><div class="eye"></div>
+            <div class="water"></div>
+        </div>
+    </div>
+
+    <!-- FIGHT PIT BUTTON -->
+    <button id="fightBtn" onclick="spawnFight()" title="Fighting pit">🥊</button>
+    <div id="fightDisplay">
+        <div class="fight-scene">
+            <div class="fight-wall-l"></div><div class="fight-wall-r"></div>
+            <div class="fight-dirt"></div><div class="fight-ground"></div>
+            <div class="sm-red">
+                <div class="h"></div><div class="b"></div>
+                <div class="al"></div><div class="ar"></div>
+                <div class="ll"></div><div class="lr"></div>
+            </div>
+            <div class="sm-blue">
+                <div class="h"></div><div class="b"></div>
+                <div class="al"></div><div class="ar"></div>
+                <div class="ll"></div><div class="lr"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- PALM TREE BUTTON -->
     <button id="palmBtn" onclick="spawnPalm()" title="Spawn a palm tree">🌴</button>
     <div id="palmDisplay">
@@ -2349,6 +2528,7 @@
             { id: 'sprinklejar', name: 'Sprinkle Jar', price: 0, counterUnlock: 3000, html: `<div class="item-sprinklejar"><div class="lid"></div><div class="jar"></div><div class="sp1"></div><div class="sp2"></div><div class="sp3"></div><div class="sp4"></div><div class="sp5"></div></div>` },
             { id: 'coconut', name: 'Coconut', price: 0, palmUnlock: true,  html: `<div class="item-coconut"><div class="shell"></div><div class="eye-l"></div><div class="eye-r"></div><div class="mouth"></div></div>` },
             { id: 'chips',   name: 'Chips',   price: 0, chipsUnlock: true, html: `<div class="item-chips"><div class="chip-l"></div><div class="chip-r"></div><div class="top-l"></div><div class="top-r"></div><div class="bag"></div><div class="stripe"></div></div>` },
+            { id: 'candy',   name: 'Candy',   price: 0, candyUnlock: true, html: `<div class="item-candy"><div class="twist-l"></div><div class="twist-r"></div><div class="wrap"></div><div class="stripe"></div><div class="dot"></div></div>` },
         ];
 
         function loadData() {
@@ -2863,7 +3043,7 @@
             itemGrid.innerHTML = '';
             ITEMS.forEach(it => {
                 const isOwned = d.ownedItems.includes(it.id);
-                const owned = (it.price === 0 && !it.eggUnlock && !it.counterUnlock && !it.palmUnlock && !it.chipsUnlock) || isOwned;
+                const owned = (it.price === 0 && !it.eggUnlock && !it.counterUnlock && !it.palmUnlock && !it.chipsUnlock && !it.candyUnlock) || isOwned;
                 const equipped = d.equippedItem === it.id;
                 const canAfford = d.coins >= it.price;
                 const previewHtml = it.html
@@ -2900,6 +3080,11 @@
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `${previewHtml}<div class="pet-name">${it.name}</div><div class="pet-price" style="color:#ffe060">🍟 Find the chips button</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    itemGrid.appendChild(card);
+                } else if (it.candyUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `${previewHtml}<div class="pet-name">${it.name}</div><div class="pet-price" style="color:#ff88cc">🍬 Find the candy button</div><button class="btn-cantafford">🔒 Locked</button>`;
                     itemGrid.appendChild(card);
                 } else {
                     itemGrid.appendChild(buildCard(it, owned, equipped, canAfford, 'buyItem', 'equipItem', previewHtml));
@@ -3496,6 +3681,61 @@
                 if (document.getElementById('storeModal').classList.contains('open')) renderStore();
             }
         }
+
+        // ─── CANDY BUTTON ──────────────────────────────────────────────
+        function giveCandy() {
+            playSound('buy');
+            const el = document.getElementById('candyPopText');
+            el.classList.remove('showing');
+            void el.offsetWidth;
+            el.classList.add('showing');
+            const d = loadData();
+            if (!d.ownedItems.includes('candy')) {
+                d.ownedItems.push('candy');
+                saveData(d); gameData = d;
+                if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+            }
+        }
+
+        // ─── BUTTERFLY ─────────────────────────────────────────────────
+        const butterflyEl = document.getElementById('butterflyEl');
+        function spawnButterfly() {
+            butterflyEl.classList.remove('flying');
+            void butterflyEl.offsetWidth;
+            butterflyEl.classList.add('flying');
+            setTimeout(() => butterflyEl.classList.remove('flying'), 5100);
+        }
+
+        // ─── DUCK SWIM ─────────────────────────────────────────────────
+        const duckEl = document.getElementById('duckEl');
+        function spawnDuckSwim() {
+            duckEl.classList.remove('swimming');
+            void duckEl.offsetWidth;
+            duckEl.classList.add('swimming');
+            setTimeout(() => duckEl.classList.remove('swimming'), 5100);
+        }
+
+        // ─── FIGHT PIT ─────────────────────────────────────────────────
+        const fightDisplay = document.getElementById('fightDisplay');
+        function spawnFight() {
+            fightDisplay.classList.remove('ko');
+            void fightDisplay.offsetWidth;
+            fightDisplay.classList.toggle('visible');
+        }
+        fightDisplay.addEventListener('click', function() {
+            if (this.classList.contains('ko')) return;
+            this.classList.add('ko');
+            // thud sound
+            const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(40, audioCtx.currentTime + 0.18);
+            gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.22);
+            osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.22);
+            setTimeout(() => this.classList.remove('visible', 'ko'), 3000);
+        });
 
         // ─── NINJA SECRET BUTTON ───────────────────────────────────────
         function unlockNinja() {
