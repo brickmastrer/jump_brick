@@ -58,6 +58,8 @@
         #player.avatar-chocolate { background-color:#3d1a00; background-image:linear-gradient(rgba(255,255,255,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.07) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.12),inset 0 -3px 0 rgba(0,0,0,0.4),2px 2px 0 #1a0800; }
         #player.avatar-chocolate #player-legs .leg { background:#1a0800; }
         #player.avatar-gold     { background-color:#FFD700; background-image:linear-gradient(rgba(255,255,255,0.25) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.08) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.35),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #cc8800,0 0 10px rgba(255,215,0,0.7); }
+        #player.avatar-football { background-color:#c07a3a; background-image:linear-gradient(90deg,transparent 30%,rgba(255,255,255,0.55) 30%,rgba(255,255,255,0.55) 37%,transparent 37%,transparent 63%,rgba(255,255,255,0.55) 63%,rgba(255,255,255,0.55) 70%,transparent 70%); box-shadow:inset 0 3px 0 rgba(255,255,255,0.2),inset 0 -3px 0 rgba(0,0,0,0.3),2px 2px 0 #7a4a1a; }
+        #player.avatar-football #player-legs .leg { background:#7a4a1a; }
         #player.avatar-eyes::before, #player.avatar-eyes::after { content:''; position:absolute; top:10px; width:10px; height:10px; background:#333; border-radius:1px; z-index:1; }
         #player.avatar-eyes::before { left:4px; }
         #player.avatar-eyes::after  { right:4px; }
@@ -164,6 +166,11 @@
         .pet-duck .eye   { width:3px; height:3px; background:#111; border-radius:50%; position:absolute; top:2px; right:3px; }
         .pet-duck .foot-l { position:absolute; bottom:0; left:3px;  width:6px; height:3px; background:#FF8C00; border-radius:0 0 2px 2px; }
         .pet-duck .foot-r { position:absolute; bottom:0; right:3px; width:6px; height:3px; background:#FF8C00; border-radius:0 0 2px 2px; }
+
+        /* BALL PET */
+        .pet-ball { position:relative; width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#ff9955 0%,#cc3300 100%); box-shadow:inset -3px -3px 0 rgba(0,0,0,0.25),inset 2px 2px 0 rgba(255,255,255,0.4); }
+        .pet-ball .seam-h { position:absolute; top:9px; left:2px; right:2px; height:2px; background:rgba(0,0,0,0.22); border-radius:1px; }
+        .pet-ball .seam-v { position:absolute; left:9px; top:2px; bottom:2px; width:2px; background:rgba(0,0,0,0.22); border-radius:1px; }
 
         /* TANK PET */
         .pet-tank { position:relative; width:24px; height:16px; }
@@ -400,6 +407,7 @@
         .av-ninja     { background-color:#1a1a1a; background-image:none; box-shadow:inset 0 3px 0 rgba(255,255,255,0.05),inset 0 -3px 0 rgba(0,0,0,0.6),2px 2px 0 #000; }
         .av-chocolate { background-color:#3d1a00; background-image:linear-gradient(rgba(255,255,255,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.07) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.1),inset 0 -3px 0 rgba(0,0,0,0.4),2px 2px 0 #1a0800; }
         .av-gold     { background-color:#FFD700; background-image:linear-gradient(rgba(255,255,255,0.25) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.08) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.35),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #cc8800,0 0 10px rgba(255,215,0,0.7); }
+        .av-football { background-color:#c07a3a; background-image:linear-gradient(90deg,transparent 30%,rgba(255,255,255,0.55) 30%,rgba(255,255,255,0.55) 37%,transparent 37%,transparent 63%,rgba(255,255,255,0.55) 63%,rgba(255,255,255,0.55) 70%,transparent 70%); box-shadow:inset 0 3px 0 rgba(255,255,255,0.2),inset 0 -3px 0 rgba(0,0,0,0.3),2px 2px 0 #7a4a1a; }
 
         /* PANTS */
         #player-pants { position:absolute; bottom:0; left:0; right:0; height:18px; border-radius:0 0 2px 2px; pointer-events:none; }
@@ -415,6 +423,8 @@
         @keyframes rainbowPantsAnim { 0%{filter:hue-rotate(0deg)} 100%{filter:hue-rotate(360deg)} }
         .pants-rainbow  { background:linear-gradient(90deg,#ff6666,#ffaa44,#ffff44,#44ff88,#44aaff,#aa44ff); background-size:200% 100%; animation:rainbowHatAnim 2s linear infinite; }
         .pants-ninja    { background-color:#111; background-image:none; }
+        .pants-capy     { background-color:#8B6914; background-image:radial-gradient(circle 2px at 20% 35%,rgba(0,0,0,0.2) 100%,transparent 0),radial-gradient(circle 2px at 70% 55%,rgba(0,0,0,0.15) 100%,transparent 0); }
+        .pants-football { background-color:#f0ede0; background-image:linear-gradient(90deg,#2a5a2a 0,#2a5a2a 3px,transparent 3px,transparent calc(100% - 3px),#2a5a2a calc(100% - 3px),#2a5a2a 100%); }
         /* pants store preview */
         .pants-full-prev { position:relative; width:36px; height:40px; border-radius:2px; background-color:#B5451B; background-image:linear-gradient(rgba(0,0,0,0.2) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.2) 1px,transparent 1px); background-size:100% 50%,50% 100%; }
         .pants-full-prev .pant { position:absolute; bottom:0; left:0; right:0; height:18px; border-radius:0 0 2px 2px; }
@@ -711,6 +721,23 @@
         .item-spoon .bowl   { width:9px; height:9px; background:linear-gradient(135deg,#ddd,#fff,#aaa); border-radius:50%; position:absolute; top:0; }
         .item-spoon .neck   { width:3px; height:7px; background:#bbb; position:absolute; top:8px; left:3px; }
         .item-spoon .handle { width:5px; height:15px; background:linear-gradient(to right,#bbb,#eee,#999); border-radius:0 0 3px 3px; position:absolute; top:14px; left:2px; }
+
+        /* CAPY ITEM */
+        .item-capy { position:relative; width:16px; height:22px; }
+        .item-capy .ic-body { width:14px; height:9px; background:#8B6914; border-radius:40% 40% 30% 40%; position:absolute; bottom:0; left:1px; }
+        .item-capy .ic-head { width:11px; height:9px; background:#8B6914; border-radius:50% 50% 40% 40%; position:absolute; top:4px; left:3px; }
+        .item-capy .ic-nose { width:8px; height:4px; background:#6a5010; border-radius:30% 30% 50% 50%; position:absolute; top:10px; left:4px; }
+        .item-capy .ic-eye  { width:3px; height:3px; background:#1a1a1a; border-radius:50%; position:absolute; top:6px; left:4px; }
+        .item-capy .ic-ear  { width:5px; height:4px; background:#8B6914; border-radius:50% 50% 0 0; position:absolute; top:2px; left:8px; }
+
+        /* GLOVES ITEM */
+        .item-gloves { position:relative; width:14px; height:20px; }
+        .item-gloves .gl-f1    { width:3px; height:5px; background:#555; border-radius:2px 2px 0 0; position:absolute; top:0; left:1px; }
+        .item-gloves .gl-f2    { width:3px; height:6px; background:#555; border-radius:2px 2px 0 0; position:absolute; top:0; left:5px; }
+        .item-gloves .gl-f3    { width:3px; height:5px; background:#555; border-radius:2px 2px 0 0; position:absolute; top:0; left:9px; }
+        .item-gloves .gl-palm  { width:13px; height:10px; background:#555; border-radius:2px 2px 3px 3px; position:absolute; top:4px; left:1px; }
+        .item-gloves .gl-thumb { width:4px; height:6px; background:#555; border-radius:3px; position:absolute; top:6px; left:-2px; transform:rotate(15deg); }
+        .item-gloves .gl-cuff  { width:13px; height:5px; background:#333; border-radius:0 0 3px 3px; position:absolute; bottom:0; left:1px; }
 
         .item-choc-egg { position:relative; width:14px; height:18px; background:#5c3317; border-radius:50% 50% 50% 50%/60% 60% 40% 40%; overflow:hidden; border:1px solid #3a1f0a; box-shadow:0 0 5px rgba(92,51,23,0.6); }
         .item-choc-egg::before { content:''; position:absolute; width:100%; height:4px; background:#8b5a2b; top:4px; left:0; }
@@ -1527,6 +1554,7 @@
             { id: 'stickman',   name: 'Stickman',     price: 110, html: `<div class="pet-stick"><div class="head"></div><div class="body"></div><div class="arms"></div><div class="leg-l"></div><div class="leg-r"></div></div>` },
             { id: 'dolphin',    name: 'Dolphin',      price: 140, html: `<div class="pet-dolphin"><div class="tail-t"></div><div class="tail-b"></div><div class="body"></div><div class="belly"></div><div class="fin"></div><div class="head"></div><div class="snout"></div><div class="eye"></div></div>` },
             { id: 'spider',     name: 'Spider',       price: 0, ninjaUnlock: true, html: `<div class="pet-spider"><div class="leg ll1"></div><div class="leg ll2"></div><div class="leg ll3"></div><div class="leg lr1"></div><div class="leg lr2"></div><div class="leg lr3"></div><div class="body"></div><div class="eye-l"></div><div class="eye-r"></div></div>` },
+            { id: 'ball',       name: 'Ball',         price: 50,  html: `<div class="pet-ball"><div class="seam-h"></div><div class="seam-v"></div></div>` },
             { id: 'duck',       name: 'Duck',         price: 75,  html: `<div class="pet-duck"><div class="body"></div><div class="wing"></div><div class="head"></div><div class="beak"></div><div class="eye"></div><div class="foot-l"></div><div class="foot-r"></div></div>` },
             { id: 'tank-pet',   name: 'Tank',         price: 160, html: `<div class="pet-tank"><div class="tread"></div><div class="body"></div><div class="turret"></div><div class="barrel"></div></div>` },
         ];
@@ -1565,6 +1593,7 @@
             { id: 'chocolate', name: 'Chocolate', price: 110, cls: 'avatar-chocolate', preview: `<div class="av-preview av-chocolate"></div>` },
             { id: 'ninja',     name: 'Ninja',     price: 0,   ninjaUnlock: true, cls: 'avatar-ninja',    preview: `<div class="av-preview av-ninja"></div>` },
             { id: 'sprinkle',  name: 'Sprinkle',  price: 130, cls: 'avatar-sprinkle', preview: `<div class="av-preview av-sprinkle"></div>` },
+            { id: 'football',  name: 'Football',  price: 120, cls: 'avatar-football', preview: `<div class="av-preview av-football"></div>` },
             { id: 'capy',      name: 'Capybara',  price: 0,   choiceUnlock: true, cls: 'avatar-capy',     preview: `<div class="av-preview av-capy"></div>` },
             { id: 'dolphin-av',name: 'Dolphin',   price: 0,   choiceUnlock: true, cls: 'avatar-dolphin',  preview: `<div class="av-preview av-dolphin"></div>` },
         ];
@@ -1582,6 +1611,8 @@
             { id: 'gold',     name: 'Gold',       price: 0,  winUnlock: true, cls: 'pants-gold',    preview: `<div class="pants-full-prev"><div class="pant pants-gold"></div></div>` },
             { id: 'rainbow',  name: 'Rainbow',    price: 0,  winsUnlock: 3,       cls: 'pants-rainbow', preview: `<div class="pants-full-prev"><div class="pant pants-rainbow"></div></div>` },
             { id: 'ninja',    name: 'Ninja',      price: 0,  ninjaUnlock: true,   cls: 'pants-ninja',   preview: `<div class="pants-full-prev"><div class="pant pants-ninja"></div></div>` },
+            { id: 'capy',     name: 'Capy',       price: 65, cls: 'pants-capy',    preview: `<div class="pants-full-prev"><div class="pant pants-capy"></div></div>` },
+            { id: 'football', name: 'Football',   price: 70, cls: 'pants-football',preview: `<div class="pants-full-prev"><div class="pant pants-football"></div></div>` },
         ];
 
         const BACKGROUNDS = [
@@ -1608,6 +1639,8 @@
             { id: 'cookie',   name: 'Cookie',       price: 30,  html: `<div class="item-cookie"></div>` },
             { id: 'choc-egg', name: 'Chocolate Egg', price: 0, eggUnlock: true, html: `<div class="item-choc-egg"></div>` },
             { id: 'spoon',    name: 'Spoon',         price: 45, html: `<div class="item-spoon"><div class="bowl"></div><div class="neck"></div><div class="handle"></div></div>` },
+            { id: 'capy-fig', name: 'Capy Figure',   price: 55, html: `<div class="item-capy"><div class="ic-body"></div><div class="ic-head"></div><div class="ic-nose"></div><div class="ic-eye"></div><div class="ic-ear"></div></div>` },
+            { id: 'gloves',   name: 'Gloves',        price: 40, html: `<div class="item-gloves"><div class="gl-f1"></div><div class="gl-f2"></div><div class="gl-f3"></div><div class="gl-palm"></div><div class="gl-thumb"></div><div class="gl-cuff"></div></div>` },
         ];
 
         function loadData() {
@@ -1689,7 +1722,7 @@
         }
 
         // ─── AVATAR DISPLAY ────────────────────────────────────────────
-        const AVATAR_CLASSES = ['avatar-stone','avatar-dirt','avatar-concrete','avatar-blue','avatar-green','avatar-pink','avatar-eyes','avatar-easter','avatar-gold','avatar-chocolate','avatar-ninja','avatar-sprinkle','avatar-capy','avatar-dolphin'];
+        const AVATAR_CLASSES = ['avatar-stone','avatar-dirt','avatar-concrete','avatar-blue','avatar-green','avatar-pink','avatar-eyes','avatar-easter','avatar-gold','avatar-chocolate','avatar-ninja','avatar-sprinkle','avatar-capy','avatar-dolphin','avatar-football'];
         function renderIngameAvatar() {
             AVATAR_CLASSES.forEach(cls => player.classList.remove(cls));
             const av = AVATARS.find(a => a.id === gameData.equippedAvatar);
@@ -1712,7 +1745,7 @@
         }
 
         // ─── PANTS DISPLAY ─────────────────────────────────────────────
-        const PANTS_CLASSES = ['pants-brick','pants-concrete','pants-blue','pants-red','pants-green','pants-pink','pants-silver','pants-easter','pants-gold','pants-rainbow','pants-ninja'];
+        const PANTS_CLASSES = ['pants-brick','pants-concrete','pants-blue','pants-red','pants-green','pants-pink','pants-silver','pants-easter','pants-gold','pants-rainbow','pants-ninja','pants-capy','pants-football'];
         const pantsEl = document.getElementById('player-pants');
         function renderIngamePants() {
             PANTS_CLASSES.forEach(cls => pantsEl.classList.remove(cls));
