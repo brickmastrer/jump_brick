@@ -538,6 +538,61 @@
         @keyframes smokeUp { 0%{transform:translateY(0) scale(1);opacity:0.7} 100%{transform:translateY(-20px) scale(2);opacity:0} }
         .tank-smoke { position:fixed; width:10px; height:10px; background:rgba(200,200,200,0.6); border-radius:50%; z-index:600; pointer-events:none; animation:smokeUp 0.5s ease-out forwards; }
 
+        /* BED BUTTON */
+        #bedBtn {
+            position:fixed; left:16px; top:calc(50% - 192px);
+            width:48px; height:48px; border-radius:50%;
+            background:#4a3a6a; border:3px solid #9a7acc;
+            cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #bedBtn:hover { transform:scale(1.15); }
+
+        #bedDisplay {
+            position:fixed; left:74px; top:calc(50% - 228px);
+            display:none; z-index:500; cursor:pointer; user-select:none;
+        }
+        #bedDisplay.visible { display:block; }
+
+        .bed-scene { position:relative; width:140px; height:88px; }
+
+        /* bed furniture */
+        .bed-headboard { position:absolute; left:0; bottom:8px; width:10px; height:50px; background:#5a2e10; border-radius:3px 3px 0 0; }
+        .bed-footboard { position:absolute; right:0; bottom:8px; width:10px; height:34px; background:#5a2e10; border-radius:3px 3px 0 0; }
+        .bed-frame     { position:absolute; bottom:0; left:0; width:140px; height:22px; background:#6b3e1e; border-radius:3px; }
+        .bed-mattress  { position:absolute; bottom:18px; left:8px; width:124px; height:28px; background:#e8e0d0; border-radius:3px; }
+        .bed-pillow    { position:absolute; bottom:34px; right:14px; width:30px; height:18px; background:#f5f0e8; border-radius:4px; border:1.5px solid #d0c8b8; }
+        .bed-blanket   { position:absolute; bottom:18px; left:8px; width:80px; height:20px; background:#7a9acc; border-radius:3px 0 0 3px; opacity:0.85; }
+
+        /* stickman SVG swaps in .bed-stick-slot */
+        .bed-stick-slot { position:absolute; bottom:30px; left:10px; pointer-events:none; }
+
+        /* ZZZ bubble */
+        .bed-zzz { position:absolute; top:2px; right:20px; font-size:14px; color:#aaa; font-weight:bold; font-style:italic; animation:zzzFloat 1.8s ease-in-out infinite; }
+        @keyframes zzzFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+        #bedDisplay.stage-1 .bed-zzz,
+        #bedDisplay.stage-2 .bed-zzz { display:none; }
+
+        /* unlock flash */
+        @keyframes bedUnlockFlash { 0%{opacity:0;transform:scale(0.7)} 30%{opacity:1;transform:scale(1.08)} 100%{opacity:0;transform:scale(1)} }
+        .bed-unlock-msg { position:absolute; top:-28px; left:50%; transform:translateX(-50%); white-space:nowrap; background:#4a3a6a; color:#c8aaff; font-size:12px; font-weight:bold; padding:3px 8px; border-radius:5px; pointer-events:none; display:none; }
+        #bedDisplay.unlocked .bed-unlock-msg { display:block; animation:bedUnlockFlash 2.5s ease forwards; }
+
+        /* STICK HAT */
+        .hat-stick { position:relative; width:28px; }
+        .hat-stick .hat-body { width:14px; height:17px; background:transparent; border:3px solid #111; border-radius:1px 1px 0 0; margin:0 auto; box-sizing:border-box; }
+        .hat-stick .hat-brim { width:26px; height:4px; background:transparent; border:3px solid #111; border-radius:1px; margin:0 auto; box-sizing:border-box; }
+
+        /* OATMEAL ITEM */
+        .item-oatmeal { position:relative; width:18px; height:18px; }
+        .item-oatmeal .steam-l { position:absolute; top:0; left:3px; width:2px; height:5px; background:rgba(180,180,180,0.7); border-radius:2px; }
+        .item-oatmeal .steam-r { position:absolute; top:0; right:3px; width:2px; height:5px; background:rgba(180,180,180,0.7); border-radius:2px; }
+        .item-oatmeal .rim  { position:absolute; top:4px; left:0; width:18px; height:4px; background:#b09060; border-radius:2px; }
+        .item-oatmeal .bowl { position:absolute; top:6px; left:1px; width:16px; height:10px; background:#d4c4a0; border-radius:0 0 8px 8px; }
+        .item-oatmeal .oat  { position:absolute; top:7px; left:3px; width:12px; height:6px; background:#c8b060; border-radius:3px; }
+
         /* CHOICE BUTTON */
         #choiceBtn {
             position:fixed; left:16px; top:calc(50% - 128px);
@@ -1502,6 +1557,22 @@
             <div class="bear-body"></div>
         </div>
     </div>
+    <!-- BED STICKMAN BUTTON -->
+    <button id="bedBtn" onclick="spawnBed()" title="Stickman in bed">🛏️</button>
+    <div id="bedDisplay">
+        <div class="bed-scene" id="bedScene">
+            <div class="bed-zzz">z z z</div>
+            <div class="bed-unlock-msg">🎓 Stick Hat &amp; Oatmeal unlocked!</div>
+            <div class="bed-stick-slot" id="bedStickSlot"></div>
+            <div class="bed-headboard"></div>
+            <div class="bed-mattress"></div>
+            <div class="bed-pillow"></div>
+            <div class="bed-blanket"></div>
+            <div class="bed-footboard"></div>
+            <div class="bed-frame"></div>
+        </div>
+    </div>
+
     <!-- MATH BUTTON -->
     <button id="mathBtn" onclick="openMathModal()" title="Math challenge">🧮</button>
     <div id="mathModal">
@@ -1815,7 +1886,8 @@
             { id: 'capywinter',  name: 'Capy Beanie',   price: 85,            html: `<div class="hat-capywinter"><div class="pom"></div><div class="body"><div class="ear-l"></div><div class="ear-r"></div></div><div class="band"></div></div>` },
             { id: 'icecream',    name: 'Ice Cream',     price: 0, counterUnlock: 2000, html: `<div class="hat-icecream"><div class="cone"></div><div class="scoop"><div class="drip"></div></div></div>` },
             { id: 'ninja',       name: 'Ninja Mask',    price: 0, ninjaUnlock: true,   html: `<div class="hat-ninja"><div class="band"><div class="slit"></div></div></div>` },
-            { id: 'mortar',      name: 'Mortarboard',   price: 0, mathUnlock: true,    html: `<div class="hat-mortar"><div class="tassel"></div><div class="board"></div><div class="cap"></div></div>` },
+            { id: 'mortar',      name: 'Mortarboard',   price: 0, mathUnlock: true,      html: `<div class="hat-mortar"><div class="tassel"></div><div class="board"></div><div class="cap"></div></div>` },
+            { id: 'stick-hat',   name: 'Stick Hat',     price: 0, stickmanUnlock: true,  html: `<div class="hat-stick"><div class="hat-body"></div><div class="hat-brim"></div></div>` },
         ];
 
         const AVATARS = [
@@ -1882,7 +1954,8 @@
             { id: 'spoon',    name: 'Spoon',         price: 45, html: `<div class="item-spoon"><div class="bowl"></div><div class="neck"></div><div class="handle"></div></div>` },
             { id: 'capy-fig', name: 'Capy Figure',   price: 55, html: `<div class="item-capy"><div class="ic-body"></div><div class="ic-head"></div><div class="ic-nose"></div><div class="ic-eye"></div><div class="ic-ear"></div></div>` },
             { id: 'gloves',   name: 'Gloves',        price: 40, html: `<div class="item-gloves"><div class="gl-f1"></div><div class="gl-f2"></div><div class="gl-f3"></div><div class="gl-palm"></div><div class="gl-thumb"></div><div class="gl-cuff"></div></div>` },
-            { id: 'book',     name: 'Book',          price: 0,  mathUnlock: true, html: `<div class="item-book"><div class="cover"></div><div class="spine"></div><div class="pages"></div><div class="line-1"></div><div class="line-2"></div><div class="line-3"></div></div>` },
+            { id: 'book',     name: 'Book',          price: 0,  mathUnlock: true,     html: `<div class="item-book"><div class="cover"></div><div class="spine"></div><div class="pages"></div><div class="line-1"></div><div class="line-2"></div><div class="line-3"></div></div>` },
+            { id: 'oatmeal',  name: 'Oatmeal',       price: 0,  stickmanUnlock: true, html: `<div class="item-oatmeal"><div class="steam-l"></div><div class="steam-r"></div><div class="rim"></div><div class="bowl"></div><div class="oat"></div></div>` },
         ];
 
         function loadData() {
@@ -2279,9 +2352,9 @@
             hatGrid.innerHTML = '';
             HATS.forEach(hat => {
                 const isOwned = d.ownedHats.includes(hat.id);
-                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock && !hat.eggUnlock && !hat.counterUnlock && !hat.mathUnlock;
+                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock && !hat.eggUnlock && !hat.counterUnlock && !hat.mathUnlock && !hat.stickmanUnlock;
                 const owned = isOwned || freeOwned;
-                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock || hat.counterUnlock || hat.ninjaUnlock || hat.mathUnlock) && !isOwned) {
+                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock || hat.counterUnlock || hat.ninjaUnlock || hat.mathUnlock || hat.stickmanUnlock) && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     let lockLabel;
@@ -2290,6 +2363,7 @@
                     else if (hat.eggUnlock) lockLabel = '🥚 Break the egg';
                     else if (hat.ninjaUnlock) lockLabel = '🥷 Secret Unlock';
                     else if (hat.mathUnlock) lockLabel = '🧮 Solve Math';
+                    else if (hat.stickmanUnlock) lockLabel = '🛏️ Wake the stickman';
                     else { const cur = parseInt(localStorage.getItem('wg_counter')||'0'); lockLabel = `🔢 ${cur}/${hat.counterUnlock}`; }
                     card.innerHTML = `
                         <div class="pet-preview">${hat.html}</div>
@@ -2389,6 +2463,11 @@
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `${previewHtml}<div class="pet-name">${it.name}</div><div class="pet-price" style="color:#88aaff">🧮 Solve Math</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    itemGrid.appendChild(card);
+                } else if (it.stickmanUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `${previewHtml}<div class="pet-name">${it.name}</div><div class="pet-price" style="color:#c8aaff">🛏️ Wake the stickman</div><button class="btn-cantafford">🔒 Locked</button>`;
                     itemGrid.appendChild(card);
                 } else {
                     itemGrid.appendChild(buildCard(it, owned, equipped, canAfford, 'buyItem', 'equipItem', previewHtml));
@@ -3032,6 +3111,88 @@
         }
         document.getElementById('choicePopup').addEventListener('click', function(e) {
             if (e.target === this) document.getElementById('choicePopup').classList.remove('open');
+        });
+
+        // ─── BED STICKMAN ──────────────────────────────────────────────
+        const BED_SVG = [
+            // stage 0: sleeping flat
+            `<svg width="110" height="28" viewBox="0 0 110 28" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="10" cy="10" r="8" fill="none" stroke="#222" stroke-width="2.5"/>
+              <line x1="6" y1="9"  x2="10" y2="9"  stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="10" y1="9" x2="14" y2="9"  stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="18" y1="14" x2="90" y2="14" stroke="#222" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="40" y1="14" x2="40" y2="24" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+              <line x1="55" y1="14" x2="55" y2="24" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+            </svg>`,
+            // stage 1: awake sitting up, arms raised
+            `<svg width="60" height="64" viewBox="0 0 60 64" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="10" r="9" fill="none" stroke="#222" stroke-width="2.5"/>
+              <circle cx="26" cy="9"  r="1.8" fill="#222"/>
+              <circle cx="34" cy="9"  r="1.8" fill="#222"/>
+              <path d="M25 13 Q30 16 35 13" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="30" y1="19" x2="30" y2="42" stroke="#222" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="30" y1="27" x2="12" y2="18" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+              <line x1="30" y1="27" x2="48" y2="18" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+              <line x1="30" y1="42" x2="16" y2="58" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+              <line x1="30" y1="42" x2="44" y2="58" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+              <text x="42" y="10" font-size="13" font-weight="bold" fill="#ff4444" font-family="Arial">!</text>
+            </svg>`,
+            // stage 2: holding bowl of oatmeal
+            `<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="10" r="9" fill="none" stroke="#222" stroke-width="2.5"/>
+              <circle cx="28" cy="9"  r="1.8" fill="#222"/>
+              <circle cx="36" cy="9"  r="1.8" fill="#222"/>
+              <path d="M27 13 Q32 16 37 13" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="32" y1="19" x2="32" y2="42" stroke="#222" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="32" y1="28" x2="14" y2="38" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+              <line x1="32" y1="28" x2="50" y2="38" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+              <ellipse cx="32" cy="40" rx="16" ry="5" fill="#d4c4a0" stroke="#9a8050" stroke-width="1.5"/>
+              <path d="M16 40 Q32 52 48 40" fill="#c8b060" stroke="#9a8050" stroke-width="1.5"/>
+              <line x1="27" y1="37" x2="27" y2="33" stroke="rgba(180,180,180,0.7)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="32" y1="36" x2="32" y2="31" stroke="rgba(180,180,180,0.7)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="37" y1="37" x2="37" y2="33" stroke="rgba(180,180,180,0.7)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="32" y1="42" x2="18" y2="58" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+              <line x1="32" y1="42" x2="46" y2="58" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+            </svg>`
+        ];
+
+        let bedStage = 0;
+        const bedDisplay  = document.getElementById('bedDisplay');
+        const bedStickSlot = document.getElementById('bedStickSlot');
+
+        function spawnBed() {
+            bedStage = 0;
+            bedDisplay.className = 'visible';
+            bedStickSlot.innerHTML = BED_SVG[0];
+        }
+
+        bedDisplay.addEventListener('click', function() {
+            if (!this.classList.contains('visible')) return;
+            bedStage++;
+            if (bedStage === 1) {
+                this.classList.add('stage-1');
+                bedStickSlot.innerHTML = BED_SVG[1];
+            } else if (bedStage === 2) {
+                this.classList.add('stage-2');
+                bedStickSlot.innerHTML = BED_SVG[2];
+            } else if (bedStage === 3) {
+                // unlock!
+                const d = loadData();
+                let changed = false;
+                if (!d.ownedHats.includes('stick-hat')) { d.ownedHats.push('stick-hat'); changed = true; }
+                if (!d.ownedItems.includes('oatmeal'))  { d.ownedItems.push('oatmeal');  changed = true; }
+                if (changed) {
+                    saveData(d); gameData = d;
+                    playSound('buy');
+                    renderIngameHat(); renderIngameItem();
+                    if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+                }
+                this.classList.add('unlocked');
+                setTimeout(() => {
+                    this.classList.remove('visible','stage-1','stage-2','unlocked');
+                    bedStage = 0;
+                }, 2500);
+            }
         });
 
         // ─── MATH CHALLENGE ────────────────────────────────────────────
