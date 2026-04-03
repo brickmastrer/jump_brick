@@ -538,6 +538,91 @@
         @keyframes smokeUp { 0%{transform:translateY(0) scale(1);opacity:0.7} 100%{transform:translateY(-20px) scale(2);opacity:0} }
         .tank-smoke { position:fixed; width:10px; height:10px; background:rgba(200,200,200,0.6); border-radius:50%; z-index:600; pointer-events:none; animation:smokeUp 0.5s ease-out forwards; }
 
+        /* ── DINO BUTTON ─────────────────────────────────────────────── */
+        #dinoBtn {
+            position:fixed; left:16px; top:calc(50% - 320px);
+            width:48px; height:48px; border-radius:50%;
+            background:#1f6a1f; border:3px solid #5aaa3a;
+            cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #dinoBtn:hover { transform:scale(1.15); }
+        #dinoDisplay {
+            position:fixed; left:74px; top:calc(50% - 360px);
+            display:none; z-index:500; cursor:pointer; user-select:none;
+        }
+        #dinoDisplay.visible { display:block; }
+        .dino-wrap { position:relative; width:74px; height:84px; }
+        .dino-tail  { position:absolute; bottom:22px; right:2px; width:26px; height:20px; background:#2a8a2a; border-radius:0 50% 40% 20%; transform:rotate(-15deg); transform-origin:left center; }
+        .dino-body  { position:absolute; bottom:18px; left:8px; width:52px; height:38px; background:#2a8a2a; border-radius:40% 35% 30% 35%; }
+        .dino-head  { position:absolute; top:2px; left:24px; width:36px; height:28px; background:#2a8a2a; border-radius:30% 40% 20% 30%; }
+        .dino-jaw   { position:absolute; top:22px; left:28px; width:30px; height:14px; background:#1a6a1a; border-radius:20% 30% 40% 20%; }
+        .dino-eye   { position:absolute; top:8px; left:44px; width:7px; height:7px; background:#fff; border-radius:50%; }
+        .dino-pupil { position:absolute; top:10px; left:46px; width:3px; height:3px; background:#111; border-radius:50%; }
+        .dino-tooth-1 { position:absolute; top:22px; left:44px; width:4px; height:6px; background:#fff; border-radius:0 0 2px 2px; }
+        .dino-tooth-2 { position:absolute; top:22px; left:51px; width:4px; height:5px; background:#fff; border-radius:0 0 2px 2px; }
+        .dino-arm   { position:absolute; top:30px; left:26px; width:13px; height:9px; background:#248a24; border-radius:3px 6px 6px 3px; transform:rotate(-25deg); }
+        .dino-arm::after { content:''; position:absolute; right:-4px; top:1px; width:5px; height:4px; background:#1f7a1f; border-radius:0 3px 3px 0; }
+        .dino-leg-l { position:absolute; bottom:0; left:16px; width:14px; height:22px; background:#1f7a1f; border-radius:2px 2px 0 0; }
+        .dino-leg-r { position:absolute; bottom:0; left:32px; width:14px; height:17px; background:#1f7a1f; border-radius:2px 2px 0 0; }
+        .dino-foot-l { position:absolute; bottom:0; left:10px; width:22px; height:6px; background:#186018; border-radius:1px 3px 3px 1px; }
+        .dino-foot-r { position:absolute; bottom:0; left:26px; width:22px; height:6px; background:#186018; border-radius:1px 3px 3px 1px; }
+        @keyframes dinoRoar { 0%,100%{transform:scale(1) rotate(0deg)} 15%{transform:scale(1.13) rotate(-4deg)} 35%{transform:scale(1.09) rotate(4deg)} 55%{transform:scale(1.11) rotate(-3deg)} 75%{transform:scale(1.06) rotate(2deg)} }
+        .dino-wrap.roaring { animation:dinoRoar 0.55s ease; }
+
+        /* ── STICKMAN UNLOCK BUTTON ───────────────────────────────────── */
+        #stickUnlockBtn {
+            position:fixed; left:16px; top:calc(50% - 256px);
+            width:48px; height:48px; border-radius:50%;
+            background:#f0f0f0; border:3px solid #222;
+            cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.4); z-index:500;
+            transition:transform 0.15s;
+        }
+        #stickUnlockBtn:hover { transform:scale(1.15); }
+
+        /* ── STICKMAN AVATAR ─────────────────────────────────────────── */
+        #player.avatar-stickman {
+            background-color:#f0f0f0;
+            background-image: linear-gradient(#222,#222), linear-gradient(#222,#222);
+            background-size: 2px 38px, 26px 2px;
+            background-position: center 1px, center 14px;
+            background-repeat: no-repeat;
+            box-shadow: inset 0 0 0 2px #222, 2px 2px 0 #ccc;
+        }
+        #player.avatar-stickman::before { content:''; position:absolute; top:5px; left:7px; width:6px; height:6px; background:#222; border-radius:50%; z-index:1; }
+        #player.avatar-stickman::after  { content:''; position:absolute; top:5px; right:7px; width:6px; height:6px; background:#222; border-radius:50%; z-index:1; }
+        #player.avatar-stickman #player-legs .leg { background:#222; }
+        .av-stickman {
+            background-color:#f0f0f0;
+            background-image: linear-gradient(#222,#222), linear-gradient(#222,#222);
+            background-size: 2px 36px, 24px 2px;
+            background-position: center 2px, center 12px;
+            background-repeat: no-repeat;
+            box-shadow: inset 0 0 0 2px #222, 2px 2px 0 #ccc;
+            position:relative;
+        }
+        .av-stickman::before { content:''; position:absolute; top:6px; left:6px; width:5px; height:5px; background:#222; border-radius:50%; }
+        .av-stickman::after  { content:''; position:absolute; top:6px; right:6px; width:5px; height:5px; background:#222; border-radius:50%; }
+
+        /* ── STICKMAN PANTS ──────────────────────────────────────────── */
+        .pants-stickman {
+            background-color:#f0f0f0;
+            background-image: linear-gradient(#222,#222), linear-gradient(#222,#222), linear-gradient(#222,#222);
+            background-size: 100% 2px, 2px 100%, 1px 100%;
+            background-position: top, 35% 0, 65% 0;
+            background-repeat: no-repeat;
+            box-shadow: inset -1px 0 0 #222, inset 1px 0 0 #222;
+        }
+
+        /* ── STICKMAN BACKGROUND ─────────────────────────────────────── */
+        #gameContainer.bg-stickman {
+            background: repeating-linear-gradient(to bottom, transparent, transparent 29px, #b8c8d8 29px, #b8c8d8 30px) #f5f5f0;
+        }
+
         /* BED BUTTON */
         #bedBtn {
             position:fixed; left:16px; top:calc(50% - 192px);
@@ -1557,6 +1642,29 @@
             <div class="bear-body"></div>
         </div>
     </div>
+    <!-- DINO BUTTON -->
+    <button id="dinoBtn" onclick="spawnDino()" title="Spawn dinosaur">🦕</button>
+    <div id="dinoDisplay">
+        <div class="dino-wrap" id="dinoWrap">
+            <div class="dino-tail"></div>
+            <div class="dino-body"></div>
+            <div class="dino-head"></div>
+            <div class="dino-jaw"></div>
+            <div class="dino-eye"></div>
+            <div class="dino-pupil"></div>
+            <div class="dino-tooth-1"></div>
+            <div class="dino-tooth-2"></div>
+            <div class="dino-arm"></div>
+            <div class="dino-leg-l"></div>
+            <div class="dino-leg-r"></div>
+            <div class="dino-foot-l"></div>
+            <div class="dino-foot-r"></div>
+        </div>
+    </div>
+
+    <!-- STICKMAN UNLOCK BUTTON -->
+    <button id="stickUnlockBtn" onclick="unlockStickman()" title="Unlock stickman gear">🪄</button>
+
     <!-- BED STICKMAN BUTTON -->
     <button id="bedBtn" onclick="spawnBed()" title="Stickman in bed">🛏️</button>
     <div id="bedDisplay">
@@ -1907,7 +2015,8 @@
             { id: 'football',  name: 'Football',  price: 120, cls: 'avatar-football', preview: `<div class="av-preview av-football"></div>` },
             { id: 'capy',      name: 'Capybara',  price: 0,   choiceUnlock: true, cls: 'avatar-capy',     preview: `<div class="av-preview av-capy"></div>` },
             { id: 'dolphin-av',name: 'Dolphin',   price: 0,   choiceUnlock: true, cls: 'avatar-dolphin',  preview: `<div class="av-preview av-dolphin"></div>` },
-            { id: 'nerd',      name: 'Nerd',      price: 0,   mathUnlock: true,   cls: 'avatar-nerd',     preview: `<div class="av-preview av-nerd"></div>` },
+            { id: 'nerd',      name: 'Nerd',      price: 0,   mathUnlock: true,      cls: 'avatar-nerd',     preview: `<div class="av-preview av-nerd"></div>` },
+            { id: 'stickman',  name: 'Stickman',  price: 0,   stickBtnUnlock: true,  cls: 'avatar-stickman', preview: `<div class="av-preview av-stickman"></div>` },
         ];
 
         const PANTS = [
@@ -1925,7 +2034,8 @@
             { id: 'ninja',    name: 'Ninja',      price: 0,  ninjaUnlock: true,   cls: 'pants-ninja',   preview: `<div class="pants-full-prev"><div class="pant pants-ninja"></div></div>` },
             { id: 'capy',     name: 'Capy',       price: 65, cls: 'pants-capy',    preview: `<div class="pants-full-prev"><div class="pant pants-capy"></div></div>` },
             { id: 'football', name: 'Football',   price: 70, cls: 'pants-football',preview: `<div class="pants-full-prev"><div class="pant pants-football"></div></div>` },
-            { id: 'nerd',     name: 'Nerd',       price: 0,  mathUnlock: true,   cls: 'pants-nerd',     preview: `<div class="pants-full-prev"><div class="pant pants-nerd"></div></div>` },
+            { id: 'nerd',     name: 'Nerd',       price: 0,  mathUnlock: true,     cls: 'pants-nerd',     preview: `<div class="pants-full-prev"><div class="pant pants-nerd"></div></div>` },
+            { id: 'stickman', name: 'Stickman',   price: 0,  stickBtnUnlock: true, cls: 'pants-stickman', preview: `<div class="pants-full-prev"><div class="pant pants-stickman"></div></div>` },
         ];
 
         const BACKGROUNDS = [
@@ -1938,7 +2048,8 @@
             { id: 'easter',    name: 'Easter',    price: 80,  gradient: 'linear-gradient(to bottom, #d4b8f0 0%, #f0c8f8 30%, #f8f0e0 65%, #c8e8a0 100%)',       cls: 'bg-easter' },
             { id: 'gold',      name: 'Gold',      price: 150, gradient: 'linear-gradient(to bottom, #ffe066 0%, #ffd700 30%, #ffb700 60%, #cc8800 100%)',        cls: 'bg-gold'   },
             { id: 'rainbow',   name: 'Rainbow',   price: 0,   secretUnlock: true,  gradient: 'linear-gradient(135deg,#ff9999,#ffcc88,#ffff88,#88ff88,#88ccff,#cc88ff)', cls: 'bg-rainbow' },
-            { id: 'ninja',     name: 'Ninja Night', price: 0, ninjaUnlock: true,   gradient: 'linear-gradient(to bottom,#080810,#0d0d22,#0a1020,#111828)',               cls: 'bg-ninja'   },
+            { id: 'ninja',     name: 'Ninja Night', price: 0, ninjaUnlock: true,     gradient: 'linear-gradient(to bottom,#080810,#0d0d22,#0a1020,#111828)',               cls: 'bg-ninja'    },
+            { id: 'stickman',  name: 'Notebook',    price: 0, stickBtnUnlock: true,  gradient: 'repeating-linear-gradient(to bottom,transparent,transparent 29px,#b8c8d8 29px,#b8c8d8 30px) #f5f5f0', cls: 'bg-stickman' },
         ];
 
         const ITEMS = [
@@ -2037,7 +2148,7 @@
         }
 
         // ─── AVATAR DISPLAY ────────────────────────────────────────────
-        const AVATAR_CLASSES = ['avatar-stone','avatar-dirt','avatar-concrete','avatar-blue','avatar-green','avatar-pink','avatar-eyes','avatar-easter','avatar-gold','avatar-chocolate','avatar-ninja','avatar-sprinkle','avatar-capy','avatar-dolphin','avatar-football','avatar-nerd'];
+        const AVATAR_CLASSES = ['avatar-stone','avatar-dirt','avatar-concrete','avatar-blue','avatar-green','avatar-pink','avatar-eyes','avatar-easter','avatar-gold','avatar-chocolate','avatar-ninja','avatar-sprinkle','avatar-capy','avatar-dolphin','avatar-football','avatar-nerd','avatar-stickman'];
         function renderIngameAvatar() {
             AVATAR_CLASSES.forEach(cls => player.classList.remove(cls));
             const av = AVATARS.find(a => a.id === gameData.equippedAvatar);
@@ -2052,7 +2163,7 @@
         }
 
         // ─── BACKGROUND DISPLAY ────────────────────────────────────────
-        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold','bg-rainbow','bg-ninja'];
+        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold','bg-rainbow','bg-ninja','bg-stickman'];
         function applyBackground() {
             BG_CLASSES.forEach(cls => gameContainer.classList.remove(cls));
             const bg = BACKGROUNDS.find(b => b.id === gameData.equippedBg);
@@ -2060,7 +2171,7 @@
         }
 
         // ─── PANTS DISPLAY ─────────────────────────────────────────────
-        const PANTS_CLASSES = ['pants-brick','pants-concrete','pants-blue','pants-red','pants-green','pants-pink','pants-silver','pants-easter','pants-gold','pants-rainbow','pants-ninja','pants-capy','pants-football','pants-nerd'];
+        const PANTS_CLASSES = ['pants-brick','pants-concrete','pants-blue','pants-red','pants-green','pants-pink','pants-silver','pants-easter','pants-gold','pants-rainbow','pants-ninja','pants-capy','pants-football','pants-nerd','pants-stickman'];
         const pantsEl = document.getElementById('player-pants');
         function renderIngamePants() {
             PANTS_CLASSES.forEach(cls => pantsEl.classList.remove(cls));
@@ -2399,6 +2510,11 @@
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#88aaff">🧮 Solve Math</div><button class="btn-cantafford">🔒 Locked</button>`;
                     avatarGrid.appendChild(card);
+                } else if (av.stickBtnUnlock && !d.ownedAvatars.includes(av.id)) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#888">🪄 Secret Button</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    avatarGrid.appendChild(card);
                 } else if (av.winUnlock && !d.ownedAvatars.includes(av.id)) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
@@ -2419,6 +2535,11 @@
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${p.preview}</div><div class="pet-name">${p.name}</div><div class="pet-price" style="color:#88aaff">🧮 Solve Math</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    pantsGrid.appendChild(card);
+                } else if (p.stickBtnUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${p.preview}</div><div class="pet-name">${p.name}</div><div class="pet-price" style="color:#888">🪄 Secret Button</div><button class="btn-cantafford">🔒 Locked</button>`;
                     pantsGrid.appendChild(card);
                 } else if (p.ninjaUnlock && !isOwned) {
                     const card = document.createElement('div');
@@ -2479,12 +2600,17 @@
             bgGrid.innerHTML = '';
             BACKGROUNDS.forEach(bg => {
                 const isOwned = d.ownedBgs.includes(bg.id);
-                const freeOwned = bg.price === 0 && !bg.winUnlock && !bg.secretUnlock && !bg.ninjaUnlock;
+                const freeOwned = bg.price === 0 && !bg.winUnlock && !bg.secretUnlock && !bg.ninjaUnlock && !bg.stickBtnUnlock;
                 const owned = isOwned || freeOwned;
                 const equipped = d.equippedBg === bg.id;
                 const canAfford = d.coins >= bg.price;
                 const previewHtml = `<div class="bg-card-preview" style="background:${bg.gradient}"></div>`;
-                if ((bg.winUnlock || bg.secretUnlock || bg.ninjaUnlock) && !isOwned) {
+                if (bg.stickBtnUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `${previewHtml}<div class="pet-name">${bg.name}</div><div class="pet-price" style="color:#888">🪄 Secret Button</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    bgGrid.appendChild(card);
+                } else if ((bg.winUnlock || bg.secretUnlock || bg.ninjaUnlock) && !isOwned) {
                     const lockLabel = bg.ninjaUnlock ? '🥷 Secret Unlock' : (bg.winUnlock ? '🏆 Win to Unlock' : '🌈 Secret Unlock');
                     const card = document.createElement('div');
                     card.className = 'pet-card';
@@ -3112,6 +3238,69 @@
         document.getElementById('choicePopup').addEventListener('click', function(e) {
             if (e.target === this) document.getElementById('choicePopup').classList.remove('open');
         });
+
+        // ─── DINO ───────────────────────────────────────────────────────
+        const dinoDisplay = document.getElementById('dinoDisplay');
+        const dinoWrap    = document.getElementById('dinoWrap');
+
+        function spawnDino() {
+            dinoDisplay.classList.toggle('visible');
+        }
+
+        function playRoar() {
+            audioCtx.resume();
+            const t = audioCtx.currentTime;
+            // deep growl layer
+            const osc1 = audioCtx.createOscillator(), g1 = audioCtx.createGain();
+            osc1.connect(g1); g1.connect(audioCtx.destination);
+            osc1.type = 'sawtooth';
+            osc1.frequency.setValueAtTime(100, t);
+            osc1.frequency.linearRampToValueAtTime(38, t + 0.7);
+            g1.gain.setValueAtTime(0.55, t);
+            g1.gain.linearRampToValueAtTime(0, t + 0.8);
+            osc1.start(t); osc1.stop(t + 0.8);
+            // screech layer
+            const osc2 = audioCtx.createOscillator(), g2 = audioCtx.createGain();
+            osc2.connect(g2); g2.connect(audioCtx.destination);
+            osc2.type = 'sawtooth';
+            osc2.frequency.setValueAtTime(220, t + 0.05);
+            osc2.frequency.linearRampToValueAtTime(80, t + 0.55);
+            g2.gain.setValueAtTime(0.28, t + 0.05);
+            g2.gain.linearRampToValueAtTime(0, t + 0.65);
+            osc2.start(t + 0.05); osc2.stop(t + 0.65);
+            // rumble noise
+            const buf = audioCtx.createBuffer(1, audioCtx.sampleRate * 0.6, audioCtx.sampleRate);
+            const data = buf.getChannelData(0);
+            for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.18;
+            const noise = audioCtx.createBufferSource(), gn = audioCtx.createGain();
+            noise.buffer = buf; noise.connect(gn); gn.connect(audioCtx.destination);
+            gn.gain.setValueAtTime(0.18, t); gn.gain.linearRampToValueAtTime(0, t + 0.6);
+            noise.start(t); noise.stop(t + 0.6);
+        }
+
+        dinoDisplay.addEventListener('click', function() {
+            if (!this.classList.contains('visible')) return;
+            playRoar();
+            dinoWrap.classList.remove('roaring');
+            void dinoWrap.offsetWidth;
+            dinoWrap.classList.add('roaring');
+            setTimeout(() => dinoWrap.classList.remove('roaring'), 600);
+        });
+
+        // ─── STICKMAN UNLOCK ────────────────────────────────────────────
+        function unlockStickman() {
+            const d = loadData();
+            let changed = false;
+            if (!d.ownedAvatars.includes('stickman')) { d.ownedAvatars.push('stickman'); changed = true; }
+            if (!d.ownedPants.includes('stickman'))   { d.ownedPants.push('stickman');   changed = true; }
+            if (!d.ownedBgs.includes('stickman'))     { d.ownedBgs.push('stickman');     changed = true; }
+            if (changed) {
+                saveData(d); gameData = d;
+                playSound('buy');
+                renderIngameAvatar(); renderIngamePants(); applyBackground();
+                if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+            }
+        }
 
         // ─── BED STICKMAN ──────────────────────────────────────────────
         const BED_SVG = [
