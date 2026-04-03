@@ -47,6 +47,10 @@
         #player.avatar-eyes     { background-color:#c8c8c8; background-image:none; box-shadow:inset 0 3px 0 rgba(255,255,255,0.2),inset 0 -3px 0 rgba(0,0,0,0.15),2px 2px 0 #888; }
         #player.avatar-easter   { background-color:#d4a8e0; background-image:radial-gradient(circle 3px at 25% 30%,rgba(255,182,193,0.8) 100%,transparent 0),radial-gradient(circle 3px at 70% 65%,rgba(255,224,102,0.8) 100%,transparent 0),radial-gradient(circle 2px at 55% 20%,rgba(184,212,255,0.9) 100%,transparent 0); box-shadow:inset 0 3px 0 rgba(255,255,255,0.3),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #a878c0; }
         #player.avatar-easter   #player-legs .leg { background:#a878c0; }
+        #player.avatar-capy    { background-color:#8B6914; background-image:radial-gradient(circle 3px at 18% 22%,rgba(0,0,0,0.18) 100%,transparent 0),radial-gradient(circle 2px at 70% 65%,rgba(255,255,255,0.1) 100%,transparent 0); box-shadow:inset 0 3px 0 rgba(255,255,255,0.12),inset 0 -3px 0 rgba(0,0,0,0.28),2px 2px 0 #5a3e08; }
+        #player.avatar-capy    #player-legs .leg { background:#5a3e08; }
+        #player.avatar-dolphin { background-color:#5588bb; background-image:linear-gradient(rgba(255,255,255,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.06) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.25),inset 0 -3px 0 rgba(0,0,0,0.2),2px 2px 0 #3366aa; }
+        #player.avatar-dolphin #player-legs .leg { background:#3366aa; }
         #player.avatar-sprinkle { background-color:#ffeef8; background-image:radial-gradient(circle 2px at 12% 18%,#ff4444 100%,transparent 0),radial-gradient(circle 2px at 72% 14%,#4488ff 100%,transparent 0),radial-gradient(circle 2px at 38% 62%,#44cc44 100%,transparent 0),radial-gradient(circle 2px at 82% 48%,#ffdd00 100%,transparent 0),radial-gradient(circle 2px at 22% 80%,#ff44cc 100%,transparent 0),radial-gradient(circle 2px at 58% 38%,#ff8800 100%,transparent 0),radial-gradient(circle 2px at 8% 50%,#00ccff 100%,transparent 0),radial-gradient(circle 2px at 78% 78%,#aa44ff 100%,transparent 0),radial-gradient(circle 2px at 48% 88%,#ff4488 100%,transparent 0),radial-gradient(circle 2px at 90% 22%,#44ffaa 100%,transparent 0); box-shadow:inset 0 3px 0 rgba(255,255,255,0.5),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #e0a8cc; }
         #player.avatar-sprinkle #player-legs .leg { background:#e090b8; }
         #player.avatar-ninja { background-color:#1a1a1a; background-image:none; box-shadow:inset 0 3px 0 rgba(255,255,255,0.05),inset 0 -3px 0 rgba(0,0,0,0.6),2px 2px 0 #000; }
@@ -151,6 +155,23 @@
         .hat-easter .inner-r { position:absolute; bottom:7px; right:7px; width:3px; height:11px; background:#ffb6c1; border-radius:50% 50% 0 0; }
 
         /* CROWN */
+        /* DUCK PET */
+        .pet-duck { position:relative; width:20px; height:20px; }
+        .pet-duck .body  { width:18px; height:12px; background:#FFD700; border-radius:40% 40% 30% 50%; position:absolute; bottom:4px; left:1px; }
+        .pet-duck .wing  { width:10px; height:7px; background:#e8c200; border-radius:30% 60% 50% 30%; position:absolute; bottom:7px; left:3px; }
+        .pet-duck .head  { width:12px; height:11px; background:#FFD700; border-radius:50%; position:absolute; top:0; right:0; }
+        .pet-duck .beak  { width:7px; height:4px; background:#FF8C00; border-radius:0 3px 3px 0; position:absolute; top:5px; right:-6px; }
+        .pet-duck .eye   { width:3px; height:3px; background:#111; border-radius:50%; position:absolute; top:2px; right:3px; }
+        .pet-duck .foot-l { position:absolute; bottom:0; left:3px;  width:6px; height:3px; background:#FF8C00; border-radius:0 0 2px 2px; }
+        .pet-duck .foot-r { position:absolute; bottom:0; right:3px; width:6px; height:3px; background:#FF8C00; border-radius:0 0 2px 2px; }
+
+        /* TANK PET */
+        .pet-tank { position:relative; width:24px; height:16px; }
+        .pet-tank .tread  { width:24px; height:7px; background:#2a3a10; border-radius:3px; position:absolute; bottom:0; }
+        .pet-tank .body   { width:18px; height:8px; background:#4a6a1a; border-radius:2px; position:absolute; bottom:5px; left:3px; }
+        .pet-tank .turret { width:10px; height:6px; background:#3a5a10; border-radius:2px; position:absolute; bottom:11px; left:7px; }
+        .pet-tank .barrel { width:9px; height:3px; background:#2a4a08; border-radius:1px; position:absolute; bottom:13px; left:0; }
+
         /* CAPYBARA WINTER HAT */
         .hat-capywinter { position:relative; width:34px; }
         .hat-capywinter .pom   { width:9px; height:9px; background:#8B6914; border-radius:50%; margin:0 auto -2px; }
@@ -373,6 +394,8 @@
         .av-eye-l, .av-eye-r { position:absolute; top:10px; width:10px; height:10px; background:#333; border-radius:1px; }
         .av-eye-l { left:4px; } .av-eye-r { right:4px; }
         .av-easter   { background-color:#d4a8e0; background-image:radial-gradient(circle 3px at 25% 30%,rgba(255,182,193,0.8) 100%,transparent 0),radial-gradient(circle 3px at 70% 65%,rgba(255,224,102,0.8) 100%,transparent 0),radial-gradient(circle 2px at 55% 20%,rgba(184,212,255,0.9) 100%,transparent 0); box-shadow:inset 0 3px 0 rgba(255,255,255,0.3),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #a878c0; }
+        .av-capy      { background-color:#8B6914; background-image:radial-gradient(circle 3px at 18% 22%,rgba(0,0,0,0.18) 100%,transparent 0); box-shadow:inset 0 3px 0 rgba(255,255,255,0.12),inset 0 -3px 0 rgba(0,0,0,0.28),2px 2px 0 #5a3e08; }
+        .av-dolphin   { background-color:#5588bb; background-image:linear-gradient(rgba(255,255,255,0.1) 1px,transparent 1px); background-size:100% 50%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.25),inset 0 -3px 0 rgba(0,0,0,0.2),2px 2px 0 #3366aa; }
         .av-sprinkle  { background-color:#ffeef8; background-image:radial-gradient(circle 2px at 12% 18%,#ff4444 100%,transparent 0),radial-gradient(circle 2px at 72% 14%,#4488ff 100%,transparent 0),radial-gradient(circle 2px at 38% 62%,#44cc44 100%,transparent 0),radial-gradient(circle 2px at 82% 48%,#ffdd00 100%,transparent 0),radial-gradient(circle 2px at 22% 80%,#ff44cc 100%,transparent 0),radial-gradient(circle 2px at 58% 38%,#ff8800 100%,transparent 0),radial-gradient(circle 2px at 78% 78%,#aa44ff 100%,transparent 0); box-shadow:inset 0 3px 0 rgba(255,255,255,0.5),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #e0a8cc; }
         .av-ninja     { background-color:#1a1a1a; background-image:none; box-shadow:inset 0 3px 0 rgba(255,255,255,0.05),inset 0 -3px 0 rgba(0,0,0,0.6),2px 2px 0 #000; }
         .av-chocolate { background-color:#3d1a00; background-image:linear-gradient(rgba(255,255,255,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.07) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.1),inset 0 -3px 0 rgba(0,0,0,0.4),2px 2px 0 #1a0800; }
@@ -504,6 +527,40 @@
         }
         @keyframes smokeUp { 0%{transform:translateY(0) scale(1);opacity:0.7} 100%{transform:translateY(-20px) scale(2);opacity:0} }
         .tank-smoke { position:fixed; width:10px; height:10px; background:rgba(200,200,200,0.6); border-radius:50%; z-index:600; pointer-events:none; animation:smokeUp 0.5s ease-out forwards; }
+
+        /* CHOICE BUTTON */
+        #choiceBtn {
+            position:fixed; left:16px; top:calc(50% - 128px);
+            width:48px; height:48px; border-radius:50%;
+            background:linear-gradient(135deg,#ff6b6b,#ffd93d);
+            border:3px solid #fff; cursor:pointer; font-size:20px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 12px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #choiceBtn:hover { transform:scale(1.15); }
+        #choicePopup {
+            display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+            background:rgba(0,0,0,0.8); z-index:3000;
+            align-items:center; justify-content:center;
+        }
+        #choicePopup.open { display:flex; }
+        #choicePopupContent {
+            background:#1a1a2e; border:3px solid #ffd93d; border-radius:14px;
+            padding:28px 32px; text-align:center; color:white; max-width:360px;
+        }
+        #choicePopupContent h3 { margin:0 0 6px; font-size:22px; color:#ffd93d; }
+        #choicePopupContent p  { color:#aaa; font-size:13px; margin:0 0 20px; }
+        .choice-options { display:flex; gap:16px; justify-content:center; }
+        .choice-opt {
+            flex:1; background:#16213e; border:2px solid #444; border-radius:10px;
+            padding:14px 10px; cursor:pointer; transition:border-color 0.15s;
+        }
+        .choice-opt:hover { border-color:#ffd93d; }
+        .choice-opt .choice-preview { width:36px; height:40px; border-radius:2px; margin:0 auto 8px; }
+        .choice-opt .choice-name { font-size:14px; font-weight:bold; color:#fff; margin-bottom:6px; }
+        .choice-opt button { padding:7px 14px; border:none; border-radius:6px; background:#ffd93d; color:#333; font-weight:bold; cursor:pointer; font-size:13px; }
+        .choice-opt button:hover { background:#ffe866; }
 
         /* CAPY BUTTON */
         #capyBtn {
@@ -649,6 +706,11 @@
 
         .item-cookie { position:relative; width:18px; height:18px; background:#c8843a; border-radius:50%; border:1px solid #a06028; box-shadow:inset -2px -2px 3px rgba(0,0,0,0.2); }
         .item-cookie::before { content:''; position:absolute; width:3px; height:3px; background:#4a2008; border-radius:50%; top:3px; left:4px; box-shadow:6px 1px 0 #4a2008,1px 7px 0 #4a2008,7px 8px 0 #4a2008; }
+
+        .item-spoon { position:relative; width:9px; height:30px; }
+        .item-spoon .bowl   { width:9px; height:9px; background:linear-gradient(135deg,#ddd,#fff,#aaa); border-radius:50%; position:absolute; top:0; }
+        .item-spoon .neck   { width:3px; height:7px; background:#bbb; position:absolute; top:8px; left:3px; }
+        .item-spoon .handle { width:5px; height:15px; background:linear-gradient(to right,#bbb,#eee,#999); border-radius:0 0 3px 3px; position:absolute; top:14px; left:2px; }
 
         .item-choc-egg { position:relative; width:14px; height:18px; background:#5c3317; border-radius:50% 50% 50% 50%/60% 60% 40% 40%; overflow:hidden; border:1px solid #3a1f0a; box-shadow:0 0 5px rgba(92,51,23,0.6); }
         .item-choc-egg::before { content:''; position:absolute; width:100%; height:4px; background:#8b5a2b; top:4px; left:0; }
@@ -1315,6 +1377,29 @@
         </div>
     </div>
 
+    <!-- CHOICE BUTTON -->
+    <button id="choiceBtn" onclick="openChoicePopup()" title="Special choice!">🎁</button>
+
+    <!-- CHOICE POPUP -->
+    <div id="choicePopup">
+        <div id="choicePopupContent">
+            <h3>🎁 Special Choice!</h3>
+            <p>Pick one skin — this offer disappears forever after!</p>
+            <div class="choice-options">
+                <div class="choice-opt">
+                    <div class="choice-preview av-capy" style="border-radius:3px;margin:0 auto 8px;"></div>
+                    <div class="choice-name">Capybara</div>
+                    <button onclick="unlockChoice('capy')">Choose</button>
+                </div>
+                <div class="choice-opt">
+                    <div class="choice-preview av-dolphin" style="border-radius:3px;margin:0 auto 8px;"></div>
+                    <div class="choice-name">Dolphin</div>
+                    <button onclick="unlockChoice('dolphin-av')">Choose</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- SECRET POPUP -->
     <div id="secretPopup">
         <div id="secretPopupContent">
@@ -1442,6 +1527,8 @@
             { id: 'stickman',   name: 'Stickman',     price: 110, html: `<div class="pet-stick"><div class="head"></div><div class="body"></div><div class="arms"></div><div class="leg-l"></div><div class="leg-r"></div></div>` },
             { id: 'dolphin',    name: 'Dolphin',      price: 140, html: `<div class="pet-dolphin"><div class="tail-t"></div><div class="tail-b"></div><div class="body"></div><div class="belly"></div><div class="fin"></div><div class="head"></div><div class="snout"></div><div class="eye"></div></div>` },
             { id: 'spider',     name: 'Spider',       price: 0, ninjaUnlock: true, html: `<div class="pet-spider"><div class="leg ll1"></div><div class="leg ll2"></div><div class="leg ll3"></div><div class="leg lr1"></div><div class="leg lr2"></div><div class="leg lr3"></div><div class="body"></div><div class="eye-l"></div><div class="eye-r"></div></div>` },
+            { id: 'duck',       name: 'Duck',         price: 75,  html: `<div class="pet-duck"><div class="body"></div><div class="wing"></div><div class="head"></div><div class="beak"></div><div class="eye"></div><div class="foot-l"></div><div class="foot-r"></div></div>` },
+            { id: 'tank-pet',   name: 'Tank',         price: 160, html: `<div class="pet-tank"><div class="tread"></div><div class="body"></div><div class="turret"></div><div class="barrel"></div></div>` },
         ];
 
         const TURTLE_HTML = `<div class="turtle-shell"><div class="turtle-head"></div><div class="turtle-legs"></div></div>`;
@@ -1478,6 +1565,8 @@
             { id: 'chocolate', name: 'Chocolate', price: 110, cls: 'avatar-chocolate', preview: `<div class="av-preview av-chocolate"></div>` },
             { id: 'ninja',     name: 'Ninja',     price: 0,   ninjaUnlock: true, cls: 'avatar-ninja',    preview: `<div class="av-preview av-ninja"></div>` },
             { id: 'sprinkle',  name: 'Sprinkle',  price: 130, cls: 'avatar-sprinkle', preview: `<div class="av-preview av-sprinkle"></div>` },
+            { id: 'capy',      name: 'Capybara',  price: 0,   choiceUnlock: true, cls: 'avatar-capy',     preview: `<div class="av-preview av-capy"></div>` },
+            { id: 'dolphin-av',name: 'Dolphin',   price: 0,   choiceUnlock: true, cls: 'avatar-dolphin',  preview: `<div class="av-preview av-dolphin"></div>` },
         ];
 
         const PANTS = [
@@ -1518,6 +1607,7 @@
             { id: 'egg',     name: 'Easter Egg', price: 70,  html: `<div class="item-egg"></div>` },
             { id: 'cookie',   name: 'Cookie',       price: 30,  html: `<div class="item-cookie"></div>` },
             { id: 'choc-egg', name: 'Chocolate Egg', price: 0, eggUnlock: true, html: `<div class="item-choc-egg"></div>` },
+            { id: 'spoon',    name: 'Spoon',         price: 45, html: `<div class="item-spoon"><div class="bowl"></div><div class="neck"></div><div class="handle"></div></div>` },
         ];
 
         function loadData() {
@@ -1599,7 +1689,7 @@
         }
 
         // ─── AVATAR DISPLAY ────────────────────────────────────────────
-        const AVATAR_CLASSES = ['avatar-stone','avatar-dirt','avatar-concrete','avatar-blue','avatar-green','avatar-pink','avatar-eyes','avatar-easter','avatar-gold','avatar-chocolate','avatar-ninja','avatar-sprinkle'];
+        const AVATAR_CLASSES = ['avatar-stone','avatar-dirt','avatar-concrete','avatar-blue','avatar-green','avatar-pink','avatar-eyes','avatar-easter','avatar-gold','avatar-chocolate','avatar-ninja','avatar-sprinkle','avatar-capy','avatar-dolphin'];
         function renderIngameAvatar() {
             AVATAR_CLASSES.forEach(cls => player.classList.remove(cls));
             const av = AVATARS.find(a => a.id === gameData.equippedAvatar);
@@ -1940,8 +2030,16 @@
             // Avatars tab
             const avatarGrid = document.getElementById('avatarGrid');
             avatarGrid.innerHTML = '';
+            const choiceUsed = !!localStorage.getItem('wg_choice_used');
             AVATARS.forEach(av => {
-                if (av.ninjaUnlock && !d.ownedAvatars.includes(av.id)) {
+                if (av.choiceUnlock && !d.ownedAvatars.includes(av.id)) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    const lbl = choiceUsed ? '❌ Not Chosen' : '🎁 Special Choice';
+                    const clr = choiceUsed ? '#888' : '#ff6b6b';
+                    card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:${clr}">${lbl}</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    avatarGrid.appendChild(card);
+                } else if (av.ninjaUnlock && !d.ownedAvatars.includes(av.id)) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#888">🥷 Secret Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
@@ -2616,6 +2714,33 @@
         }
         document.getElementById('secretPopup').addEventListener('click', function(e) {
             if (e.target === this) closeSecretPopup();
+        });
+
+        // ─── CHOICE BUTTON ─────────────────────────────────────────────
+        (function initChoiceBtn() {
+            if (localStorage.getItem('wg_choice_used')) {
+                const btn = document.getElementById('choiceBtn');
+                if (btn) btn.style.display = 'none';
+            }
+        })();
+        function openChoicePopup() {
+            if (localStorage.getItem('wg_choice_used')) return;
+            document.getElementById('choicePopup').classList.add('open');
+        }
+        function unlockChoice(id) {
+            const d = loadData();
+            if (!d.ownedAvatars.includes(id)) d.ownedAvatars.push(id);
+            saveData(d);
+            gameData = d;
+            localStorage.setItem('wg_choice_used', '1');
+            const btn = document.getElementById('choiceBtn');
+            if (btn) btn.style.display = 'none';
+            document.getElementById('choicePopup').classList.remove('open');
+            playSound('buy');
+            if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+        }
+        document.getElementById('choicePopup').addEventListener('click', function(e) {
+            if (e.target === this) document.getElementById('choicePopup').classList.remove('open');
         });
 
         // ─── START ─────────────────────────────────────────────────────
