@@ -64,6 +64,15 @@
         #player.avatar-rainbow #player-legs .leg { background:#8800cc; }
         #player.avatar-silver { background-color:#c0c0c0; background-image:linear-gradient(135deg,rgba(255,255,255,0.5) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.5) 50%,rgba(255,255,255,0.5) 75%,transparent 75%); background-size:8px 8px; box-shadow:inset 0 3px 0 rgba(255,255,255,0.5),inset 0 -3px 0 rgba(0,0,0,0.15),2px 2px 0 #808080; }
         #player.avatar-silver #player-legs .leg { background:#808080; }
+        #player.avatar-white { background-color:#f8f8f8; background-image:linear-gradient(rgba(0,0,0,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.06) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.9),inset 0 -3px 0 rgba(0,0,0,0.08),2px 2px 0 #ccc; }
+        #player.avatar-white #player-legs .leg { background:#bbb; }
+        #player.avatar-flag { background-image:linear-gradient(to bottom,#cc1122 0,#cc1122 20%,#fff 20%,#fff 33%,#cc1122 33%,#cc1122 53%,#fff 53%,#fff 66%,#cc1122 66%,#cc1122 86%,#fff 86%,#fff 100%); box-shadow:inset 0 3px 0 rgba(255,255,255,0.2),inset 0 -3px 0 rgba(0,0,0,0.2),2px 2px 0 #881122; }
+        #player.avatar-flag::before { content:''; position:absolute; top:0; left:0; width:16px; height:20px; background:#002868; z-index:1; }
+        #player.avatar-flag::after  { content:'★'; position:absolute; top:4px; left:2px; width:16px; height:20px; font-size:7px; color:#fff; z-index:2; line-height:1; letter-spacing:1px; }
+        #player.avatar-flag #player-legs .leg { background:#881122; }
+        @keyframes dragonAvatarGlow { 0%,100%{box-shadow:inset 0 3px 0 rgba(255,255,255,0.15),inset 0 -3px 0 rgba(0,0,0,0.3),2px 2px 0 #1a5a1a,0 0 8px rgba(50,200,50,0.5)} 50%{box-shadow:inset 0 3px 0 rgba(255,255,255,0.15),inset 0 -3px 0 rgba(0,0,0,0.3),2px 2px 0 #1a5a1a,0 0 18px rgba(50,255,50,0.9)} }
+        #player.avatar-dragon-av { background-color:#1a6a1a; background-image:radial-gradient(circle 3px at 20% 25%,rgba(0,0,0,0.2) 100%,transparent 0),radial-gradient(circle 3px at 65% 55%,rgba(0,0,0,0.15) 100%,transparent 0),radial-gradient(circle 4px at 80% 18%,rgba(80,255,80,0.25) 100%,transparent 0); animation:dragonAvatarGlow 2s ease-in-out infinite; }
+        #player.avatar-dragon-av #player-legs .leg { background:#0e4a0e; }
         #player.avatar-eyes::before, #player.avatar-eyes::after { content:''; position:absolute; top:10px; width:10px; height:10px; background:#333; border-radius:1px; z-index:1; }
         #player.avatar-eyes::before { left:4px; }
         #player.avatar-eyes::after  { right:4px; }
@@ -414,6 +423,10 @@
         .av-football { background-color:#c07a3a; background-image:linear-gradient(90deg,transparent 30%,rgba(255,255,255,0.55) 30%,rgba(255,255,255,0.55) 37%,transparent 37%,transparent 63%,rgba(255,255,255,0.55) 63%,rgba(255,255,255,0.55) 70%,transparent 70%); box-shadow:inset 0 3px 0 rgba(255,255,255,0.2),inset 0 -3px 0 rgba(0,0,0,0.3),2px 2px 0 #7a4a1a; }
         .av-rainbow  { background:linear-gradient(90deg,#ff6666,#ffaa44,#ffff44,#44ff88,#44aaff,#aa44ff); animation:rainbowHatAnim 2s linear infinite; box-shadow:inset 0 3px 0 rgba(255,255,255,0.3),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #aa44ff; }
         .av-silver   { background-color:#c0c0c0; background-image:linear-gradient(135deg,rgba(255,255,255,0.5) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.5) 50%,rgba(255,255,255,0.5) 75%,transparent 75%); background-size:8px 8px; box-shadow:inset 0 3px 0 rgba(255,255,255,0.5),inset 0 -3px 0 rgba(0,0,0,0.15),2px 2px 0 #808080; }
+        .av-white    { background-color:#f8f8f8; background-image:linear-gradient(rgba(0,0,0,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.06) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.9),inset 0 -3px 0 rgba(0,0,0,0.08),2px 2px 0 #ccc; }
+        .av-flag     { background-image:linear-gradient(to bottom,#cc1122 0,#cc1122 20%,#fff 20%,#fff 33%,#cc1122 33%,#cc1122 53%,#fff 53%,#fff 66%,#cc1122 66%,#cc1122 86%,#fff 86%,#fff 100%); box-shadow:inset 0 3px 0 rgba(255,255,255,0.2),2px 2px 0 #881122; position:relative; }
+        .av-flag::before { content:''; position:absolute; top:0; left:0; width:14px; height:18px; background:#002868; }
+        .av-dragon-av { background-color:#1a6a1a; background-image:radial-gradient(circle 3px at 20% 25%,rgba(0,0,0,0.2) 100%,transparent 0),radial-gradient(circle 4px at 80% 18%,rgba(80,255,80,0.25) 100%,transparent 0); box-shadow:inset 0 3px 0 rgba(255,255,255,0.15),2px 2px 0 #1a5a1a,0 0 10px rgba(50,200,50,0.6); }
 
         /* PANTS */
         #player-pants { position:absolute; bottom:0; left:0; right:0; height:18px; border-radius:0 0 2px 2px; pointer-events:none; }
@@ -1082,6 +1095,53 @@
         #fightDisplay.ko .sm-blue .ll { transform:rotate(70deg) translateX(8px); }
         @keyframes fightShake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-4px)} 40%{transform:translateX(4px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(3px)} }
         #fightDisplay.ko .fight-scene { animation:fightShake 0.3s ease; }
+
+        /* DRAGON BOSS BUTTON */
+        #dragonBossBtn {
+            position:fixed; right:80px; top:calc(50% - 192px);
+            width:48px; height:48px; border-radius:50%;
+            background:linear-gradient(135deg,#1a6a1a,#2aaa2a);
+            border:3px solid #66ff66; cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 12px rgba(0,200,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #dragonBossBtn:hover { transform:scale(1.15); }
+        #dragonDisplay {
+            position:fixed; right:140px; top:calc(50% - 280px);
+            display:none; z-index:500; cursor:pointer; user-select:none;
+        }
+        #dragonDisplay.visible { display:block; }
+
+        /* HEALTH BAR */
+        .dragon-hp-bar { display:flex; gap:5px; margin-bottom:8px; justify-content:center; }
+        .dragon-hp-seg { width:26px; height:10px; background:#ff3333; border-radius:3px; border:2px solid #aa1111; transition:background 0.15s,border-color 0.15s; }
+        .dragon-hp-seg.empty { background:#222; border-color:#444; }
+
+        /* DRAGON BOSS BODY */
+        .dragon-boss { position:relative; width:90px; height:100px; }
+        .db-tail  { position:absolute; bottom:22px; left:0; width:28px; height:14px; background:#2a8a2a; border-radius:40% 0 0 40%; }
+        .db-tail::after { content:''; position:absolute; left:-7px; top:2px; width:11px; height:10px; background:#1e6a1e; border-radius:50% 0 0 50%; }
+        .db-body  { position:absolute; bottom:12px; left:14px; width:52px; height:36px; background:#2a8a2a; border-radius:35% 35% 30% 30%; }
+        .db-belly { position:absolute; bottom:14px; left:22px; width:30px; height:22px; background:#3aaa3a; border-radius:40%; }
+        .db-wing-l { position:absolute; top:18px; left:8px; width:26px; height:32px; background:#1e6a1e; clip-path:polygon(50% 0%,100% 100%,0% 85%); }
+        .db-wing-r { position:absolute; top:14px; left:2px; width:22px; height:26px; background:#248a24; clip-path:polygon(60% 0%,100% 100%,0% 75%); }
+        .db-head  { position:absolute; top:8px; right:4px; width:40px; height:32px; background:#2a8a2a; border-radius:35% 45% 30% 25%; }
+        .db-jaw   { position:absolute; top:32px; right:6px; width:34px; height:16px; background:#1e6a1e; border-radius:15% 25% 40% 20%; }
+        .db-eye   { position:absolute; top:14px; right:8px; width:9px; height:9px; background:#ff4444; border-radius:50%; box-shadow:0 0 6px #ff0000; }
+        .db-pupil { position:absolute; top:16px; right:9px; width:5px; height:5px; background:#111; border-radius:50%; }
+        .db-tooth-1 { position:absolute; top:32px; right:20px; width:5px; height:8px; background:#fff; border-radius:0 0 3px 3px; }
+        .db-tooth-2 { position:absolute; top:32px; right:12px; width:5px; height:6px; background:#fff; border-radius:0 0 3px 3px; }
+        .db-horn-1 { position:absolute; top:0; right:12px; width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:18px solid #1a5a1a; }
+        .db-horn-2 { position:absolute; top:4px; right:21px; width:0; height:0; border-left:4px solid transparent; border-right:4px solid transparent; border-bottom:13px solid #1a5a1a; }
+        .db-arm   { position:absolute; top:36px; right:10px; width:18px; height:9px; background:#248a24; border-radius:3px 8px 8px 3px; transform:rotate(-20deg); }
+        .db-leg-l { position:absolute; bottom:0; left:20px; width:15px; height:14px; background:#1f7a1f; border-radius:2px 2px 0 0; }
+        .db-leg-r { position:absolute; bottom:0; left:38px; width:15px; height:14px; background:#1f7a1f; border-radius:2px 2px 0 0; }
+
+        @keyframes dragonHitFlash { 0%,100%{filter:brightness(1)} 50%{filter:brightness(3) saturate(0.2)} }
+        #dragonDisplay.hit .dragon-boss { animation:dragonHitFlash 0.22s ease; pointer-events:none; }
+        @keyframes dragonDie { 0%{opacity:1;transform:scale(1) rotate(0deg)} 60%{opacity:0.6;transform:scale(1.15) rotate(12deg)} 100%{opacity:0;transform:scale(0.2) rotate(40deg)} }
+        #dragonDisplay.dead .dragon-boss { animation:dragonDie 0.7s ease forwards; pointer-events:none; }
 
         /* BUSH BUTTON */
         #bushBtn {
@@ -2202,6 +2262,30 @@
         </div>
     </div>
 
+    <!-- DRAGON BOSS BUTTON -->
+    <button id="dragonBossBtn" onclick="spawnDragonBoss()" title="Fight the dragon!">🐉</button>
+    <div id="dragonDisplay">
+        <div class="dragon-hp-bar">
+            <div class="dragon-hp-seg"></div>
+            <div class="dragon-hp-seg"></div>
+            <div class="dragon-hp-seg"></div>
+        </div>
+        <div class="dragon-boss">
+            <div class="db-tail"></div>
+            <div class="db-wing-l"></div><div class="db-wing-r"></div>
+            <div class="db-body"></div><div class="db-belly"></div>
+            <div class="db-head">
+                <div class="db-horn-1"></div><div class="db-horn-2"></div>
+                <div class="db-eye"></div><div class="db-pupil"></div>
+                <div class="db-jaw">
+                    <div class="db-tooth-1"></div><div class="db-tooth-2"></div>
+                </div>
+            </div>
+            <div class="db-arm"></div>
+            <div class="db-leg-l"></div><div class="db-leg-r"></div>
+        </div>
+    </div>
+
     <!-- TRASH CAN + RACCOON BUTTON -->
     <button id="trashBtn" onclick="spawnTrash()" title="Trash can">🗑️</button>
     <div id="trashDisplay">
@@ -2542,8 +2626,11 @@
             { id: 'dolphin-av',name: 'Dolphin',   price: 0,   choiceUnlock: true, cls: 'avatar-dolphin',  preview: `<div class="av-preview av-dolphin"></div>` },
             { id: 'nerd',      name: 'Nerd',      price: 0,   mathUnlock: true,      cls: 'avatar-nerd',     preview: `<div class="av-preview av-nerd"></div>` },
             { id: 'stickman',  name: 'Stickman',  price: 0,   stickBtnUnlock: true,  cls: 'avatar-stickman', preview: `<div class="av-preview av-stickman"></div>` },
-            { id: 'rainbow-av', name: 'Rainbow',  price: 0,   counter3kUnlock: true, cls: 'avatar-rainbow',   preview: `<div class="av-preview av-rainbow"></div>` },
-            { id: 'silver',     name: 'Silver',   price: 0,   counter3kUnlock: true, cls: 'avatar-silver',    preview: `<div class="av-preview av-silver"></div>` },
+            { id: 'rainbow-av', name: 'Rainbow',       price: 0,   counter3kUnlock: true, cls: 'avatar-rainbow',    preview: `<div class="av-preview av-rainbow"></div>` },
+            { id: 'silver',     name: 'Silver',        price: 0,   counter3kUnlock: true, cls: 'avatar-silver',     preview: `<div class="av-preview av-silver"></div>` },
+            { id: 'white',      name: 'White',         price: 80,                         cls: 'avatar-white',      preview: `<div class="av-preview av-white"></div>` },
+            { id: 'flag',       name: 'American Flag', price: 120,                        cls: 'avatar-flag',       preview: `<div class="av-preview av-flag"></div>` },
+            { id: 'dragon-av',  name: 'Dragon',        price: 0,   dragonUnlock: true,    cls: 'avatar-dragon-av',  preview: `<div class="av-preview av-dragon-av"></div>` },
         ];
 
         const PANTS = [
@@ -3051,6 +3138,11 @@
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#888">🪄 Secret Button</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    avatarGrid.appendChild(card);
+                } else if (av.dragonUnlock && !d.ownedAvatars.includes(av.id)) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#44ff66">🐉 Defeat the dragon</div><button class="btn-cantafford">🔒 Locked</button>`;
                     avatarGrid.appendChild(card);
                 } else if (av.counter3kUnlock && !d.ownedAvatars.includes(av.id)) {
                     const card = document.createElement('div');
@@ -3756,6 +3848,58 @@
                 if (document.getElementById('storeModal').classList.contains('open')) renderStore();
             }
         }
+
+        // ─── DRAGON BOSS ───────────────────────────────────────────────
+        let dragonHits = 0;
+        const dragonDisplay = document.getElementById('dragonDisplay');
+
+        function spawnDragonBoss() {
+            if (dragonDisplay.classList.contains('dead')) return;
+            dragonHits = 0;
+            updateDragonHP();
+            dragonDisplay.classList.remove('hit', 'dead');
+            void dragonDisplay.offsetWidth;
+            dragonDisplay.classList.toggle('visible');
+        }
+
+        function updateDragonHP() {
+            const segs = dragonDisplay.querySelectorAll('.dragon-hp-seg');
+            segs.forEach((seg, i) => seg.classList.toggle('empty', i >= 3 - dragonHits));
+        }
+
+        dragonDisplay.addEventListener('click', function() {
+            if (!this.classList.contains('visible') || this.classList.contains('dead')) return;
+            this.classList.remove('hit');
+            void this.offsetWidth;
+            this.classList.add('hit');
+            setTimeout(() => this.classList.remove('hit'), 240);
+            // hit sound
+            const osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+            osc.connect(g); g.connect(audioCtx.destination);
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(160, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(55, audioCtx.currentTime + 0.16);
+            g.gain.setValueAtTime(0.35, audioCtx.currentTime);
+            g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.2);
+            osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.2);
+            dragonHits++;
+            updateDragonHP();
+            if (dragonHits >= 3) {
+                this.classList.add('dead');
+                const d = loadData();
+                if (!d.ownedAvatars.includes('dragon-av')) {
+                    d.ownedAvatars.push('dragon-av');
+                    saveData(d); gameData = d;
+                    setTimeout(() => playSound('buy'), 300);
+                    if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+                }
+                setTimeout(() => {
+                    this.classList.remove('visible', 'dead', 'hit');
+                    dragonHits = 0;
+                    updateDragonHP();
+                }, 1500);
+            }
+        });
 
         // ─── CITY QUIZ ─────────────────────────────────────────────────
         function openCityQuiz() {
