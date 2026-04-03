@@ -1252,6 +1252,175 @@
         .secret-choice-btn:disabled { background: #444; color: #777; cursor: default; text-shadow: none; animation: none; }
         #secretPopupClose { margin-top: 16px; background: none; border: 1px solid #555; color: #aaa; padding: 6px 18px; border-radius: 5px; cursor: pointer; display: block; width: 100%; }
         #secretPopupClose:hover { background: #333; }
+
+        /* ── NERD AVATAR ────────────────────────────────────────────── */
+        #player.avatar-nerd { background-color:#efe8d0; background-image:linear-gradient(rgba(0,0,0,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.06) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.3),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #c0b090; }
+        #player.avatar-nerd #player-legs .leg { background:#8a7a50; }
+        #player.avatar-nerd::before { content:''; position:absolute; top:8px; left:3px; width:12px; height:8px; border:2px solid #222; border-radius:2px; background:rgba(180,220,255,0.25); z-index:1; }
+        #player.avatar-nerd::after  { content:''; position:absolute; top:8px; right:3px; width:12px; height:8px; border:2px solid #222; border-radius:2px; background:rgba(180,220,255,0.25); z-index:1; }
+        .av-nerd { background-color:#efe8d0; background-image:linear-gradient(rgba(0,0,0,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.06) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.3),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #c0b090; position:relative; }
+        .av-nerd::before { content:''; position:absolute; top:10px; left:4px; width:10px; height:7px; border:2px solid #222; border-radius:2px; background:rgba(180,220,255,0.25); }
+        .av-nerd::after  { content:''; position:absolute; top:10px; right:4px; width:10px; height:7px; border:2px solid #222; border-radius:2px; background:rgba(180,220,255,0.25); }
+
+        /* ── MORTARBOARD HAT ─────────────────────────────────────────── */
+        .hat-mortar { position:relative; width:34px; }
+        .hat-mortar .board { width:32px; height:5px; background:#1a1a1a; border-radius:1px; margin:0 auto; position:relative; }
+        .hat-mortar .board::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:5px; height:5px; background:#FFD700; border-radius:50%; }
+        .hat-mortar .cap  { width:18px; height:12px; background:#222; border-radius:1px 1px 0 0; margin:0 auto; }
+        .hat-mortar .tassel { position:absolute; top:2px; right:3px; width:2px; height:14px; background:#FFD700; border-radius:1px; }
+        .hat-mortar .tassel::after { content:''; position:absolute; bottom:-3px; left:-2px; width:6px; height:5px; background:#FFD700; border-radius:2px; }
+
+        /* ── NERD PANTS ──────────────────────────────────────────────── */
+        .pants-nerd { background-color:#5a6a3a; background-image:repeating-linear-gradient(90deg,rgba(0,0,0,0.12) 0,rgba(0,0,0,0.12) 1px,transparent 1px,transparent 7px),repeating-linear-gradient(0deg,rgba(255,255,255,0.08) 0,rgba(255,255,255,0.08) 1px,transparent 1px,transparent 7px); }
+
+        /* ── BOOK ITEM ───────────────────────────────────────────────── */
+        .item-book { position:relative; width:13px; height:17px; }
+        .item-book .cover  { position:absolute; width:13px; height:17px; background:#cc2222; border-radius:1px 2px 2px 1px; }
+        .item-book .spine  { position:absolute; left:0; top:0; width:3px; height:17px; background:#881111; border-radius:1px 0 0 1px; }
+        .item-book .pages  { position:absolute; right:0; top:1px; width:2px; height:15px; background:#f5f0e0; }
+        .item-book .line-1 { position:absolute; top:4px;  left:4px; right:2px; height:1px; background:rgba(255,255,255,0.35); }
+        .item-book .line-2 { position:absolute; top:7px;  left:4px; right:2px; height:1px; background:rgba(255,255,255,0.35); }
+        .item-book .line-3 { position:absolute; top:10px; left:4px; right:2px; height:1px; background:rgba(255,255,255,0.35); }
+
+        /* ── MATH BUTTON ─────────────────────────────────────────────── */
+        #mathBtn {
+            position: fixed; right: 16px; top: 50%;
+            width: 48px; height: 48px; border-radius: 50%;
+            background: #2244cc; border: 3px solid #88aaff;
+            cursor: pointer; font-size: 22px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 500;
+            transition: transform 0.15s;
+        }
+        #mathBtn:hover { transform: scale(1.15); }
+        #mathModal {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.82); z-index: 3000;
+            align-items: center; justify-content: center;
+        }
+        #mathModal.open { display: flex; }
+        #mathContent {
+            background: #1a1a2e; border: 3px solid #88aaff; border-radius: 14px;
+            padding: 30px 36px; text-align: center; color: white; min-width: 320px;
+        }
+        #mathContent h3 { margin: 0 0 8px; font-size: 22px; color: #88aaff; }
+        #mathContent p  { color: #aaa; font-size: 13px; margin: 0 0 20px; }
+        .math-problem { margin-bottom: 16px; text-align: left; }
+        .math-problem label { font-size: 18px; font-weight: bold; display: block; margin-bottom: 6px; }
+        .math-problem input {
+            padding: 7px 12px; font-size: 16px; border-radius: 6px;
+            border: 2px solid #444; background: #111; color: #fff; width: 120px;
+        }
+        .math-problem input.correct { border-color: #44cc44; }
+        .math-problem input.wrong   { border-color: #cc4444; }
+        #mathSubmit {
+            margin-top: 8px; padding: 9px 28px; font-size: 16px; font-weight: bold;
+            background: #2244cc; color: white; border: none; border-radius: 8px; cursor: pointer;
+        }
+        #mathSubmit:hover { background: #3355ee; }
+        #mathResult { margin-top: 14px; font-size: 18px; font-weight: bold; min-height: 24px; }
+        #mathClose {
+            margin-top: 14px; background: none; border: 1px solid #555; color: #aaa;
+            padding: 6px 18px; border-radius: 5px; cursor: pointer; font-size: 14px;
+        }
+        #mathClose:hover { background: #333; }
+
+        /* ── DOLPHIN SWIM BUTTON ─────────────────────────────────────── */
+        #dolphinBtn {
+            position: fixed; right: 16px; top: calc(50% + 64px);
+            width: 48px; height: 48px; border-radius: 50%;
+            background: #336699; border: 3px solid #88ccff;
+            cursor: pointer; font-size: 22px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 500;
+            transition: transform 0.15s;
+        }
+        #dolphinBtn:hover { transform: scale(1.15); }
+        #swimDolphin {
+            position: fixed; bottom: 80px; left: -120px;
+            z-index: 490; pointer-events: none;
+            transform: scale(3.5); transform-origin: bottom left;
+            display: none;
+        }
+        #swimDolphin.swimming {
+            display: block;
+            animation: dolphinSwim 4s linear forwards;
+        }
+        @keyframes dolphinSwim {
+            0%   { left: -120px; bottom: 80px; }
+            30%  { bottom: 130px; }
+            60%  { bottom: 60px; }
+            80%  { bottom: 110px; }
+            100% { left: calc(100vw + 60px); bottom: 80px; }
+        }
+
+        /* ── TRASH CAN + RACCOON BUTTON ──────────────────────────────── */
+        #trashBtn {
+            position: fixed; right: 16px; top: calc(50% + 128px);
+            width: 48px; height: 48px; border-radius: 50%;
+            background: #555; border: 3px solid #999;
+            cursor: pointer; font-size: 22px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 500;
+            transition: transform 0.15s;
+        }
+        #trashBtn:hover { transform: scale(1.15); }
+        #trashDisplay {
+            position: fixed; right: 82px; top: calc(50% + 80px);
+            display: none; z-index: 500; cursor: pointer; user-select: none;
+        }
+        #trashDisplay.visible { display: block; }
+        .trash-lid {
+            width: 54px; height: 9px; background: #777; border-radius: 4px 4px 0 0;
+            margin-left: -3px; position: relative; z-index: 2;
+            box-shadow: 0 -2px 0 #555;
+        }
+        .trash-lid::after {
+            content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+            width: 12px; height: 7px; background: #888; border-radius: 3px 3px 0 0;
+        }
+        .trash-body {
+            width: 48px; height: 50px; background: #666;
+            border-radius: 0 0 8px 8px; position: relative;
+            box-shadow: inset 2px 0 0 rgba(255,255,255,0.08), inset -2px 0 0 rgba(0,0,0,0.2);
+        }
+        .trash-line { position: absolute; top: 0; bottom: 0; width: 3px; background: rgba(0,0,0,0.18); border-radius: 2px; }
+        .trash-line-1 { left: 11px; }
+        .trash-line-2 { left: 22px; }
+        .trash-line-3 { left: 33px; }
+        /* raccoon */
+        .trash-can { position: relative; width: 48px; height: 58px; overflow: visible; }
+        .raccoon { position: absolute; bottom: 58px; left: 50%; transform: translateX(-50%) translateY(60px); width: 42px; display: none; z-index: 2; }
+        .raccoon-body { width: 34px; height: 28px; background: #888; border-radius: 40% 40% 30% 30%; margin: 0 auto; position: relative; }
+        .raccoon-stripe-l { position: absolute; top: 0; left: 6px; width: 7px; height: 100%; background: #555; border-radius: 3px; }
+        .raccoon-stripe-r { position: absolute; top: 0; right: 6px; width: 7px; height: 100%; background: #555; border-radius: 3px; }
+        .raccoon-head { width: 30px; height: 26px; background: #999; border-radius: 50%; margin: 0 auto; position: relative; }
+        .raccoon-mask { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 26px; height: 12px; background: #333; border-radius: 50%; }
+        .raccoon-eye-l { position: absolute; top: 9px; left: 5px; width: 5px; height: 5px; background: #fff; border-radius: 50%; }
+        .raccoon-eye-r { position: absolute; top: 9px; right: 5px; width: 5px; height: 5px; background: #fff; border-radius: 50%; }
+        .raccoon-pupil-l { position: absolute; top: 10px; left: 6px; width: 3px; height: 3px; background: #111; border-radius: 50%; }
+        .raccoon-pupil-r { position: absolute; top: 10px; right: 6px; width: 3px; height: 3px; background: #111; border-radius: 50%; }
+        .raccoon-nose { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); width: 6px; height: 4px; background: #333; border-radius: 50%; }
+        .raccoon-ear-l { position: absolute; top: -7px; left: 2px; width: 10px; height: 10px; background: #888; border-radius: 50%; }
+        .raccoon-ear-r { position: absolute; top: -7px; right: 2px; width: 10px; height: 10px; background: #888; border-radius: 50%; }
+        .raccoon-ear-l::after, .raccoon-ear-r::after { content: ''; position: absolute; top: 2px; left: 2px; width: 6px; height: 6px; background: #bba; border-radius: 50%; }
+        .raccoon-tail { width: 12px; height: 30px; background: repeating-linear-gradient(to bottom, #888 0, #888 5px, #333 5px, #333 10px); border-radius: 6px; position: absolute; bottom: -4px; right: -6px; transform: rotate(30deg); transform-origin: top center; }
+        @keyframes raccoonJump {
+            0%   { transform: translateX(-50%) translateY(60px); opacity: 0; }
+            20%  { transform: translateX(-50%) translateY(0px); opacity: 1; }
+            45%  { transform: translateX(-50%) translateY(-20px) rotate(-8deg); }
+            65%  { transform: translateX(-50%) translateY(-5px) rotate(5deg); }
+            80%  { transform: translateX(-50%) translateY(-18px) rotate(-4deg); }
+            100% { transform: translateX(-50%) translateY(-10px) rotate(0deg); opacity: 1; }
+        }
+        @keyframes lidPop {
+            0%   { transform: rotate(0deg) translateX(-3px); }
+            30%  { transform: rotate(-20deg) translateX(-12px) translateY(-8px); }
+            60%  { transform: rotate(10deg) translateX(4px) translateY(-4px); }
+            100% { transform: rotate(0deg) translateX(-3px); }
+        }
+        #trashDisplay.popped .raccoon { display: block; animation: raccoonJump 0.8s cubic-bezier(0.36,0.07,0.19,0.97) forwards; }
+        #trashDisplay.popped .trash-lid { animation: lidPop 0.5s ease forwards; }
     </style>
 </head>
 <body>
@@ -1333,6 +1502,75 @@
             <div class="bear-body"></div>
         </div>
     </div>
+    <!-- MATH BUTTON -->
+    <button id="mathBtn" onclick="openMathModal()" title="Math challenge">🧮</button>
+    <div id="mathModal">
+        <div id="mathContent">
+            <h3>🧮 Math Challenge</h3>
+            <p>Solve all 3 problems correctly!</p>
+            <div class="math-problem">
+                <label>26 + 56 + 76 = ?</label>
+                <input type="number" id="mathA" placeholder="answer">
+            </div>
+            <div class="math-problem">
+                <label>25 × 3 = ?</label>
+                <input type="number" id="mathB" placeholder="answer">
+            </div>
+            <div class="math-problem">
+                <label>34 − 16 = ?</label>
+                <input type="number" id="mathC" placeholder="answer">
+            </div>
+            <button id="mathSubmit" onclick="checkMath()">Check Answers</button>
+            <div id="mathResult"></div>
+            <button id="mathClose" onclick="closeMathModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- DOLPHIN SWIM BUTTON -->
+    <button id="dolphinBtn" onclick="spawnSwimDolphin()" title="Dolphin swim">🐬</button>
+    <div id="swimDolphin">
+        <div class="pet-dolphin">
+            <div class="body"></div>
+            <div class="belly"></div>
+            <div class="head"></div>
+            <div class="snout"></div>
+            <div class="eye"></div>
+            <div class="fin"></div>
+            <div class="tail-t"></div>
+            <div class="tail-b"></div>
+        </div>
+    </div>
+
+    <!-- TRASH CAN + RACCOON BUTTON -->
+    <button id="trashBtn" onclick="spawnTrash()" title="Trash can">🗑️</button>
+    <div id="trashDisplay">
+        <div class="trash-can">
+            <div class="raccoon">
+                <div class="raccoon-tail"></div>
+                <div class="raccoon-body">
+                    <div class="raccoon-stripe-l"></div>
+                    <div class="raccoon-stripe-r"></div>
+                </div>
+                <div class="raccoon-head">
+                    <div class="raccoon-ear-l"></div>
+                    <div class="raccoon-ear-r"></div>
+                    <div class="raccoon-mask"></div>
+                    <div class="raccoon-eye-l"></div>
+                    <div class="raccoon-eye-r"></div>
+                    <div class="raccoon-pupil-l"></div>
+                    <div class="raccoon-pupil-r"></div>
+                    <div class="raccoon-nose"></div>
+                </div>
+            </div>
+            <div class="trash-lid"></div>
+            <div class="trash-body">
+                <div class="trash-line trash-line-1"></div>
+                <div class="trash-line trash-line-2"></div>
+                <div class="trash-line trash-line-3"></div>
+            </div>
+        </div>
+    </div>
+
     <button id="ninjaBtn" onclick="unlockNinja()" title=""></button>
     <button id="catBtn" onclick="unlockCat()" title="Unlock cat pet">🐱</button>
     <button id="counterBtn" onclick="bumpCounter()" title="Click to count up">➕</button>
@@ -1577,6 +1815,7 @@
             { id: 'capywinter',  name: 'Capy Beanie',   price: 85,            html: `<div class="hat-capywinter"><div class="pom"></div><div class="body"><div class="ear-l"></div><div class="ear-r"></div></div><div class="band"></div></div>` },
             { id: 'icecream',    name: 'Ice Cream',     price: 0, counterUnlock: 2000, html: `<div class="hat-icecream"><div class="cone"></div><div class="scoop"><div class="drip"></div></div></div>` },
             { id: 'ninja',       name: 'Ninja Mask',    price: 0, ninjaUnlock: true,   html: `<div class="hat-ninja"><div class="band"><div class="slit"></div></div></div>` },
+            { id: 'mortar',      name: 'Mortarboard',   price: 0, mathUnlock: true,    html: `<div class="hat-mortar"><div class="tassel"></div><div class="board"></div><div class="cap"></div></div>` },
         ];
 
         const AVATARS = [
@@ -1596,6 +1835,7 @@
             { id: 'football',  name: 'Football',  price: 120, cls: 'avatar-football', preview: `<div class="av-preview av-football"></div>` },
             { id: 'capy',      name: 'Capybara',  price: 0,   choiceUnlock: true, cls: 'avatar-capy',     preview: `<div class="av-preview av-capy"></div>` },
             { id: 'dolphin-av',name: 'Dolphin',   price: 0,   choiceUnlock: true, cls: 'avatar-dolphin',  preview: `<div class="av-preview av-dolphin"></div>` },
+            { id: 'nerd',      name: 'Nerd',      price: 0,   mathUnlock: true,   cls: 'avatar-nerd',     preview: `<div class="av-preview av-nerd"></div>` },
         ];
 
         const PANTS = [
@@ -1613,6 +1853,7 @@
             { id: 'ninja',    name: 'Ninja',      price: 0,  ninjaUnlock: true,   cls: 'pants-ninja',   preview: `<div class="pants-full-prev"><div class="pant pants-ninja"></div></div>` },
             { id: 'capy',     name: 'Capy',       price: 65, cls: 'pants-capy',    preview: `<div class="pants-full-prev"><div class="pant pants-capy"></div></div>` },
             { id: 'football', name: 'Football',   price: 70, cls: 'pants-football',preview: `<div class="pants-full-prev"><div class="pant pants-football"></div></div>` },
+            { id: 'nerd',     name: 'Nerd',       price: 0,  mathUnlock: true,   cls: 'pants-nerd',     preview: `<div class="pants-full-prev"><div class="pant pants-nerd"></div></div>` },
         ];
 
         const BACKGROUNDS = [
@@ -1641,6 +1882,7 @@
             { id: 'spoon',    name: 'Spoon',         price: 45, html: `<div class="item-spoon"><div class="bowl"></div><div class="neck"></div><div class="handle"></div></div>` },
             { id: 'capy-fig', name: 'Capy Figure',   price: 55, html: `<div class="item-capy"><div class="ic-body"></div><div class="ic-head"></div><div class="ic-nose"></div><div class="ic-eye"></div><div class="ic-ear"></div></div>` },
             { id: 'gloves',   name: 'Gloves',        price: 40, html: `<div class="item-gloves"><div class="gl-f1"></div><div class="gl-f2"></div><div class="gl-f3"></div><div class="gl-palm"></div><div class="gl-thumb"></div><div class="gl-cuff"></div></div>` },
+            { id: 'book',     name: 'Book',          price: 0,  mathUnlock: true, html: `<div class="item-book"><div class="cover"></div><div class="spine"></div><div class="pages"></div><div class="line-1"></div><div class="line-2"></div><div class="line-3"></div></div>` },
         ];
 
         function loadData() {
@@ -1722,7 +1964,7 @@
         }
 
         // ─── AVATAR DISPLAY ────────────────────────────────────────────
-        const AVATAR_CLASSES = ['avatar-stone','avatar-dirt','avatar-concrete','avatar-blue','avatar-green','avatar-pink','avatar-eyes','avatar-easter','avatar-gold','avatar-chocolate','avatar-ninja','avatar-sprinkle','avatar-capy','avatar-dolphin','avatar-football'];
+        const AVATAR_CLASSES = ['avatar-stone','avatar-dirt','avatar-concrete','avatar-blue','avatar-green','avatar-pink','avatar-eyes','avatar-easter','avatar-gold','avatar-chocolate','avatar-ninja','avatar-sprinkle','avatar-capy','avatar-dolphin','avatar-football','avatar-nerd'];
         function renderIngameAvatar() {
             AVATAR_CLASSES.forEach(cls => player.classList.remove(cls));
             const av = AVATARS.find(a => a.id === gameData.equippedAvatar);
@@ -1745,7 +1987,7 @@
         }
 
         // ─── PANTS DISPLAY ─────────────────────────────────────────────
-        const PANTS_CLASSES = ['pants-brick','pants-concrete','pants-blue','pants-red','pants-green','pants-pink','pants-silver','pants-easter','pants-gold','pants-rainbow','pants-ninja','pants-capy','pants-football'];
+        const PANTS_CLASSES = ['pants-brick','pants-concrete','pants-blue','pants-red','pants-green','pants-pink','pants-silver','pants-easter','pants-gold','pants-rainbow','pants-ninja','pants-capy','pants-football','pants-nerd'];
         const pantsEl = document.getElementById('player-pants');
         function renderIngamePants() {
             PANTS_CLASSES.forEach(cls => pantsEl.classList.remove(cls));
@@ -2037,9 +2279,9 @@
             hatGrid.innerHTML = '';
             HATS.forEach(hat => {
                 const isOwned = d.ownedHats.includes(hat.id);
-                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock && !hat.eggUnlock && !hat.counterUnlock;
+                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock && !hat.eggUnlock && !hat.counterUnlock && !hat.mathUnlock;
                 const owned = isOwned || freeOwned;
-                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock || hat.counterUnlock || hat.ninjaUnlock) && !isOwned) {
+                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock || hat.counterUnlock || hat.ninjaUnlock || hat.mathUnlock) && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     let lockLabel;
@@ -2047,6 +2289,7 @@
                     else if (hat.secretUnlock) lockLabel = '🌈 Secret Unlock';
                     else if (hat.eggUnlock) lockLabel = '🥚 Break the egg';
                     else if (hat.ninjaUnlock) lockLabel = '🥷 Secret Unlock';
+                    else if (hat.mathUnlock) lockLabel = '🧮 Solve Math';
                     else { const cur = parseInt(localStorage.getItem('wg_counter')||'0'); lockLabel = `🔢 ${cur}/${hat.counterUnlock}`; }
                     card.innerHTML = `
                         <div class="pet-preview">${hat.html}</div>
@@ -2077,6 +2320,11 @@
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#888">🥷 Secret Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
                     avatarGrid.appendChild(card);
+                } else if (av.mathUnlock && !d.ownedAvatars.includes(av.id)) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#88aaff">🧮 Solve Math</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    avatarGrid.appendChild(card);
                 } else if (av.winUnlock && !d.ownedAvatars.includes(av.id)) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
@@ -2093,7 +2341,12 @@
             pantsGrid.innerHTML = '';
             PANTS.forEach(p => {
                 const isOwned = d.ownedPants.includes(p.id);
-                if (p.ninjaUnlock && !isOwned) {
+                if (p.mathUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${p.preview}</div><div class="pet-name">${p.name}</div><div class="pet-price" style="color:#88aaff">🧮 Solve Math</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    pantsGrid.appendChild(card);
+                } else if (p.ninjaUnlock && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${p.preview}</div><div class="pet-name">${p.name}</div><div class="pet-price" style="color:#888">🥷 Secret Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
@@ -2131,6 +2384,11 @@
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `${previewHtml}<div class="pet-name">${it.name}</div><div class="pet-price" style="color:#d4a8e0">🥚 Break the egg</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    itemGrid.appendChild(card);
+                } else if (it.mathUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `${previewHtml}<div class="pet-name">${it.name}</div><div class="pet-price" style="color:#88aaff">🧮 Solve Math</div><button class="btn-cantafford">🔒 Locked</button>`;
                     itemGrid.appendChild(card);
                 } else {
                     itemGrid.appendChild(buildCard(it, owned, equipped, canAfford, 'buyItem', 'equipItem', previewHtml));
@@ -2774,6 +3032,74 @@
         }
         document.getElementById('choicePopup').addEventListener('click', function(e) {
             if (e.target === this) document.getElementById('choicePopup').classList.remove('open');
+        });
+
+        // ─── MATH CHALLENGE ────────────────────────────────────────────
+        function openMathModal() {
+            document.getElementById('mathA').value = '';
+            document.getElementById('mathB').value = '';
+            document.getElementById('mathC').value = '';
+            document.getElementById('mathA').className = '';
+            document.getElementById('mathB').className = '';
+            document.getElementById('mathC').className = '';
+            document.getElementById('mathResult').textContent = '';
+            document.getElementById('mathModal').classList.add('open');
+        }
+        function closeMathModal() {
+            document.getElementById('mathModal').classList.remove('open');
+        }
+        function checkMath() {
+            const a = parseInt(document.getElementById('mathA').value);
+            const b = parseInt(document.getElementById('mathB').value);
+            const c = parseInt(document.getElementById('mathC').value);
+            const aOk = a === 158, bOk = b === 75, cOk = c === 18;
+            document.getElementById('mathA').className = aOk ? 'correct' : 'wrong';
+            document.getElementById('mathB').className = bOk ? 'correct' : 'wrong';
+            document.getElementById('mathC').className = cOk ? 'correct' : 'wrong';
+            const res = document.getElementById('mathResult');
+            if (aOk && bOk && cOk) {
+                res.style.color = '#44cc44';
+                res.textContent = '🎉 All correct! You\'re a math genius! Nerd gear unlocked!';
+                launchConfetti();
+                const d = loadData();
+                let changed = false;
+                if (!d.ownedAvatars.includes('nerd'))  { d.ownedAvatars.push('nerd');  changed = true; }
+                if (!d.ownedHats.includes('mortar'))   { d.ownedHats.push('mortar');   changed = true; }
+                if (!d.ownedPants.includes('nerd'))    { d.ownedPants.push('nerd');    changed = true; }
+                if (!d.ownedItems.includes('book'))    { d.ownedItems.push('book');    changed = true; }
+                if (changed) {
+                    saveData(d); gameData = d;
+                    renderIngamePet(); renderIngameHat(); renderIngameAvatar(); renderIngamePants();
+                    if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+                }
+            } else {
+                res.style.color = '#cc4444';
+                res.textContent = '❌ Some answers are wrong. Try again!';
+            }
+        }
+        document.getElementById('mathModal').addEventListener('click', function(e) {
+            if (e.target === this) closeMathModal();
+        });
+
+        // ─── DOLPHIN SWIM ───────────────────────────────────────────────
+        function spawnSwimDolphin() {
+            const el = document.getElementById('swimDolphin');
+            el.classList.remove('swimming');
+            void el.offsetWidth;
+            el.classList.add('swimming');
+            el.addEventListener('animationend', () => el.classList.remove('swimming'), { once: true });
+        }
+
+        // ─── TRASH CAN + RACCOON ────────────────────────────────────────
+        function spawnTrash() {
+            const td = document.getElementById('trashDisplay');
+            td.classList.remove('popped');
+            td.classList.toggle('visible');
+        }
+        document.getElementById('trashDisplay').addEventListener('click', function() {
+            if (!this.classList.contains('popped')) {
+                this.classList.add('popped');
+            }
         });
 
         // ─── START ─────────────────────────────────────────────────────
