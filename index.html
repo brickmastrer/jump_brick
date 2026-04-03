@@ -60,6 +60,10 @@
         #player.avatar-gold     { background-color:#FFD700; background-image:linear-gradient(rgba(255,255,255,0.25) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.08) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.35),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #cc8800,0 0 10px rgba(255,215,0,0.7); }
         #player.avatar-football { background-color:#c07a3a; background-image:linear-gradient(90deg,transparent 30%,rgba(255,255,255,0.55) 30%,rgba(255,255,255,0.55) 37%,transparent 37%,transparent 63%,rgba(255,255,255,0.55) 63%,rgba(255,255,255,0.55) 70%,transparent 70%); box-shadow:inset 0 3px 0 rgba(255,255,255,0.2),inset 0 -3px 0 rgba(0,0,0,0.3),2px 2px 0 #7a4a1a; }
         #player.avatar-football #player-legs .leg { background:#7a4a1a; }
+        #player.avatar-rainbow { background:linear-gradient(90deg,#ff6666,#ffaa44,#ffff44,#44ff88,#44aaff,#aa44ff); background-size:200% 100%; animation:rainbowHatAnim 2s linear infinite; box-shadow:inset 0 3px 0 rgba(255,255,255,0.3),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #aa44ff; }
+        #player.avatar-rainbow #player-legs .leg { background:#8800cc; }
+        #player.avatar-silver { background-color:#c0c0c0; background-image:linear-gradient(135deg,rgba(255,255,255,0.5) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.5) 50%,rgba(255,255,255,0.5) 75%,transparent 75%); background-size:8px 8px; box-shadow:inset 0 3px 0 rgba(255,255,255,0.5),inset 0 -3px 0 rgba(0,0,0,0.15),2px 2px 0 #808080; }
+        #player.avatar-silver #player-legs .leg { background:#808080; }
         #player.avatar-eyes::before, #player.avatar-eyes::after { content:''; position:absolute; top:10px; width:10px; height:10px; background:#333; border-radius:1px; z-index:1; }
         #player.avatar-eyes::before { left:4px; }
         #player.avatar-eyes::after  { right:4px; }
@@ -408,6 +412,8 @@
         .av-chocolate { background-color:#3d1a00; background-image:linear-gradient(rgba(255,255,255,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.07) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.1),inset 0 -3px 0 rgba(0,0,0,0.4),2px 2px 0 #1a0800; }
         .av-gold     { background-color:#FFD700; background-image:linear-gradient(rgba(255,255,255,0.25) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.08) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.35),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #cc8800,0 0 10px rgba(255,215,0,0.7); }
         .av-football { background-color:#c07a3a; background-image:linear-gradient(90deg,transparent 30%,rgba(255,255,255,0.55) 30%,rgba(255,255,255,0.55) 37%,transparent 37%,transparent 63%,rgba(255,255,255,0.55) 63%,rgba(255,255,255,0.55) 70%,transparent 70%); box-shadow:inset 0 3px 0 rgba(255,255,255,0.2),inset 0 -3px 0 rgba(0,0,0,0.3),2px 2px 0 #7a4a1a; }
+        .av-rainbow  { background:linear-gradient(90deg,#ff6666,#ffaa44,#ffff44,#44ff88,#44aaff,#aa44ff); animation:rainbowHatAnim 2s linear infinite; box-shadow:inset 0 3px 0 rgba(255,255,255,0.3),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #aa44ff; }
+        .av-silver   { background-color:#c0c0c0; background-image:linear-gradient(135deg,rgba(255,255,255,0.5) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.5) 50%,rgba(255,255,255,0.5) 75%,transparent 75%); background-size:8px 8px; box-shadow:inset 0 3px 0 rgba(255,255,255,0.5),inset 0 -3px 0 rgba(0,0,0,0.15),2px 2px 0 #808080; }
 
         /* PANTS */
         #player-pants { position:absolute; bottom:0; left:0; right:0; height:18px; border-radius:0 0 2px 2px; pointer-events:none; }
@@ -678,6 +684,16 @@
         .item-oatmeal .bowl { position:absolute; top:6px; left:1px; width:16px; height:10px; background:#d4c4a0; border-radius:0 0 8px 8px; }
         .item-oatmeal .oat  { position:absolute; top:7px; left:3px; width:12px; height:6px; background:#c8b060; border-radius:3px; }
 
+        /* SPRINKLE JAR ITEM */
+        .item-sprinklejar { position:relative; width:14px; height:22px; }
+        .item-sprinklejar .lid { position:absolute; top:0; left:1px; width:12px; height:4px; background:#e090b8; border-radius:2px 2px 0 0; }
+        .item-sprinklejar .jar { position:absolute; top:3px; left:0; width:14px; height:17px; background:rgba(255,238,248,0.9); border-radius:2px 2px 4px 4px; border:1.5px solid #e0a8cc; }
+        .item-sprinklejar .sp1 { position:absolute; top:6px; left:2px; width:3px; height:2px; background:#ff4444; border-radius:1px; transform:rotate(-30deg); }
+        .item-sprinklejar .sp2 { position:absolute; top:9px; left:7px; width:3px; height:2px; background:#4488ff; border-radius:1px; transform:rotate(20deg); }
+        .item-sprinklejar .sp3 { position:absolute; top:13px; left:3px; width:3px; height:2px; background:#44cc44; border-radius:1px; transform:rotate(-15deg); }
+        .item-sprinklejar .sp4 { position:absolute; top:7px; left:9px; width:3px; height:2px; background:#ffdd00; border-radius:1px; transform:rotate(35deg); }
+        .item-sprinklejar .sp5 { position:absolute; top:12px; left:8px; width:3px; height:2px; background:#ff44cc; border-radius:1px; transform:rotate(-25deg); }
+
         /* CHOICE BUTTON */
         #choiceBtn {
             position:fixed; left:16px; top:calc(50% - 128px);
@@ -711,6 +727,30 @@
         .choice-opt .choice-name { font-size:14px; font-weight:bold; color:#fff; margin-bottom:6px; }
         .choice-opt button { padding:7px 14px; border:none; border-radius:6px; background:#ffd93d; color:#333; font-weight:bold; cursor:pointer; font-size:13px; }
         .choice-opt button:hover { background:#ffe866; }
+
+        /* 3K COUNTER CHOICE BUTTON */
+        #counter3kBtn {
+            position:fixed; left:16px; top:calc(50% + 16px);
+            width:48px; height:48px; border-radius:50%;
+            background:linear-gradient(135deg,#ff44cc,#44aaff);
+            border:3px solid #fff; cursor:pointer; font-size:20px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 12px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #counter3kBtn:hover { transform:scale(1.15); }
+        #counter3kPopup {
+            display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+            background:rgba(0,0,0,0.8); z-index:3000;
+            align-items:center; justify-content:center;
+        }
+        #counter3kPopup.open { display:flex; }
+        #counter3kPopupContent {
+            background:#1a1a2e; border:3px solid #ff44cc; border-radius:14px;
+            padding:28px 32px; text-align:center; color:white; max-width:360px;
+        }
+        #counter3kPopupContent h3 { margin:0 0 6px; font-size:22px; color:#ff44cc; }
+        #counter3kPopupContent p  { color:#aaa; font-size:13px; margin:0 0 20px; }
 
         /* CAPY BUTTON */
         #capyBtn {
@@ -902,6 +942,12 @@
         .pet-num2 .body  { width:16px; height:16px; background:#4488ff; border-radius:2px; position:absolute; bottom:0; box-shadow:0 0 7px rgba(68,136,255,0.9); }
         .pet-num2 .num   { position:absolute; bottom:1px; left:0; right:0; text-align:center; font-size:12px; font-weight:900; color:#fff; font-family:Arial,sans-serif; line-height:1; text-shadow:0 1px 2px rgba(0,0,100,0.5); }
         .pet-num2 .shine { width:4px; height:4px; background:rgba(255,255,255,0.75); border-radius:50%; position:absolute; top:2px; left:2px; }
+
+        /* NUMBER 3 PET */
+        .pet-num3 { position:relative; width:16px; height:20px; }
+        .pet-num3 .body  { width:16px; height:16px; background:#ff44cc; border-radius:2px; position:absolute; bottom:0; box-shadow:0 0 7px rgba(255,68,204,0.9); }
+        .pet-num3 .num   { position:absolute; bottom:1px; left:0; right:0; text-align:center; font-size:12px; font-weight:900; color:#fff; font-family:Arial,sans-serif; line-height:1; text-shadow:0 1px 2px rgba(100,0,80,0.5); }
+        .pet-num3 .shine { width:4px; height:4px; background:rgba(255,255,255,0.75); border-radius:50%; position:absolute; top:2px; left:2px; }
 
         /* ICE CREAM CONE HAT */
         .hat-icecream { position:relative; width:26px; transform:rotate(-11deg); transform-origin:bottom center; }
@@ -1844,6 +1890,29 @@
         </div>
     </div>
 
+    <!-- 3K CHOICE BUTTON -->
+    <button id="counter3kBtn" onclick="openCounter3kPopup()" title="3000 Click Reward!">✨</button>
+
+    <!-- 3K CHOICE POPUP -->
+    <div id="counter3kPopup">
+        <div id="counter3kPopupContent">
+            <h3>✨ 3000 Click Reward!</h3>
+            <p>Pick one avatar skin — this offer disappears forever after!</p>
+            <div class="choice-options">
+                <div class="choice-opt">
+                    <div class="choice-preview av-rainbow" style="border-radius:3px;margin:0 auto 8px;"></div>
+                    <div class="choice-name">Rainbow</div>
+                    <button onclick="unlockCounter3k('rainbow-av')">Choose</button>
+                </div>
+                <div class="choice-opt">
+                    <div class="choice-preview av-silver" style="border-radius:3px;margin:0 auto 8px;"></div>
+                    <div class="choice-name">Silver</div>
+                    <button onclick="unlockCounter3k('silver')">Choose</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- SECRET POPUP -->
     <div id="secretPopup">
         <div id="secretPopupContent">
@@ -1968,6 +2037,7 @@
             { id: 'cat',        name: 'Cat',          price: 0,   buttonUnlock: true,   html: `<div class="pet-cat"><div class="tail"></div><div class="body"></div><div class="head"></div><div class="ear-l"></div><div class="ear-r"></div><div class="eye-l"></div><div class="eye-r"></div><div class="nose"></div></div>` },
             { id: 'num1',       name: 'Number 1',     price: 0,   counterUnlock: 1000,  html: `<div class="pet-num1"><div class="body"></div><div class="shine"></div><div class="num">1</div></div>` },
             { id: 'num2',       name: 'Number 2',     price: 0,   counterUnlock: 2000,  html: `<div class="pet-num2"><div class="body"></div><div class="shine"></div><div class="num">2</div></div>` },
+            { id: 'num3',       name: 'Number 3',     price: 0,   counterUnlock: 3000,  html: `<div class="pet-num3"><div class="body"></div><div class="shine"></div><div class="num">3</div></div>` },
             { id: 'stickman',   name: 'Stickman',     price: 110, html: `<div class="pet-stick"><div class="head"></div><div class="body"></div><div class="arms"></div><div class="leg-l"></div><div class="leg-r"></div></div>` },
             { id: 'dolphin',    name: 'Dolphin',      price: 140, html: `<div class="pet-dolphin"><div class="tail-t"></div><div class="tail-b"></div><div class="body"></div><div class="belly"></div><div class="fin"></div><div class="head"></div><div class="snout"></div><div class="eye"></div></div>` },
             { id: 'spider',     name: 'Spider',       price: 0, ninjaUnlock: true, html: `<div class="pet-spider"><div class="leg ll1"></div><div class="leg ll2"></div><div class="leg ll3"></div><div class="leg lr1"></div><div class="leg lr2"></div><div class="leg lr3"></div><div class="body"></div><div class="eye-l"></div><div class="eye-r"></div></div>` },
@@ -2017,6 +2087,8 @@
             { id: 'dolphin-av',name: 'Dolphin',   price: 0,   choiceUnlock: true, cls: 'avatar-dolphin',  preview: `<div class="av-preview av-dolphin"></div>` },
             { id: 'nerd',      name: 'Nerd',      price: 0,   mathUnlock: true,      cls: 'avatar-nerd',     preview: `<div class="av-preview av-nerd"></div>` },
             { id: 'stickman',  name: 'Stickman',  price: 0,   stickBtnUnlock: true,  cls: 'avatar-stickman', preview: `<div class="av-preview av-stickman"></div>` },
+            { id: 'rainbow-av', name: 'Rainbow',  price: 0,   counter3kUnlock: true, cls: 'avatar-rainbow',   preview: `<div class="av-preview av-rainbow"></div>` },
+            { id: 'silver',     name: 'Silver',   price: 0,   counter3kUnlock: true, cls: 'avatar-silver',    preview: `<div class="av-preview av-silver"></div>` },
         ];
 
         const PANTS = [
@@ -2067,6 +2139,7 @@
             { id: 'gloves',   name: 'Gloves',        price: 40, html: `<div class="item-gloves"><div class="gl-f1"></div><div class="gl-f2"></div><div class="gl-f3"></div><div class="gl-palm"></div><div class="gl-thumb"></div><div class="gl-cuff"></div></div>` },
             { id: 'book',     name: 'Book',          price: 0,  mathUnlock: true,     html: `<div class="item-book"><div class="cover"></div><div class="spine"></div><div class="pages"></div><div class="line-1"></div><div class="line-2"></div><div class="line-3"></div></div>` },
             { id: 'oatmeal',  name: 'Oatmeal',       price: 0,  stickmanUnlock: true, html: `<div class="item-oatmeal"><div class="steam-l"></div><div class="steam-r"></div><div class="rim"></div><div class="bowl"></div><div class="oat"></div></div>` },
+            { id: 'sprinklejar', name: 'Sprinkle Jar', price: 0, counterUnlock: 3000, html: `<div class="item-sprinklejar"><div class="lid"></div><div class="jar"></div><div class="sp1"></div><div class="sp2"></div><div class="sp3"></div><div class="sp4"></div><div class="sp5"></div></div>` },
         ];
 
         function loadData() {
@@ -2515,6 +2588,13 @@
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#888">🪄 Secret Button</div><button class="btn-cantafford">🔒 Locked</button>`;
                     avatarGrid.appendChild(card);
+                } else if (av.counter3kUnlock && !d.ownedAvatars.includes(av.id)) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    const cur3k = parseInt(localStorage.getItem('wg_counter')||'0');
+                    const lbl3k = cur3k >= 3000 ? '✨ 3000 click reward!' : `🔢 ${cur3k}/3000 clicks`;
+                    card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#ff44cc">${lbl3k}</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    avatarGrid.appendChild(card);
                 } else if (av.winUnlock && !d.ownedAvatars.includes(av.id)) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
@@ -2569,7 +2649,7 @@
             itemGrid.innerHTML = '';
             ITEMS.forEach(it => {
                 const isOwned = d.ownedItems.includes(it.id);
-                const owned = it.price === 0 && !it.eggUnlock || isOwned;
+                const owned = (it.price === 0 && !it.eggUnlock && !it.counterUnlock) || isOwned;
                 const equipped = d.equippedItem === it.id;
                 const canAfford = d.coins >= it.price;
                 const previewHtml = it.html
@@ -2589,6 +2669,13 @@
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `${previewHtml}<div class="pet-name">${it.name}</div><div class="pet-price" style="color:#c8aaff">🛏️ Wake the stickman</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    itemGrid.appendChild(card);
+                } else if (it.counterUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    const curCnt = parseInt(localStorage.getItem('wg_counter')||'0');
+                    const leftCnt = Math.max(0, it.counterUnlock - curCnt);
+                    card.innerHTML = `${previewHtml}<div class="pet-name">${it.name}</div><div class="pet-price" style="color:#FFD700">🔢 ${curCnt}/${it.counterUnlock}</div><button class="btn-cantafford">${leftCnt > 0 ? '🔒 ' + leftCnt + ' more clicks' : '🔒 Locked'}</button>`;
                     itemGrid.appendChild(card);
                 } else {
                     itemGrid.appendChild(buildCard(it, owned, equipped, canAfford, 'buyItem', 'equipItem', previewHtml));
@@ -3162,6 +3249,10 @@
                     if (!d.owned.includes('num2'))         { d.owned.push('num2');      changed = true; }
                     if (!d.ownedHats.includes('icecream')) { d.ownedHats.push('icecream'); changed = true; }
                 }
+                if (counter >= 3000) {
+                    if (!d.owned.includes('num3'))              { d.owned.push('num3');         changed = true; }
+                    if (!d.ownedItems.includes('sprinklejar'))  { d.ownedItems.push('sprinklejar'); changed = true; }
+                }
                 if (changed) {
                     saveData(d); gameData = d;
                     playSound('buy');
@@ -3237,6 +3328,34 @@
         }
         document.getElementById('choicePopup').addEventListener('click', function(e) {
             if (e.target === this) document.getElementById('choicePopup').classList.remove('open');
+        });
+
+        // ─── 3K COUNTER CHOICE BUTTON ──────────────────────────────────
+        (function initCounter3kBtn() {
+            const btn = document.getElementById('counter3kBtn');
+            if (!btn) return;
+            if (localStorage.getItem('wg_3k_choice_used')) {
+                btn.style.display = 'none';
+            }
+        })();
+        function openCounter3kPopup() {
+            if (localStorage.getItem('wg_3k_choice_used')) return;
+            document.getElementById('counter3kPopup').classList.add('open');
+        }
+        function unlockCounter3k(id) {
+            const d = loadData();
+            if (!d.ownedAvatars.includes(id)) d.ownedAvatars.push(id);
+            saveData(d);
+            gameData = d;
+            localStorage.setItem('wg_3k_choice_used', '1');
+            const btn = document.getElementById('counter3kBtn');
+            if (btn) btn.style.display = 'none';
+            document.getElementById('counter3kPopup').classList.remove('open');
+            playSound('buy');
+            if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+        }
+        document.getElementById('counter3kPopup').addEventListener('click', function(e) {
+            if (e.target === this) document.getElementById('counter3kPopup').classList.remove('open');
         });
 
         // ─── DINO ───────────────────────────────────────────────────────
