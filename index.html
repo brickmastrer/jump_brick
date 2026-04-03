@@ -508,6 +508,13 @@
         @keyframes rainbowBgAnim { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
         #gameContainer.bg-rainbow { background:linear-gradient(135deg,#ff9999,#ffcc88,#ffff88,#88ff88,#88ccff,#cc88ff,#ff9999); background-size:400% 400%; animation:rainbowBgAnim 3s ease infinite; }
         #gameContainer.bg-ninja   { background:linear-gradient(to bottom,#080810 0%,#0d0d22 35%,#0a1020 65%,#111828 100%); }
+        #gameContainer.bg-city    {
+            background:
+                linear-gradient(to bottom, transparent 78%, #090909 78%),
+                linear-gradient(to bottom, transparent 48%, #0d0d1e 48%),
+                radial-gradient(ellipse 120% 55% at 50% 100%, rgba(255,100,15,0.45) 0%, transparent 65%),
+                linear-gradient(to bottom, #010110 0%, #03031e 30%, #060630 60%, #0a0826 85%, #0e0808 100%);
+        }
 
         /* TANK BUTTON */
         #tankBtn {
@@ -824,6 +831,43 @@
             100% { transform:translateX(-280px) rotate(0deg);   opacity:0; }
         }
         #bearDisplay.running .bear-wrap { animation:bearRun 0.8s ease-in forwards; pointer-events:none; }
+
+        /* CITY BUTTON */
+        #cityBtn {
+            position:fixed; left:272px; top:calc(50% - 384px);
+            width:48px; height:48px; border-radius:50%;
+            background:linear-gradient(135deg,#0a0a30,#1a1a60);
+            border:3px solid #4444cc; cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #cityBtn:hover { transform:scale(1.15); }
+
+        /* CITY QUIZ POPUP */
+        #cityQuizPopup {
+            display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+            background:rgba(0,0,0,0.85); z-index:3000;
+            align-items:center; justify-content:center;
+        }
+        #cityQuizPopup.open { display:flex; }
+        #cityQuizContent {
+            background:#1a1a2e; border:3px solid #4444cc; border-radius:14px;
+            padding:28px 32px; text-align:center; color:white; max-width:380px;
+        }
+        #cityQuizContent h3 { margin:0 0 6px; font-size:22px; color:#aaaaff; }
+        #cityQuizContent p  { color:#aaa; font-size:14px; margin:0 0 22px; }
+        .quiz-options { display:flex; gap:14px; justify-content:center; margin-bottom:14px; }
+        .quiz-opt {
+            flex:1; background:#16213e; border:2px solid #444; border-radius:10px;
+            padding:14px 10px; cursor:pointer; transition:border-color 0.15s;
+        }
+        .quiz-opt:hover { border-color:#aaaaff; }
+        .quiz-opt .q-icon { font-size:30px; margin-bottom:6px; }
+        .quiz-opt .q-name { font-size:14px; font-weight:bold; }
+        .quiz-opt button { margin-top:8px; padding:7px 14px; border:none; border-radius:6px; background:#4444cc; color:#fff; font-weight:bold; cursor:pointer; font-size:13px; }
+        .quiz-opt button:hover { background:#6666ee; }
+        #cityQuizMsg { font-size:14px; min-height:20px; }
 
         /* PALM TREE BUTTON */
         #palmBtn {
@@ -1974,6 +2018,31 @@
             <div class="bear-body"></div>
         </div>
     </div>
+    <!-- CITY BUTTON -->
+    <button id="cityBtn" onclick="openCityQuiz()" title="City background quiz!">🏙️</button>
+
+    <!-- CITY QUIZ POPUP -->
+    <div id="cityQuizPopup">
+        <div id="cityQuizContent">
+            <h3>🏙️ Unlock City Night!</h3>
+            <p>Answer correctly to unlock the City Night background!</p>
+            <p style="font-size:18px;font-weight:bold;color:#fff;margin-bottom:18px;">🍔 McDonald's or KFC? 🍗</p>
+            <div class="quiz-options">
+                <div class="quiz-opt">
+                    <div class="q-icon">🍔</div>
+                    <div class="q-name">McDonald's</div>
+                    <button onclick="answerCityQuiz(true)">Choose</button>
+                </div>
+                <div class="quiz-opt">
+                    <div class="q-icon">🍗</div>
+                    <div class="q-name">KFC</div>
+                    <button onclick="answerCityQuiz(false)">Choose</button>
+                </div>
+            </div>
+            <div id="cityQuizMsg"></div>
+        </div>
+    </div>
+
     <!-- CANDY BUTTON -->
     <button id="candyBtn" onclick="giveCandy()" title="Candy!">🍬</button>
     <div id="candyPopText">🍬 candy! 🍬</div>
@@ -2508,6 +2577,7 @@
             { id: 'rainbow',   name: 'Rainbow',   price: 0,   secretUnlock: true,  gradient: 'linear-gradient(135deg,#ff9999,#ffcc88,#ffff88,#88ff88,#88ccff,#cc88ff)', cls: 'bg-rainbow' },
             { id: 'ninja',     name: 'Ninja Night', price: 0, ninjaUnlock: true,     gradient: 'linear-gradient(to bottom,#080810,#0d0d22,#0a1020,#111828)',               cls: 'bg-ninja'    },
             { id: 'stickman',  name: 'Notebook',    price: 0, stickBtnUnlock: true,  gradient: 'repeating-linear-gradient(to bottom,transparent,transparent 29px,#b8c8d8 29px,#b8c8d8 30px) #f5f5f0', cls: 'bg-stickman' },
+            { id: 'city',      name: 'City Night',  price: 0, questionUnlock: true,  gradient: 'linear-gradient(to bottom,#010110 0%,#03031e 30%,#060630 60%,#0a0826 85%,#0e0808 100%)', cls: 'bg-city' },
         ];
 
         const ITEMS = [
@@ -2625,7 +2695,7 @@
         }
 
         // ─── BACKGROUND DISPLAY ────────────────────────────────────────
-        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold','bg-rainbow','bg-ninja','bg-stickman'];
+        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold','bg-rainbow','bg-ninja','bg-stickman','bg-city'];
         function applyBackground() {
             BG_CLASSES.forEach(cls => gameContainer.classList.remove(cls));
             const bg = BACKGROUNDS.find(b => b.id === gameData.equippedBg);
@@ -3096,12 +3166,17 @@
             bgGrid.innerHTML = '';
             BACKGROUNDS.forEach(bg => {
                 const isOwned = d.ownedBgs.includes(bg.id);
-                const freeOwned = bg.price === 0 && !bg.winUnlock && !bg.secretUnlock && !bg.ninjaUnlock && !bg.stickBtnUnlock;
+                const freeOwned = bg.price === 0 && !bg.winUnlock && !bg.secretUnlock && !bg.ninjaUnlock && !bg.stickBtnUnlock && !bg.questionUnlock;
                 const owned = isOwned || freeOwned;
                 const equipped = d.equippedBg === bg.id;
                 const canAfford = d.coins >= bg.price;
                 const previewHtml = `<div class="bg-card-preview" style="background:${bg.gradient}"></div>`;
-                if (bg.stickBtnUnlock && !isOwned) {
+                if (bg.questionUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `${previewHtml}<div class="pet-name">${bg.name}</div><div class="pet-price" style="color:#aaaaff">❓ Answer the question</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    bgGrid.appendChild(card);
+                } else if (bg.stickBtnUnlock && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `${previewHtml}<div class="pet-name">${bg.name}</div><div class="pet-price" style="color:#888">🪄 Secret Button</div><button class="btn-cantafford">🔒 Locked</button>`;
@@ -3681,6 +3756,40 @@
                 if (document.getElementById('storeModal').classList.contains('open')) renderStore();
             }
         }
+
+        // ─── CITY QUIZ ─────────────────────────────────────────────────
+        function openCityQuiz() {
+            document.getElementById('cityQuizMsg').textContent = '';
+            document.getElementById('cityQuizPopup').classList.add('open');
+        }
+        function answerCityQuiz(correct) {
+            const msg = document.getElementById('cityQuizMsg');
+            if (correct) {
+                msg.style.color = '#44ff88';
+                msg.textContent = '✅ Correct! City Night unlocked!';
+                const d = loadData();
+                if (!d.ownedBgs.includes('city')) {
+                    d.ownedBgs.push('city');
+                    saveData(d); gameData = d;
+                    playSound('buy');
+                    if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+                }
+                setTimeout(() => {
+                    document.getElementById('cityQuizPopup').classList.remove('open');
+                }, 1500);
+            } else {
+                msg.style.color = '#ff4444';
+                msg.textContent = '❌ Wrong! Try again!';
+                // shake the popup
+                const content = document.getElementById('cityQuizContent');
+                content.style.animation = 'none';
+                void content.offsetWidth;
+                content.style.animation = 'fightShake 0.3s ease';
+            }
+        }
+        document.getElementById('cityQuizPopup').addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('open');
+        });
 
         // ─── CANDY BUTTON ──────────────────────────────────────────────
         function giveCandy() {
