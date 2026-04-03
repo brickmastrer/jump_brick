@@ -3237,6 +3237,22 @@
         const counterEl = document.getElementById('cornerCounter');
         let counter = parseInt(localStorage.getItem('wg_counter') || '0');
         counterEl.textContent = counter;
+        // Grant any missed counter milestone rewards on page load
+        (function grantMissedCounterRewards() {
+            if (counter < 1000) return;
+            const d = loadData();
+            let changed = false;
+            if (!d.owned.includes('num1')) { d.owned.push('num1'); changed = true; }
+            if (counter >= 2000) {
+                if (!d.owned.includes('num2'))         { d.owned.push('num2');         changed = true; }
+                if (!d.ownedHats.includes('icecream')) { d.ownedHats.push('icecream'); changed = true; }
+            }
+            if (counter >= 3000) {
+                if (!d.owned.includes('num3'))             { d.owned.push('num3');          changed = true; }
+                if (!d.ownedItems.includes('sprinklejar')) { d.ownedItems.push('sprinklejar'); changed = true; }
+            }
+            if (changed) { saveData(d); gameData = d; }
+        })();
         function bumpCounter() {
             counter++;
             localStorage.setItem('wg_counter', counter);
