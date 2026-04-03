@@ -47,6 +47,8 @@
         #player.avatar-eyes     { background-color:#c8c8c8; background-image:none; box-shadow:inset 0 3px 0 rgba(255,255,255,0.2),inset 0 -3px 0 rgba(0,0,0,0.15),2px 2px 0 #888; }
         #player.avatar-easter   { background-color:#d4a8e0; background-image:radial-gradient(circle 3px at 25% 30%,rgba(255,182,193,0.8) 100%,transparent 0),radial-gradient(circle 3px at 70% 65%,rgba(255,224,102,0.8) 100%,transparent 0),radial-gradient(circle 2px at 55% 20%,rgba(184,212,255,0.9) 100%,transparent 0); box-shadow:inset 0 3px 0 rgba(255,255,255,0.3),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #a878c0; }
         #player.avatar-easter   #player-legs .leg { background:#a878c0; }
+        #player.avatar-sprinkle { background-color:#ffeef8; background-image:radial-gradient(circle 2px at 12% 18%,#ff4444 100%,transparent 0),radial-gradient(circle 2px at 72% 14%,#4488ff 100%,transparent 0),radial-gradient(circle 2px at 38% 62%,#44cc44 100%,transparent 0),radial-gradient(circle 2px at 82% 48%,#ffdd00 100%,transparent 0),radial-gradient(circle 2px at 22% 80%,#ff44cc 100%,transparent 0),radial-gradient(circle 2px at 58% 38%,#ff8800 100%,transparent 0),radial-gradient(circle 2px at 8% 50%,#00ccff 100%,transparent 0),radial-gradient(circle 2px at 78% 78%,#aa44ff 100%,transparent 0),radial-gradient(circle 2px at 48% 88%,#ff4488 100%,transparent 0),radial-gradient(circle 2px at 90% 22%,#44ffaa 100%,transparent 0); box-shadow:inset 0 3px 0 rgba(255,255,255,0.5),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #e0a8cc; }
+        #player.avatar-sprinkle #player-legs .leg { background:#e090b8; }
         #player.avatar-ninja { background-color:#1a1a1a; background-image:none; box-shadow:inset 0 3px 0 rgba(255,255,255,0.05),inset 0 -3px 0 rgba(0,0,0,0.6),2px 2px 0 #000; }
         #player.avatar-ninja #player-legs .leg { background:#000; }
         #player.avatar-chocolate { background-color:#3d1a00; background-image:linear-gradient(rgba(255,255,255,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.07) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.12),inset 0 -3px 0 rgba(0,0,0,0.4),2px 2px 0 #1a0800; }
@@ -371,6 +373,7 @@
         .av-eye-l, .av-eye-r { position:absolute; top:10px; width:10px; height:10px; background:#333; border-radius:1px; }
         .av-eye-l { left:4px; } .av-eye-r { right:4px; }
         .av-easter   { background-color:#d4a8e0; background-image:radial-gradient(circle 3px at 25% 30%,rgba(255,182,193,0.8) 100%,transparent 0),radial-gradient(circle 3px at 70% 65%,rgba(255,224,102,0.8) 100%,transparent 0),radial-gradient(circle 2px at 55% 20%,rgba(184,212,255,0.9) 100%,transparent 0); box-shadow:inset 0 3px 0 rgba(255,255,255,0.3),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #a878c0; }
+        .av-sprinkle  { background-color:#ffeef8; background-image:radial-gradient(circle 2px at 12% 18%,#ff4444 100%,transparent 0),radial-gradient(circle 2px at 72% 14%,#4488ff 100%,transparent 0),radial-gradient(circle 2px at 38% 62%,#44cc44 100%,transparent 0),radial-gradient(circle 2px at 82% 48%,#ffdd00 100%,transparent 0),radial-gradient(circle 2px at 22% 80%,#ff44cc 100%,transparent 0),radial-gradient(circle 2px at 58% 38%,#ff8800 100%,transparent 0),radial-gradient(circle 2px at 78% 78%,#aa44ff 100%,transparent 0); box-shadow:inset 0 3px 0 rgba(255,255,255,0.5),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #e0a8cc; }
         .av-ninja     { background-color:#1a1a1a; background-image:none; box-shadow:inset 0 3px 0 rgba(255,255,255,0.05),inset 0 -3px 0 rgba(0,0,0,0.6),2px 2px 0 #000; }
         .av-chocolate { background-color:#3d1a00; background-image:linear-gradient(rgba(255,255,255,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.07) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.1),inset 0 -3px 0 rgba(0,0,0,0.4),2px 2px 0 #1a0800; }
         .av-gold     { background-color:#FFD700; background-image:linear-gradient(rgba(255,255,255,0.25) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.08) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.35),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #cc8800,0 0 10px rgba(255,215,0,0.7); }
@@ -501,6 +504,44 @@
         }
         @keyframes smokeUp { 0%{transform:translateY(0) scale(1);opacity:0.7} 100%{transform:translateY(-20px) scale(2);opacity:0} }
         .tank-smoke { position:fixed; width:10px; height:10px; background:rgba(200,200,200,0.6); border-radius:50%; z-index:600; pointer-events:none; animation:smokeUp 0.5s ease-out forwards; }
+
+        /* CAPY BUTTON */
+        #capyBtn {
+            position:fixed; right:16px; top:calc(50% - 128px);
+            width:48px; height:48px; border-radius:50%;
+            background:#8B6914; border:3px solid #c8a030;
+            cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #capyBtn:hover { transform:scale(1.15); }
+        #capyDisplay {
+            position:fixed; right:82px; top:calc(50% - 156px);
+            display:none; z-index:500; cursor:pointer; user-select:none;
+        }
+        #capyDisplay.visible { display:block; }
+        .capy-big { position:relative; width:54px; height:42px; }
+        .capy-big .body { width:48px; height:26px; background:#8B6914; border-radius:40% 40% 30% 30%; position:absolute; bottom:0; left:3px; }
+        .capy-big .leg { position:absolute; bottom:-8px; width:9px; height:10px; background:#7a5812; border-radius:0 0 4px 4px; }
+        .capy-big .leg-fl { left:8px; } .capy-big .leg-fr { left:18px; }
+        .capy-big .leg-bl { right:18px; } .capy-big .leg-br { right:8px; }
+        .capy-big .head { width:30px; height:26px; background:#8B6914; border-radius:50% 50% 40% 40%; position:absolute; top:0; right:0; }
+        .capy-big .nose { width:12px; height:9px; background:#6b4f10; border-radius:50%; position:absolute; top:13px; right:1px; }
+        .capy-big .nostril-l { width:3px; height:3px; background:#3a2408; border-radius:50%; position:absolute; top:15px; right:9px; }
+        .capy-big .nostril-r { width:3px; height:3px; background:#3a2408; border-radius:50%; position:absolute; top:15px; right:4px; }
+        .capy-big .eye { width:6px; height:6px; background:#1a0a00; border-radius:50%; position:absolute; top:6px; right:8px; }
+        .capy-big .eye::before { content:''; position:absolute; width:2px; height:2px; background:#fff; border-radius:50%; top:1px; left:1px; }
+        .capy-big .ear { width:12px; height:10px; background:#7a5812; border-radius:50% 50% 0 0; position:absolute; top:-7px; right:10px; }
+        @keyframes capyJump {
+            0%   { transform:translateY(0)    scaleX(1); }
+            15%  { transform:translateY(-8px) scaleX(0.95); }
+            40%  { transform:translateY(-65px) scaleX(1.05); }
+            65%  { transform:translateY(-45px) scaleX(1); }
+            80%  { transform:translateY(-62px) scaleX(1); }
+            100% { transform:translateY(0)    scaleX(1); }
+        }
+        #capyDisplay.jumping .capy-big { animation:capyJump 0.75s cubic-bezier(0.36,0.07,0.19,0.97) forwards; }
 
         /* BEAR BUTTON */
         #bearBtn {
@@ -1177,6 +1218,21 @@
             <div class="tank-tread"></div>
         </div>
     </div>
+    <button id="capyBtn" onclick="spawnCapy()" title="Spawn capybara">🦫</button>
+    <div id="capyDisplay">
+        <div class="capy-big">
+            <div class="ear"></div>
+            <div class="head">
+                <div class="eye"></div>
+                <div class="nose"></div>
+                <div class="nostril-l"></div>
+                <div class="nostril-r"></div>
+            </div>
+            <div class="body"></div>
+            <div class="leg leg-fl"></div><div class="leg leg-fr"></div>
+            <div class="leg leg-bl"></div><div class="leg leg-br"></div>
+        </div>
+    </div>
     <button id="bearBtn" onclick="spawnBear()" title="Spawn bear">🐻</button>
     <div id="bearDisplay">
         <div class="bear-wrap">
@@ -1420,7 +1476,8 @@
             { id: 'easter',   name: 'Easter',     price: 90,  cls: 'avatar-easter', preview: `<div class="av-preview av-easter"></div>` },
             { id: 'gold',      name: 'Gold',      price: 0,   winUnlock: true, cls: 'avatar-gold',      preview: `<div class="av-preview av-gold"></div>` },
             { id: 'chocolate', name: 'Chocolate', price: 110, cls: 'avatar-chocolate', preview: `<div class="av-preview av-chocolate"></div>` },
-            { id: 'ninja',     name: 'Ninja',     price: 0,   ninjaUnlock: true, cls: 'avatar-ninja', preview: `<div class="av-preview av-ninja"></div>` },
+            { id: 'ninja',     name: 'Ninja',     price: 0,   ninjaUnlock: true, cls: 'avatar-ninja',    preview: `<div class="av-preview av-ninja"></div>` },
+            { id: 'sprinkle',  name: 'Sprinkle',  price: 130, cls: 'avatar-sprinkle', preview: `<div class="av-preview av-sprinkle"></div>` },
         ];
 
         const PANTS = [
@@ -1542,7 +1599,7 @@
         }
 
         // ─── AVATAR DISPLAY ────────────────────────────────────────────
-        const AVATAR_CLASSES = ['avatar-stone','avatar-dirt','avatar-concrete','avatar-blue','avatar-green','avatar-pink','avatar-eyes','avatar-easter','avatar-gold','avatar-chocolate','avatar-ninja'];
+        const AVATAR_CLASSES = ['avatar-stone','avatar-dirt','avatar-concrete','avatar-blue','avatar-green','avatar-pink','avatar-eyes','avatar-easter','avatar-gold','avatar-chocolate','avatar-ninja','avatar-sprinkle'];
         function renderIngameAvatar() {
             AVATAR_CLASSES.forEach(cls => player.classList.remove(cls));
             const av = AVATARS.find(a => a.id === gameData.equippedAvatar);
@@ -2407,6 +2464,35 @@
             document.body.appendChild(smoke);
 
             setTimeout(() => { bullet.remove(); smoke.remove(); }, 550);
+        });
+
+        // ─── CAPY ──────────────────────────────────────────────────────
+        const capyDisplay = document.getElementById('capyDisplay');
+
+        function spawnCapy() {
+            capyDisplay.classList.remove('jumping');
+            void capyDisplay.offsetWidth;
+            capyDisplay.classList.toggle('visible');
+        }
+
+        function playCapyJump() {
+            const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            const t = audioCtx.currentTime;
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(300, t);
+            osc.frequency.linearRampToValueAtTime(500, t + 0.1);
+            gain.gain.setValueAtTime(0.18, t);
+            gain.gain.linearRampToValueAtTime(0, t + 0.18);
+            osc.start(t); osc.stop(t + 0.18);
+        }
+
+        capyDisplay.addEventListener('click', function() {
+            playCapyJump();
+            this.classList.remove('jumping');
+            void this.offsetWidth;
+            this.classList.add('jumping');
+            setTimeout(() => this.classList.remove('jumping'), 800);
         });
 
         // ─── BEAR ──────────────────────────────────────────────────────
