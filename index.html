@@ -524,6 +524,20 @@
         .pet-num1 .num { position:absolute; bottom:1px; left:0; right:0; text-align:center; font-size:12px; font-weight:900; color:#7a4a00; font-family:Arial,sans-serif; line-height:1; }
         .pet-num1 .shine { width:4px; height:4px; background:rgba(255,255,255,0.7); border-radius:50%; position:absolute; top:2px; left:2px; }
 
+        /* NUMBER 2 PET */
+        .pet-num2 { position:relative; width:16px; height:20px; }
+        .pet-num2 .body  { width:16px; height:16px; background:#4488ff; border-radius:2px; position:absolute; bottom:0; box-shadow:0 0 7px rgba(68,136,255,0.9); }
+        .pet-num2 .num   { position:absolute; bottom:1px; left:0; right:0; text-align:center; font-size:12px; font-weight:900; color:#fff; font-family:Arial,sans-serif; line-height:1; text-shadow:0 1px 2px rgba(0,0,100,0.5); }
+        .pet-num2 .shine { width:4px; height:4px; background:rgba(255,255,255,0.75); border-radius:50%; position:absolute; top:2px; left:2px; }
+
+        /* ICE CREAM CONE HAT */
+        .hat-icecream { position:relative; width:26px; transform:rotate(-11deg); transform-origin:bottom center; }
+        .hat-icecream .cone  { width:0; height:0; border-left:11px solid transparent; border-right:11px solid transparent; border-bottom:22px solid #c8843a; margin:0 auto; position:relative; }
+        .hat-icecream .cone::before { content:''; position:absolute; top:4px; left:-5px; width:10px; height:1px; background:rgba(255,255,255,0.25); }
+        .hat-icecream .scoop { width:24px; height:18px; background:radial-gradient(ellipse at 38% 32%, #ffeedd, #f0a868); border-radius:50% 50% 40% 40%; margin:0 auto; position:relative; }
+        .hat-icecream .scoop::before { content:''; position:absolute; top:4px; left:5px; width:7px; height:4px; background:rgba(255,255,255,0.35); border-radius:50%; transform:rotate(-20deg); }
+        .hat-icecream .drip  { width:5px; height:8px; background:#f0a868; border-radius:0 0 50% 50%; position:absolute; bottom:-6px; left:8px; }
+
         /* CAT PET */
         .pet-cat { position:relative; width:20px; height:22px; }
         .pet-cat .body { width:18px; height:11px; background:#aaa; border-radius:40%; position:absolute; bottom:0; left:1px; }
@@ -1245,6 +1259,7 @@
             { id: 'gold',       name: 'Gold Pet',     price: 0,   winUnlock: true,    html: `<div class="pet-gold-pet"><div class="body"></div><div class="head"></div><div class="eye"></div><div class="shine"></div></div>` },
             { id: 'cat',        name: 'Cat',          price: 0,   buttonUnlock: true,   html: `<div class="pet-cat"><div class="tail"></div><div class="body"></div><div class="head"></div><div class="ear-l"></div><div class="ear-r"></div><div class="eye-l"></div><div class="eye-r"></div><div class="nose"></div></div>` },
             { id: 'num1',       name: 'Number 1',     price: 0,   counterUnlock: 1000,  html: `<div class="pet-num1"><div class="body"></div><div class="shine"></div><div class="num">1</div></div>` },
+            { id: 'num2',       name: 'Number 2',     price: 0,   counterUnlock: 2000,  html: `<div class="pet-num2"><div class="body"></div><div class="shine"></div><div class="num">2</div></div>` },
             { id: 'stickman',   name: 'Stickman',     price: 110, html: `<div class="pet-stick"><div class="head"></div><div class="body"></div><div class="arms"></div><div class="leg-l"></div><div class="leg-r"></div></div>` },
             { id: 'dolphin',    name: 'Dolphin',      price: 140, html: `<div class="pet-dolphin"><div class="tail-t"></div><div class="tail-b"></div><div class="body"></div><div class="belly"></div><div class="fin"></div><div class="head"></div><div class="snout"></div><div class="eye"></div></div>` },
         ];
@@ -1264,7 +1279,8 @@
             { id: 'tomato',     name: 'Tomato',      price: 70,  html: `<div class="hat-tomato"><div class="stem"></div><div class="leaf-l"></div><div class="leaf-r"></div><div class="body"></div></div>` },
             { id: 'candycane',  name: 'Candy Cane',  price: 90,  html: `<div class="hat-candycane"><div class="hook"></div><div class="stick"></div></div>` },
             { id: 'brokenegg',  name: 'Broken Egg',   price: 0,   eggUnlock: true, html: `<div class="hat-broken-egg"><div class="shell"></div><div class="crack"></div></div>` },
-            { id: 'capywinter', name: 'Capy Beanie',  price: 85,  html: `<div class="hat-capywinter"><div class="pom"></div><div class="body"><div class="ear-l"></div><div class="ear-r"></div></div><div class="band"></div></div>` },
+            { id: 'capywinter',  name: 'Capy Beanie',   price: 85,            html: `<div class="hat-capywinter"><div class="pom"></div><div class="body"><div class="ear-l"></div><div class="ear-r"></div></div><div class="band"></div></div>` },
+            { id: 'icecream',    name: 'Ice Cream',     price: 0, counterUnlock: 2000, html: `<div class="hat-icecream"><div class="cone"></div><div class="scoop"><div class="drip"></div></div></div>` },
         ];
 
         const AVATARS = [
@@ -1708,12 +1724,16 @@
             hatGrid.innerHTML = '';
             HATS.forEach(hat => {
                 const isOwned = d.ownedHats.includes(hat.id);
-                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock && !hat.eggUnlock;
+                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock && !hat.eggUnlock && !hat.counterUnlock;
                 const owned = isOwned || freeOwned;
-                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock) && !isOwned) {
+                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock || hat.counterUnlock) && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
-                    const lockLabel = hat.winUnlock ? '🏆 Win to Unlock' : hat.secretUnlock ? '🌈 Secret Unlock' : '🥚 Break the egg';
+                    let lockLabel;
+                    if (hat.winUnlock) lockLabel = '🏆 Win to Unlock';
+                    else if (hat.secretUnlock) lockLabel = '🌈 Secret Unlock';
+                    else if (hat.eggUnlock) lockLabel = '🥚 Break the egg';
+                    else { const cur = parseInt(localStorage.getItem('wg_counter')||'0'); lockLabel = `🔢 ${cur}/${hat.counterUnlock}`; }
                     card.innerHTML = `
                         <div class="pet-preview">${hat.html}</div>
                         <div class="pet-name">${hat.name}</div>
@@ -2225,12 +2245,16 @@
             counterEl.textContent = counter;
             if (counter >= 1000) {
                 const d = loadData();
-                if (!d.owned.includes('num1')) {
-                    d.owned.push('num1');
-                    saveData(d);
-                    gameData = d;
+                let changed = false;
+                if (!d.owned.includes('num1')) { d.owned.push('num1'); changed = true; }
+                if (counter >= 2000) {
+                    if (!d.owned.includes('num2'))         { d.owned.push('num2');      changed = true; }
+                    if (!d.ownedHats.includes('icecream')) { d.ownedHats.push('icecream'); changed = true; }
+                }
+                if (changed) {
+                    saveData(d); gameData = d;
                     playSound('buy');
-                    renderIngamePet();
+                    renderIngamePet(); renderIngameHat();
                     if (document.getElementById('storeModal').classList.contains('open')) renderStore();
                 }
             }
