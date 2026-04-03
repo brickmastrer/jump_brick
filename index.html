@@ -825,6 +825,78 @@
         }
         #bearDisplay.running .bear-wrap { animation:bearRun 0.8s ease-in forwards; pointer-events:none; }
 
+        /* BUSH BUTTON */
+        #bushBtn {
+            position:fixed; right:16px; top:calc(50%);
+            width:48px; height:48px; border-radius:50%;
+            background:#2a7a1a; border:3px solid #5aaa3a;
+            cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #bushBtn:hover { transform:scale(1.15); }
+        #bushDisplay {
+            position:fixed; right:82px; top:calc(50% - 24px);
+            display:none; z-index:500; cursor:pointer; user-select:none;
+        }
+        #bushDisplay.visible { display:block; }
+
+        /* BUSH */
+        .bush-wrap { position:relative; width:70px; height:52px; }
+        .bush-main  { position:absolute; bottom:0; left:8px; width:54px; height:38px; background:#2e8a1a; border-radius:50% 50% 30% 30%; }
+        .bush-left  { position:absolute; bottom:4px; left:0;  width:32px; height:28px; background:#358f20; border-radius:50%; }
+        .bush-right { position:absolute; bottom:4px; right:0; width:32px; height:28px; background:#358f20; border-radius:50%; }
+        .bush-top   { position:absolute; bottom:22px; left:18px; width:34px; height:26px; background:#3aaa22; border-radius:50%; }
+        .bush-spot-l { position:absolute; bottom:16px; left:14px; width:8px; height:6px; background:#28781a; border-radius:50%; }
+        .bush-spot-r { position:absolute; bottom:20px; right:16px; width:6px; height:5px; background:#28781a; border-radius:50%; }
+
+        /* FOX (hidden in bush, pops out on click) */
+        .fox-wrap { position:absolute; bottom:30px; left:50%; transform:translateX(-50%); display:none; }
+        .fox-body  { position:relative; width:32px; height:44px; }
+        .fox-tail  { position:absolute; bottom:4px; right:-18px; width:22px; height:16px; background:#e05a10; border-radius:50% 50% 40% 10%; transform:rotate(-30deg); }
+        .fox-tail::after { content:''; position:absolute; right:-4px; top:-2px; width:10px; height:10px; background:#f5f5f5; border-radius:50%; }
+        .fox-torso { position:absolute; bottom:0; left:4px; width:24px; height:20px; background:#e05a10; border-radius:40% 40% 30% 30%; }
+        .fox-belly { position:absolute; bottom:2px; left:8px; width:16px; height:14px; background:#f5dcc8; border-radius:50%; }
+        .fox-head  { position:absolute; top:0; left:3px; width:26px; height:22px; background:#e05a10; border-radius:50% 50% 35% 35%; }
+        .fox-ear-l { position:absolute; top:-10px; left:3px;  width:0; height:0; border-left:7px solid transparent; border-right:7px solid transparent; border-bottom:14px solid #e05a10; }
+        .fox-ear-r { position:absolute; top:-10px; right:3px; width:0; height:0; border-left:7px solid transparent; border-right:7px solid transparent; border-bottom:14px solid #e05a10; }
+        .fox-ear-li { position:absolute; top:-6px; left:5px;  width:0; height:0; border-left:4px solid transparent; border-right:4px solid transparent; border-bottom:8px solid #e88888; }
+        .fox-ear-ri { position:absolute; top:-6px; right:5px; width:0; height:0; border-left:4px solid transparent; border-right:4px solid transparent; border-bottom:8px solid #e88888; }
+        .fox-muzzle { position:absolute; top:12px; left:50%; transform:translateX(-50%); width:14px; height:9px; background:#f5dcc8; border-radius:50%; }
+        .fox-nose   { position:absolute; top:10px; left:50%; transform:translateX(-50%); width:5px; height:4px; background:#111; border-radius:50%; }
+        .fox-eye-l  { position:absolute; top:6px; left:5px;  width:4px; height:4px; background:#111; border-radius:50%; }
+        .fox-eye-r  { position:absolute; top:6px; right:5px; width:4px; height:4px; background:#111; border-radius:50%; }
+
+        @keyframes foxPop {
+            0%   { transform:translateX(-50%) translateY(40px) scale(0.5); opacity:0; }
+            40%  { transform:translateX(-50%) translateY(-18px) scale(1.08); opacity:1; }
+            65%  { transform:translateX(-50%) translateY(0px) scale(0.95); opacity:1; }
+            80%  { transform:translateX(-50%) translateY(-8px) scale(1.02); opacity:1; }
+            100% { transform:translateX(-50%) translateY(0px) scale(1); opacity:1; }
+        }
+        #bushDisplay.fox-out .fox-wrap { display:block; animation:foxPop 0.6s cubic-bezier(0.36,0.07,0.19,0.97) forwards; }
+        @keyframes bushShake {
+            0%,100% { transform:rotate(0deg); }
+            20% { transform:rotate(-6deg); }
+            40% { transform:rotate(6deg); }
+            60% { transform:rotate(-4deg); }
+            80% { transform:rotate(4deg); }
+        }
+        #bushDisplay.fox-out .bush-wrap { animation:bushShake 0.3s ease; }
+
+        /* FOX PET */
+        .pet-fox { position:relative; width:22px; height:20px; }
+        .pet-fox .tail  { position:absolute; bottom:2px; right:-8px; width:12px; height:9px; background:#e05a10; border-radius:50% 50% 40% 10%; transform:rotate(-25deg); }
+        .pet-fox .tail::after { content:''; position:absolute; right:-3px; top:-2px; width:6px; height:6px; background:#f5f5f5; border-radius:50%; }
+        .pet-fox .body  { position:absolute; bottom:0; left:1px; width:18px; height:12px; background:#e05a10; border-radius:40% 40% 30% 30%; }
+        .pet-fox .belly { position:absolute; bottom:1px; left:5px; width:10px; height:8px; background:#f5dcc8; border-radius:50%; }
+        .pet-fox .head  { position:absolute; top:0; left:4px; width:14px; height:12px; background:#e05a10; border-radius:50%; }
+        .pet-fox .ear-l { position:absolute; top:-5px; left:4px;  width:0; height:0; border-left:4px solid transparent; border-right:4px solid transparent; border-bottom:7px solid #e05a10; }
+        .pet-fox .ear-r { position:absolute; top:-5px; right:4px; width:0; height:0; border-left:4px solid transparent; border-right:4px solid transparent; border-bottom:7px solid #e05a10; }
+        .pet-fox .nose  { position:absolute; top:5px; left:50%; transform:translateX(-50%); width:3px; height:2px; background:#111; border-radius:50%; }
+        .pet-fox .eye   { position:absolute; top:3px; right:4px; width:2px; height:2px; background:#111; border-radius:50%; }
+
         /* NINJA SECRET BUTTON */
         #ninjaBtn {
             position: fixed; bottom: 5px; left: 5px;
@@ -1688,6 +1760,28 @@
             <div class="bear-body"></div>
         </div>
     </div>
+    <!-- BUSH BUTTON -->
+    <button id="bushBtn" onclick="spawnBush()" title="Spawn a bush">🌿</button>
+    <div id="bushDisplay">
+        <div class="bush-wrap">
+            <div class="bush-left"></div><div class="bush-right"></div>
+            <div class="bush-main"></div><div class="bush-top"></div>
+            <div class="bush-spot-l"></div><div class="bush-spot-r"></div>
+        </div>
+        <div class="fox-wrap">
+            <div class="fox-body">
+                <div class="fox-tail"></div>
+                <div class="fox-torso"></div><div class="fox-belly"></div>
+                <div class="fox-head">
+                    <div class="fox-ear-l"></div><div class="fox-ear-r"></div>
+                    <div class="fox-ear-li"></div><div class="fox-ear-ri"></div>
+                    <div class="fox-eye-l"></div><div class="fox-eye-r"></div>
+                    <div class="fox-muzzle"></div><div class="fox-nose"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- DINO BUTTON -->
     <button id="dinoBtn" onclick="spawnDino()" title="Spawn dinosaur">🦕</button>
     <div id="dinoDisplay">
@@ -2035,6 +2129,7 @@
             { id: 'bunny',      name: 'Bunny',        price: 90,  html: `<div class="pet-bunny"><div class="ear-l"></div><div class="ear-r"></div><div class="inner-l"></div><div class="inner-r"></div><div class="body"></div><div class="head"></div><div class="eye"></div><div class="nose"></div><div class="tail"></div></div>` },
             { id: 'gold',       name: 'Gold Pet',     price: 0,   winUnlock: true,    html: `<div class="pet-gold-pet"><div class="body"></div><div class="head"></div><div class="eye"></div><div class="shine"></div></div>` },
             { id: 'cat',        name: 'Cat',          price: 0,   buttonUnlock: true,   html: `<div class="pet-cat"><div class="tail"></div><div class="body"></div><div class="head"></div><div class="ear-l"></div><div class="ear-r"></div><div class="eye-l"></div><div class="eye-r"></div><div class="nose"></div></div>` },
+            { id: 'fox',        name: 'Fox',          price: 0,   bushUnlock: true,     html: `<div class="pet-fox"><div class="tail"></div><div class="body"></div><div class="belly"></div><div class="head"><div class="ear-l"></div><div class="ear-r"></div><div class="eye"></div><div class="nose"></div></div></div>` },
             { id: 'num1',       name: 'Number 1',     price: 0,   counterUnlock: 1000,  html: `<div class="pet-num1"><div class="body"></div><div class="shine"></div><div class="num">1</div></div>` },
             { id: 'num2',       name: 'Number 2',     price: 0,   counterUnlock: 2000,  html: `<div class="pet-num2"><div class="body"></div><div class="shine"></div><div class="num">2</div></div>` },
             { id: 'num3',       name: 'Number 3',     price: 0,   counterUnlock: 3000,  html: `<div class="pet-num3"><div class="body"></div><div class="shine"></div><div class="num">3</div></div>` },
@@ -2513,6 +2608,11 @@
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${pet.html}</div><div class="pet-name">${pet.name}</div><div class="pet-price" style="color:#888">🥷 Secret Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    petGrid.appendChild(card);
+                } else if (pet.bushUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${pet.html}</div><div class="pet-name">${pet.name}</div><div class="pet-price" style="color:#5aaa3a">🌿 Find in the bush</div><button class="btn-cantafford">🔒 Locked</button>`;
                     petGrid.appendChild(card);
                 } else if (pet.buttonUnlock && !isOwned) {
                     const card = document.createElement('div');
@@ -3204,6 +3304,31 @@
             playBearRun();
             this.classList.add('running');
             setTimeout(() => this.classList.remove('visible', 'running'), 850);
+        });
+
+        // ─── BUSH / FOX ─────────────────────────────────────────────────
+        const bushDisplay = document.getElementById('bushDisplay');
+
+        function spawnBush() {
+            if (bushDisplay.classList.contains('fox-out')) return;
+            bushDisplay.classList.remove('fox-out');
+            void bushDisplay.offsetWidth;
+            bushDisplay.classList.toggle('visible');
+        }
+
+        bushDisplay.addEventListener('click', function() {
+            if (this.classList.contains('fox-out')) return;
+            this.classList.add('fox-out');
+            playSound('buy');
+            // Unlock fox pet
+            const d = loadData();
+            if (!d.owned.includes('fox')) {
+                d.owned.push('fox');
+                saveData(d);
+                gameData = d;
+                if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+            }
+            setTimeout(() => this.classList.remove('visible', 'fox-out'), 2000);
         });
 
         // ─── NINJA SECRET BUTTON ───────────────────────────────────────
