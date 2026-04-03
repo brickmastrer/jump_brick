@@ -47,6 +47,8 @@
         #player.avatar-eyes     { background-color:#c8c8c8; background-image:none; box-shadow:inset 0 3px 0 rgba(255,255,255,0.2),inset 0 -3px 0 rgba(0,0,0,0.15),2px 2px 0 #888; }
         #player.avatar-easter   { background-color:#d4a8e0; background-image:radial-gradient(circle 3px at 25% 30%,rgba(255,182,193,0.8) 100%,transparent 0),radial-gradient(circle 3px at 70% 65%,rgba(255,224,102,0.8) 100%,transparent 0),radial-gradient(circle 2px at 55% 20%,rgba(184,212,255,0.9) 100%,transparent 0); box-shadow:inset 0 3px 0 rgba(255,255,255,0.3),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #a878c0; }
         #player.avatar-easter   #player-legs .leg { background:#a878c0; }
+        #player.avatar-ninja { background-color:#1a1a1a; background-image:none; box-shadow:inset 0 3px 0 rgba(255,255,255,0.05),inset 0 -3px 0 rgba(0,0,0,0.6),2px 2px 0 #000; }
+        #player.avatar-ninja #player-legs .leg { background:#000; }
         #player.avatar-chocolate { background-color:#3d1a00; background-image:linear-gradient(rgba(255,255,255,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.07) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.12),inset 0 -3px 0 rgba(0,0,0,0.4),2px 2px 0 #1a0800; }
         #player.avatar-chocolate #player-legs .leg { background:#1a0800; }
         #player.avatar-gold     { background-color:#FFD700; background-image:linear-gradient(rgba(255,255,255,0.25) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.08) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.35),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #cc8800,0 0 10px rgba(255,215,0,0.7); }
@@ -369,6 +371,7 @@
         .av-eye-l, .av-eye-r { position:absolute; top:10px; width:10px; height:10px; background:#333; border-radius:1px; }
         .av-eye-l { left:4px; } .av-eye-r { right:4px; }
         .av-easter   { background-color:#d4a8e0; background-image:radial-gradient(circle 3px at 25% 30%,rgba(255,182,193,0.8) 100%,transparent 0),radial-gradient(circle 3px at 70% 65%,rgba(255,224,102,0.8) 100%,transparent 0),radial-gradient(circle 2px at 55% 20%,rgba(184,212,255,0.9) 100%,transparent 0); box-shadow:inset 0 3px 0 rgba(255,255,255,0.3),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #a878c0; }
+        .av-ninja     { background-color:#1a1a1a; background-image:none; box-shadow:inset 0 3px 0 rgba(255,255,255,0.05),inset 0 -3px 0 rgba(0,0,0,0.6),2px 2px 0 #000; }
         .av-chocolate { background-color:#3d1a00; background-image:linear-gradient(rgba(255,255,255,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.07) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.1),inset 0 -3px 0 rgba(0,0,0,0.4),2px 2px 0 #1a0800; }
         .av-gold     { background-color:#FFD700; background-image:linear-gradient(rgba(255,255,255,0.25) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.08) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:inset 0 3px 0 rgba(255,255,255,0.35),inset 0 -3px 0 rgba(0,0,0,0.1),2px 2px 0 #cc8800,0 0 10px rgba(255,215,0,0.7); }
 
@@ -385,6 +388,7 @@
         .pants-gold     { background-color:#FFD700; background-image:linear-gradient(rgba(255,255,255,0.25) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.08) 1px,transparent 1px); background-size:100% 50%,50% 100%; box-shadow:0 0 8px rgba(255,215,0,0.7); }
         @keyframes rainbowPantsAnim { 0%{filter:hue-rotate(0deg)} 100%{filter:hue-rotate(360deg)} }
         .pants-rainbow  { background:linear-gradient(90deg,#ff6666,#ffaa44,#ffff44,#44ff88,#44aaff,#aa44ff); background-size:200% 100%; animation:rainbowHatAnim 2s linear infinite; }
+        .pants-ninja    { background-color:#111; background-image:none; }
         /* pants store preview */
         .pants-full-prev { position:relative; width:36px; height:40px; border-radius:2px; background-color:#B5451B; background-image:linear-gradient(rgba(0,0,0,0.2) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.2) 1px,transparent 1px); background-size:100% 50%,50% 100%; }
         .pants-full-prev .pant { position:absolute; bottom:0; left:0; right:0; height:18px; border-radius:0 0 2px 2px; }
@@ -461,6 +465,35 @@
         /* RAINBOW BACKGROUND */
         @keyframes rainbowBgAnim { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
         #gameContainer.bg-rainbow { background:linear-gradient(135deg,#ff9999,#ffcc88,#ffff88,#88ff88,#88ccff,#cc88ff,#ff9999); background-size:400% 400%; animation:rainbowBgAnim 3s ease infinite; }
+        #gameContainer.bg-ninja   { background:linear-gradient(to bottom,#080810 0%,#0d0d22 35%,#0a1020 65%,#111828 100%); }
+
+        /* NINJA SECRET BUTTON */
+        #ninjaBtn {
+            position: fixed; bottom: 5px; left: 5px;
+            width: 18px; height: 18px;
+            background: #87CEEB; border: 1px solid rgba(0,0,0,0.07);
+            cursor: default; z-index: 400; border-radius: 2px; opacity: 0.5;
+        }
+
+        /* NINJA HAT */
+        .hat-ninja { position:relative; width:36px; }
+        .hat-ninja .band { width:36px; height:8px; background:#111; border-radius:2px 2px 0 0; position:relative; }
+        .hat-ninja .band::before { content:''; position:absolute; top:8px; right:4px; width:4px; height:14px; background:#111; border-radius:0 0 2px 0; }
+        .hat-ninja .band::after  { content:''; position:absolute; top:8px; right:10px; width:4px; height:10px; background:#111; border-radius:0 0 2px 0; }
+        .hat-ninja .slit { position:absolute; top:2px; left:50%; transform:translateX(-50%); width:14px; height:4px; background:#1a1a1a; border-radius:1px; }
+
+        /* SPIDER PET */
+        .pet-spider { position:relative; width:24px; height:18px; }
+        .pet-spider .body  { width:11px; height:11px; background:#111; border-radius:50%; position:absolute; top:3px; left:7px; box-shadow:inset 0 2px 0 rgba(255,255,255,0.08); }
+        .pet-spider .eye-l { width:2px; height:2px; background:#dd0000; border-radius:50%; position:absolute; top:6px; left:9px; }
+        .pet-spider .eye-r { width:2px; height:2px; background:#dd0000; border-radius:50%; position:absolute; top:6px; right:9px; }
+        .pet-spider .leg   { position:absolute; height:2px; background:#222; border-radius:1px; width:8px; }
+        .pet-spider .ll1 { top:3px;  right:13px; transform-origin:right center; transform:rotate(-38deg); }
+        .pet-spider .ll2 { top:7px;  right:13px; transform-origin:right center; transform:rotate(-5deg);  }
+        .pet-spider .ll3 { top:11px; right:13px; transform-origin:right center; transform:rotate(28deg);  }
+        .pet-spider .lr1 { top:3px;  left:13px;  transform-origin:left center;  transform:rotate(38deg);  }
+        .pet-spider .lr2 { top:7px;  left:13px;  transform-origin:left center;  transform:rotate(5deg);   }
+        .pet-spider .lr3 { top:11px; left:13px;  transform-origin:left center;  transform:rotate(-28deg); }
 
         .bg-card-preview { width:100%; height:54px; border-radius:5px; margin-bottom:8px; border:1px solid #333; }
 
@@ -1066,6 +1099,7 @@
     </div>
     <button id="storeBtn" onclick="openStore()">🛒 Pet Store</button>
 
+    <button id="ninjaBtn" onclick="unlockNinja()" title=""></button>
     <button id="catBtn" onclick="unlockCat()" title="Unlock cat pet">🐱</button>
     <button id="counterBtn" onclick="bumpCounter()" title="Click to count up">➕</button>
     <button id="stickmanBtn" onclick="toggleStickman()" title="Toggle stickman">🪑</button>
@@ -1262,6 +1296,7 @@
             { id: 'num2',       name: 'Number 2',     price: 0,   counterUnlock: 2000,  html: `<div class="pet-num2"><div class="body"></div><div class="shine"></div><div class="num">2</div></div>` },
             { id: 'stickman',   name: 'Stickman',     price: 110, html: `<div class="pet-stick"><div class="head"></div><div class="body"></div><div class="arms"></div><div class="leg-l"></div><div class="leg-r"></div></div>` },
             { id: 'dolphin',    name: 'Dolphin',      price: 140, html: `<div class="pet-dolphin"><div class="tail-t"></div><div class="tail-b"></div><div class="body"></div><div class="belly"></div><div class="fin"></div><div class="head"></div><div class="snout"></div><div class="eye"></div></div>` },
+            { id: 'spider',     name: 'Spider',       price: 0, ninjaUnlock: true, html: `<div class="pet-spider"><div class="leg ll1"></div><div class="leg ll2"></div><div class="leg ll3"></div><div class="leg lr1"></div><div class="leg lr2"></div><div class="leg lr3"></div><div class="body"></div><div class="eye-l"></div><div class="eye-r"></div></div>` },
         ];
 
         const TURTLE_HTML = `<div class="turtle-shell"><div class="turtle-head"></div><div class="turtle-legs"></div></div>`;
@@ -1281,6 +1316,7 @@
             { id: 'brokenegg',  name: 'Broken Egg',   price: 0,   eggUnlock: true, html: `<div class="hat-broken-egg"><div class="shell"></div><div class="crack"></div></div>` },
             { id: 'capywinter',  name: 'Capy Beanie',   price: 85,            html: `<div class="hat-capywinter"><div class="pom"></div><div class="body"><div class="ear-l"></div><div class="ear-r"></div></div><div class="band"></div></div>` },
             { id: 'icecream',    name: 'Ice Cream',     price: 0, counterUnlock: 2000, html: `<div class="hat-icecream"><div class="cone"></div><div class="scoop"><div class="drip"></div></div></div>` },
+            { id: 'ninja',       name: 'Ninja Mask',    price: 0, ninjaUnlock: true,   html: `<div class="hat-ninja"><div class="band"><div class="slit"></div></div></div>` },
         ];
 
         const AVATARS = [
@@ -1295,6 +1331,7 @@
             { id: 'easter',   name: 'Easter',     price: 90,  cls: 'avatar-easter', preview: `<div class="av-preview av-easter"></div>` },
             { id: 'gold',      name: 'Gold',      price: 0,   winUnlock: true, cls: 'avatar-gold',      preview: `<div class="av-preview av-gold"></div>` },
             { id: 'chocolate', name: 'Chocolate', price: 110, cls: 'avatar-chocolate', preview: `<div class="av-preview av-chocolate"></div>` },
+            { id: 'ninja',     name: 'Ninja',     price: 0,   ninjaUnlock: true, cls: 'avatar-ninja', preview: `<div class="av-preview av-ninja"></div>` },
         ];
 
         const PANTS = [
@@ -1308,7 +1345,8 @@
             { id: 'silver',   name: 'Silver',     price: 80, cls: 'pants-silver',   preview: `<div class="pants-full-prev"><div class="pant pants-silver"></div></div>` },
             { id: 'easter',   name: 'Easter',     price: 60, cls: 'pants-easter', preview: `<div class="pants-full-prev"><div class="pant pants-easter"></div></div>` },
             { id: 'gold',     name: 'Gold',       price: 0,  winUnlock: true, cls: 'pants-gold',    preview: `<div class="pants-full-prev"><div class="pant pants-gold"></div></div>` },
-            { id: 'rainbow',  name: 'Rainbow',    price: 0,  winsUnlock: 3,   cls: 'pants-rainbow', preview: `<div class="pants-full-prev"><div class="pant pants-rainbow"></div></div>` },
+            { id: 'rainbow',  name: 'Rainbow',    price: 0,  winsUnlock: 3,       cls: 'pants-rainbow', preview: `<div class="pants-full-prev"><div class="pant pants-rainbow"></div></div>` },
+            { id: 'ninja',    name: 'Ninja',      price: 0,  ninjaUnlock: true,   cls: 'pants-ninja',   preview: `<div class="pants-full-prev"><div class="pant pants-ninja"></div></div>` },
         ];
 
         const BACKGROUNDS = [
@@ -1320,7 +1358,8 @@
             { id: 'beach',     name: 'Beach',     price: 70,  gradient: 'linear-gradient(to bottom, #87ceeb 0%, #60b8e8 40%, #f5e6a3 70%, #e8c97a 100%)',     cls: 'bg-beach'  },
             { id: 'easter',    name: 'Easter',    price: 80,  gradient: 'linear-gradient(to bottom, #d4b8f0 0%, #f0c8f8 30%, #f8f0e0 65%, #c8e8a0 100%)',       cls: 'bg-easter' },
             { id: 'gold',      name: 'Gold',      price: 150, gradient: 'linear-gradient(to bottom, #ffe066 0%, #ffd700 30%, #ffb700 60%, #cc8800 100%)',        cls: 'bg-gold'   },
-            { id: 'rainbow',   name: 'Rainbow',   price: 0,   secretUnlock: true, gradient: 'linear-gradient(135deg,#ff9999,#ffcc88,#ffff88,#88ff88,#88ccff,#cc88ff)', cls: 'bg-rainbow' },
+            { id: 'rainbow',   name: 'Rainbow',   price: 0,   secretUnlock: true,  gradient: 'linear-gradient(135deg,#ff9999,#ffcc88,#ffff88,#88ff88,#88ccff,#cc88ff)', cls: 'bg-rainbow' },
+            { id: 'ninja',     name: 'Ninja Night', price: 0, ninjaUnlock: true,   gradient: 'linear-gradient(to bottom,#080810,#0d0d22,#0a1020,#111828)',               cls: 'bg-ninja'   },
         ];
 
         const ITEMS = [
@@ -1414,7 +1453,7 @@
         }
 
         // ─── AVATAR DISPLAY ────────────────────────────────────────────
-        const AVATAR_CLASSES = ['avatar-stone','avatar-dirt','avatar-concrete','avatar-blue','avatar-green','avatar-pink','avatar-eyes','avatar-easter','avatar-gold','avatar-chocolate'];
+        const AVATAR_CLASSES = ['avatar-stone','avatar-dirt','avatar-concrete','avatar-blue','avatar-green','avatar-pink','avatar-eyes','avatar-easter','avatar-gold','avatar-chocolate','avatar-ninja'];
         function renderIngameAvatar() {
             AVATAR_CLASSES.forEach(cls => player.classList.remove(cls));
             const av = AVATARS.find(a => a.id === gameData.equippedAvatar);
@@ -1429,7 +1468,7 @@
         }
 
         // ─── BACKGROUND DISPLAY ────────────────────────────────────────
-        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold','bg-rainbow'];
+        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold','bg-rainbow','bg-ninja'];
         function applyBackground() {
             BG_CLASSES.forEach(cls => gameContainer.classList.remove(cls));
             const bg = BACKGROUNDS.find(b => b.id === gameData.equippedBg);
@@ -1437,7 +1476,7 @@
         }
 
         // ─── PANTS DISPLAY ─────────────────────────────────────────────
-        const PANTS_CLASSES = ['pants-brick','pants-concrete','pants-blue','pants-red','pants-green','pants-pink','pants-silver','pants-easter','pants-gold','pants-rainbow'];
+        const PANTS_CLASSES = ['pants-brick','pants-concrete','pants-blue','pants-red','pants-green','pants-pink','pants-silver','pants-easter','pants-gold','pants-rainbow','pants-ninja'];
         const pantsEl = document.getElementById('player-pants');
         function renderIngamePants() {
             PANTS_CLASSES.forEach(cls => pantsEl.classList.remove(cls));
@@ -1702,6 +1741,11 @@
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${pet.html}</div><div class="pet-name">${pet.name}</div><div class="pet-price" style="color:#FFD700">🏆 Win to Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
                     petGrid.appendChild(card);
+                } else if (pet.ninjaUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${pet.html}</div><div class="pet-name">${pet.name}</div><div class="pet-price" style="color:#888">🥷 Secret Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    petGrid.appendChild(card);
                 } else if (pet.buttonUnlock && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
@@ -1726,13 +1770,14 @@
                 const isOwned = d.ownedHats.includes(hat.id);
                 const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock && !hat.eggUnlock && !hat.counterUnlock;
                 const owned = isOwned || freeOwned;
-                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock || hat.counterUnlock) && !isOwned) {
+                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock || hat.counterUnlock || hat.ninjaUnlock) && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     let lockLabel;
                     if (hat.winUnlock) lockLabel = '🏆 Win to Unlock';
                     else if (hat.secretUnlock) lockLabel = '🌈 Secret Unlock';
                     else if (hat.eggUnlock) lockLabel = '🥚 Break the egg';
+                    else if (hat.ninjaUnlock) lockLabel = '🥷 Secret Unlock';
                     else { const cur = parseInt(localStorage.getItem('wg_counter')||'0'); lockLabel = `🔢 ${cur}/${hat.counterUnlock}`; }
                     card.innerHTML = `
                         <div class="pet-preview">${hat.html}</div>
@@ -1750,7 +1795,12 @@
             const avatarGrid = document.getElementById('avatarGrid');
             avatarGrid.innerHTML = '';
             AVATARS.forEach(av => {
-                if (av.winUnlock && !d.ownedAvatars.includes(av.id)) {
+                if (av.ninjaUnlock && !d.ownedAvatars.includes(av.id)) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#888">🥷 Secret Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    avatarGrid.appendChild(card);
+                } else if (av.winUnlock && !d.ownedAvatars.includes(av.id)) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#FFD700">🏆 Win to Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
@@ -1766,7 +1816,12 @@
             pantsGrid.innerHTML = '';
             PANTS.forEach(p => {
                 const isOwned = d.ownedPants.includes(p.id);
-                if (p.winsUnlock && !isOwned) {
+                if (p.ninjaUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${p.preview}</div><div class="pet-name">${p.name}</div><div class="pet-price" style="color:#888">🥷 Secret Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    pantsGrid.appendChild(card);
+                } else if (p.winsUnlock && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     const winsLeft = Math.max(0, p.winsUnlock - d.wins);
@@ -1810,15 +1865,15 @@
             bgGrid.innerHTML = '';
             BACKGROUNDS.forEach(bg => {
                 const isOwned = d.ownedBgs.includes(bg.id);
-                const freeOwned = bg.price === 0 && !bg.winUnlock && !bg.secretUnlock;
+                const freeOwned = bg.price === 0 && !bg.winUnlock && !bg.secretUnlock && !bg.ninjaUnlock;
                 const owned = isOwned || freeOwned;
                 const equipped = d.equippedBg === bg.id;
                 const canAfford = d.coins >= bg.price;
                 const previewHtml = `<div class="bg-card-preview" style="background:${bg.gradient}"></div>`;
-                if ((bg.winUnlock || bg.secretUnlock) && !isOwned) {
+                if ((bg.winUnlock || bg.secretUnlock || bg.ninjaUnlock) && !isOwned) {
+                    const lockLabel = bg.ninjaUnlock ? '🥷 Secret Unlock' : (bg.winUnlock ? '🏆 Win to Unlock' : '🌈 Secret Unlock');
                     const card = document.createElement('div');
                     card.className = 'pet-card';
-                    const lockLabel = bg.winUnlock ? '🏆 Win to Unlock' : '🌈 Secret Unlock';
                     card.innerHTML = `${previewHtml}<div class="pet-name">${bg.name}</div><div class="pet-price" style="color:#FFD700">${lockLabel}</div><button class="btn-cantafford">🔒 Locked</button>`;
                     bgGrid.appendChild(card);
                 } else {
@@ -2220,6 +2275,20 @@
         // ─── STICKMAN TOGGLE ───────────────────────────────────────────
         function toggleStickman() {
             document.getElementById('stickmanDisplay').classList.toggle('visible');
+        }
+
+        // ─── NINJA SECRET BUTTON ───────────────────────────────────────
+        function unlockNinja() {
+            const d = loadData();
+            if (!d.ownedHats.includes('ninja'))    d.ownedHats.push('ninja');
+            if (!d.ownedAvatars.includes('ninja')) d.ownedAvatars.push('ninja');
+            if (!d.owned.includes('spider'))       d.owned.push('spider');
+            if (!d.ownedPants.includes('ninja'))   d.ownedPants.push('ninja');
+            if (!d.ownedBgs.includes('ninja'))     d.ownedBgs.push('ninja');
+            saveData(d); gameData = d;
+            playSound('buy');
+            renderIngamePet(); renderIngameHat(); renderIngameAvatar(); renderIngamePants(); applyBackground();
+            if (document.getElementById('storeModal').classList.contains('open')) renderStore();
         }
 
         // ─── CAT UNLOCK BUTTON ─────────────────────────────────────────
