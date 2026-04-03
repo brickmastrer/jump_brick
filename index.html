@@ -825,6 +825,85 @@
         }
         #bearDisplay.running .bear-wrap { animation:bearRun 0.8s ease-in forwards; pointer-events:none; }
 
+        /* PALM TREE BUTTON */
+        #palmBtn {
+            position:fixed; right:16px; top:calc(50% + 64px);
+            width:48px; height:48px; border-radius:50%;
+            background:#5a3a10; border:3px solid #c8a030;
+            cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #palmBtn:hover { transform:scale(1.15); }
+        #palmDisplay {
+            position:fixed; right:86px; top:calc(50% - 60px);
+            display:none; z-index:500; cursor:pointer; user-select:none;
+        }
+        #palmDisplay.visible { display:block; }
+        .palm-wrap { position:relative; width:80px; height:110px; }
+        .palm-trunk { position:absolute; bottom:0; left:33px; width:14px; height:70px; background:#7a5020; border-radius:4px 4px 2px 2px; }
+        .palm-trunk::before { content:''; position:absolute; top:10px; left:1px; right:1px; bottom:0; background:repeating-linear-gradient(to bottom,rgba(0,0,0,0.08) 0,rgba(0,0,0,0.08) 6px,transparent 6px,transparent 12px); border-radius:3px; }
+        .palm-leaf-1 { position:absolute; top:12px; left:36px; width:36px; height:10px; background:#2aaa1a; border-radius:0 50% 50% 0; transform:rotate(-30deg); transform-origin:left center; }
+        .palm-leaf-2 { position:absolute; top:6px;  left:36px; width:38px; height:10px; background:#33bb22; border-radius:0 50% 50% 0; transform:rotate(-10deg); transform-origin:left center; }
+        .palm-leaf-3 { position:absolute; top:10px; left:36px; width:34px; height:10px; background:#28a018; border-radius:0 50% 50% 0; transform:rotate(15deg); transform-origin:left center; }
+        .palm-leaf-4 { position:absolute; top:18px; left:22px; width:36px; height:10px; background:#2aaa1a; border-radius:50% 0 0 50%; transform:rotate(200deg); transform-origin:right center; }
+        .palm-leaf-5 { position:absolute; top:12px; left:18px; width:38px; height:10px; background:#33bb22; border-radius:50% 0 0 50%; transform:rotate(180deg); transform-origin:right center; }
+        .palm-leaf-6 { position:absolute; top:20px; left:16px; width:34px; height:10px; background:#28a018; border-radius:50% 0 0 50%; transform:rotate(160deg); transform-origin:right center; }
+        .palm-coconut { position:absolute; top:34px; left:30px; width:18px; height:16px; background:#5a3010; border-radius:50%; border:2px solid #3a1a08; }
+        .palm-coconut::before { content:''; position:absolute; top:3px; left:3px; width:5px; height:5px; background:#3a1a08; border-radius:50%; }
+        @keyframes coconutFall {
+            0%   { transform:translateY(0) rotate(0deg); opacity:1; }
+            60%  { transform:translateY(65px) rotate(180deg); opacity:1; }
+            80%  { transform:translateY(58px) rotate(160deg); opacity:1; }
+            100% { transform:translateY(65px) rotate(200deg); opacity:0; }
+        }
+        #palmDisplay.coconut-falling .palm-coconut { animation:coconutFall 0.7s ease-in forwards; }
+
+        /* CHIPS BUTTON */
+        #chipsBtn {
+            position:fixed; left:16px; top:calc(50% + 80px);
+            width:48px; height:48px; border-radius:50%;
+            background:#e8a820; border:3px solid #ffe060;
+            cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #chipsBtn:hover { transform:scale(1.15); }
+        @keyframes chipsTitleAnim {
+            0%   { opacity:0; transform:translate(-50%,-50%) scale(0.5) rotate(-5deg); }
+            12%  { opacity:1; transform:translate(-50%,-50%) scale(1.1) rotate(2deg); }
+            22%  { opacity:1; transform:translate(-50%,-50%) scale(1) rotate(0deg); }
+            80%  { opacity:1; }
+            100% { opacity:0; transform:translate(-50%,-50%) scale(0.9); }
+        }
+        #chipsTitle {
+            position:fixed; top:40%; left:50%;
+            transform:translate(-50%,-50%);
+            font-size:36px; font-weight:900; color:#ffe060;
+            text-shadow:3px 3px 0 #7a4a00, -1px -1px 0 #7a4a00, 1px -1px 0 #7a4a00, -1px 1px 0 #7a4a00;
+            z-index:9998; pointer-events:none;
+            font-family:Arial,sans-serif; display:none; text-align:center; width:80vw;
+        }
+        #chipsTitle.showing { display:block; animation:chipsTitleAnim 3s ease forwards; }
+
+        /* COCONUT ITEM */
+        .item-coconut { position:relative; width:18px; height:16px; }
+        .item-coconut .shell { width:18px; height:16px; background:#5a3010; border-radius:50%; border:1.5px solid #3a1a08; }
+        .item-coconut .eye-l { position:absolute; top:4px; left:4px; width:4px; height:4px; background:#3a1a08; border-radius:50%; }
+        .item-coconut .eye-r { position:absolute; top:4px; right:4px; width:4px; height:4px; background:#3a1a08; border-radius:50%; }
+        .item-coconut .mouth { position:absolute; top:9px; left:50%; transform:translateX(-50%); width:7px; height:3px; background:#3a1a08; border-radius:0 0 4px 4px; }
+
+        /* CHIPS ITEM */
+        .item-chips { position:relative; width:20px; height:22px; }
+        .item-chips .bag { width:16px; height:18px; background:#e8a820; border-radius:3px 3px 5px 5px; position:absolute; bottom:0; left:2px; border:1.5px solid #c07810; }
+        .item-chips .top-l { position:absolute; top:0; left:0; width:10px; height:5px; background:#e8a820; border-radius:2px 0 0 0; border:1.5px solid #c07810; transform:skewX(-10deg); }
+        .item-chips .top-r { position:absolute; top:0; right:0; width:10px; height:5px; background:#e8a820; border-radius:0 2px 0 0; border:1.5px solid #c07810; transform:skewX(10deg); }
+        .item-chips .stripe { position:absolute; top:6px; left:5px; width:6px; height:8px; background:#ff4444; border-radius:1px; }
+        .item-chips .chip-l { position:absolute; top:2px; left:-4px; width:8px; height:6px; background:#ffe080; border-radius:3px 1px 4px 1px; transform:rotate(-20deg); border:1px solid #c8a020; }
+        .item-chips .chip-r { position:absolute; top:0; right:-3px; width:8px; height:6px; background:#ffe080; border-radius:1px 3px 1px 4px; transform:rotate(15deg); border:1px solid #c8a020; }
+
         /* BUSH BUTTON */
         #bushBtn {
             position:fixed; right:16px; top:calc(50%);
@@ -1760,6 +1839,21 @@
             <div class="bear-body"></div>
         </div>
     </div>
+    <!-- PALM TREE BUTTON -->
+    <button id="palmBtn" onclick="spawnPalm()" title="Spawn a palm tree">🌴</button>
+    <div id="palmDisplay">
+        <div class="palm-wrap">
+            <div class="palm-leaf-4"></div><div class="palm-leaf-5"></div><div class="palm-leaf-6"></div>
+            <div class="palm-leaf-1"></div><div class="palm-leaf-2"></div><div class="palm-leaf-3"></div>
+            <div class="palm-coconut"></div>
+            <div class="palm-trunk"></div>
+        </div>
+    </div>
+
+    <!-- CHIPS BUTTON -->
+    <button id="chipsBtn" onclick="showChipsTitle()" title="Chips!">🍟</button>
+    <div id="chipsTitle">are u ready to eat some chips 🍟</div>
+
     <!-- BUSH BUTTON -->
     <button id="bushBtn" onclick="spawnBush()" title="Spawn a bush">🌿</button>
     <div id="bushDisplay">
@@ -2113,6 +2207,24 @@
                 gain.gain.setValueAtTime(0.3, now);
                 gain.gain.linearRampToValueAtTime(0, now + 0.6);
                 osc.start(now); osc.stop(now + 0.6);
+            } else if (type === 'coconut') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(180, now);
+                osc.frequency.linearRampToValueAtTime(60, now + 0.25);
+                gain.gain.setValueAtTime(0.35, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.3);
+                osc.start(now); osc.stop(now + 0.3);
+            } else if (type === 'chips') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(900, now);
+                osc.frequency.linearRampToValueAtTime(500, now + 0.04);
+                osc.frequency.setValueAtTime(1100, now + 0.07);
+                osc.frequency.linearRampToValueAtTime(400, now + 0.11);
+                osc.frequency.setValueAtTime(800, now + 0.14);
+                osc.frequency.linearRampToValueAtTime(300, now + 0.18);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.2);
+                osc.start(now); osc.stop(now + 0.2);
             }
         }
         document.addEventListener('keydown', () => audioCtx.resume(), { once: true });
@@ -2235,6 +2347,8 @@
             { id: 'book',     name: 'Book',          price: 0,  mathUnlock: true,     html: `<div class="item-book"><div class="cover"></div><div class="spine"></div><div class="pages"></div><div class="line-1"></div><div class="line-2"></div><div class="line-3"></div></div>` },
             { id: 'oatmeal',  name: 'Oatmeal',       price: 0,  stickmanUnlock: true, html: `<div class="item-oatmeal"><div class="steam-l"></div><div class="steam-r"></div><div class="rim"></div><div class="bowl"></div><div class="oat"></div></div>` },
             { id: 'sprinklejar', name: 'Sprinkle Jar', price: 0, counterUnlock: 3000, html: `<div class="item-sprinklejar"><div class="lid"></div><div class="jar"></div><div class="sp1"></div><div class="sp2"></div><div class="sp3"></div><div class="sp4"></div><div class="sp5"></div></div>` },
+            { id: 'coconut', name: 'Coconut', price: 0, palmUnlock: true,  html: `<div class="item-coconut"><div class="shell"></div><div class="eye-l"></div><div class="eye-r"></div><div class="mouth"></div></div>` },
+            { id: 'chips',   name: 'Chips',   price: 0, chipsUnlock: true, html: `<div class="item-chips"><div class="chip-l"></div><div class="chip-r"></div><div class="top-l"></div><div class="top-r"></div><div class="bag"></div><div class="stripe"></div></div>` },
         ];
 
         function loadData() {
@@ -2749,7 +2863,7 @@
             itemGrid.innerHTML = '';
             ITEMS.forEach(it => {
                 const isOwned = d.ownedItems.includes(it.id);
-                const owned = (it.price === 0 && !it.eggUnlock && !it.counterUnlock) || isOwned;
+                const owned = (it.price === 0 && !it.eggUnlock && !it.counterUnlock && !it.palmUnlock && !it.chipsUnlock) || isOwned;
                 const equipped = d.equippedItem === it.id;
                 const canAfford = d.coins >= it.price;
                 const previewHtml = it.html
@@ -2776,6 +2890,16 @@
                     const curCnt = parseInt(localStorage.getItem('wg_counter')||'0');
                     const leftCnt = Math.max(0, it.counterUnlock - curCnt);
                     card.innerHTML = `${previewHtml}<div class="pet-name">${it.name}</div><div class="pet-price" style="color:#FFD700">🔢 ${curCnt}/${it.counterUnlock}</div><button class="btn-cantafford">${leftCnt > 0 ? '🔒 ' + leftCnt + ' more clicks' : '🔒 Locked'}</button>`;
+                    itemGrid.appendChild(card);
+                } else if (it.palmUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `${previewHtml}<div class="pet-name">${it.name}</div><div class="pet-price" style="color:#c8a030">🌴 Shake the palm tree</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    itemGrid.appendChild(card);
+                } else if (it.chipsUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `${previewHtml}<div class="pet-name">${it.name}</div><div class="pet-price" style="color:#ffe060">🍟 Find the chips button</div><button class="btn-cantafford">🔒 Locked</button>`;
                     itemGrid.appendChild(card);
                 } else {
                     itemGrid.appendChild(buildCard(it, owned, equipped, canAfford, 'buyItem', 'equipItem', previewHtml));
@@ -3330,6 +3454,48 @@
             }
             setTimeout(() => this.classList.remove('visible', 'fox-out'), 2000);
         });
+
+        // ─── PALM TREE / COCONUT ────────────────────────────────────────
+        const palmDisplay = document.getElementById('palmDisplay');
+
+        function spawnPalm() {
+            if (palmDisplay.classList.contains('coconut-falling')) return;
+            palmDisplay.classList.remove('coconut-falling');
+            void palmDisplay.offsetWidth;
+            palmDisplay.classList.toggle('visible');
+        }
+
+        palmDisplay.addEventListener('click', function() {
+            if (this.classList.contains('coconut-falling')) return;
+            this.classList.add('coconut-falling');
+            playSound('coconut');
+            const d = loadData();
+            if (!d.ownedItems.includes('coconut')) {
+                d.ownedItems.push('coconut');
+                saveData(d);
+                gameData = d;
+                playSound('buy');
+                if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+            }
+            setTimeout(() => this.classList.remove('visible', 'coconut-falling'), 1000);
+        });
+
+        // ─── CHIPS BUTTON ───────────────────────────────────────────────
+        function showChipsTitle() {
+            playSound('chips');
+            const el = document.getElementById('chipsTitle');
+            el.classList.remove('showing');
+            void el.offsetWidth;
+            el.classList.add('showing');
+            const d = loadData();
+            if (!d.ownedItems.includes('chips')) {
+                d.ownedItems.push('chips');
+                saveData(d);
+                gameData = d;
+                setTimeout(() => playSound('buy'), 200);
+                if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+            }
+        }
 
         // ─── NINJA SECRET BUTTON ───────────────────────────────────────
         function unlockNinja() {
