@@ -73,6 +73,8 @@
         @keyframes dragonAvatarGlow { 0%,100%{box-shadow:inset 0 3px 0 rgba(255,255,255,0.15),inset 0 -3px 0 rgba(0,0,0,0.3),2px 2px 0 #1a5a1a,0 0 8px rgba(50,200,50,0.5)} 50%{box-shadow:inset 0 3px 0 rgba(255,255,255,0.15),inset 0 -3px 0 rgba(0,0,0,0.3),2px 2px 0 #1a5a1a,0 0 18px rgba(50,255,50,0.9)} }
         #player.avatar-soldier { background-color:#4a5a2a; background-image:radial-gradient(circle 2px at 20% 30%,#2a3a10 100%,transparent 0),radial-gradient(circle 3px at 65% 20%,#3a4a1a 100%,transparent 0),radial-gradient(circle 2px at 80% 65%,#2a3a10 100%,transparent 0),radial-gradient(circle 3px at 35% 72%,#3a4a1a 100%,transparent 0); }
         #player.avatar-soldier #player-legs .leg { background:#3a4a1a; }
+        #player.avatar-hacker { background-color:#0a0a0a; background-image:repeating-linear-gradient(0deg,transparent,transparent 5px,rgba(0,255,68,0.2) 5px,rgba(0,255,68,0.2) 6px),repeating-linear-gradient(90deg,transparent,transparent 11px,rgba(0,255,68,0.1) 11px,rgba(0,255,68,0.1) 12px); box-shadow:inset 0 3px 0 rgba(0,255,68,0.15),inset 0 -3px 0 rgba(0,0,0,0.5),2px 2px 0 #001a00,0 0 8px rgba(0,255,68,0.3); }
+        #player.avatar-hacker #player-legs .leg { background:#003300; }
         #player.avatar-dragon-av { background-color:#1a6a1a; background-image:radial-gradient(circle 3px at 20% 25%,rgba(0,0,0,0.2) 100%,transparent 0),radial-gradient(circle 3px at 65% 55%,rgba(0,0,0,0.15) 100%,transparent 0),radial-gradient(circle 4px at 80% 18%,rgba(80,255,80,0.25) 100%,transparent 0); animation:dragonAvatarGlow 2s ease-in-out infinite; }
         #player.avatar-dragon-av #player-legs .leg { background:#0e4a0e; }
         #player.avatar-eyes::before, #player.avatar-eyes::after { content:''; position:absolute; top:10px; width:10px; height:10px; background:#333; border-radius:1px; z-index:1; }
@@ -916,6 +918,7 @@
         /* SOLDIER AVATAR */
         .avatar-soldier { background-color:#4a5a2a !important; background-image:radial-gradient(circle 2px at 20% 30%,#3a4a1a 100%,transparent 0),radial-gradient(circle 3px at 60% 20%,#2a3a10 100%,transparent 0),radial-gradient(circle 2px at 80% 60%,#3a4a1a 100%,transparent 0),radial-gradient(circle 3px at 40% 70%,#2a3a10 100%,transparent 0) !important; }
         .av-soldier { width:34px; height:34px; background:#4a5a2a; border-radius:3px; position:relative; background-image:radial-gradient(circle 2px at 20% 30%,#2a3a10 100%,transparent 0),radial-gradient(circle 3px at 65% 20%,#3a4a1a 100%,transparent 0),radial-gradient(circle 2px at 80% 65%,#2a3a10 100%,transparent 0),radial-gradient(circle 3px at 35% 72%,#3a4a1a 100%,transparent 0); }
+        .av-hacker { width:34px; height:34px; background:#0a0a0a; border-radius:3px; background-image:repeating-linear-gradient(0deg,transparent,transparent 5px,rgba(0,255,68,0.2) 5px,rgba(0,255,68,0.2) 6px),repeating-linear-gradient(90deg,transparent,transparent 11px,rgba(0,255,68,0.1) 11px,rgba(0,255,68,0.1) 12px); box-shadow:0 0 6px rgba(0,255,68,0.4); }
         /* LEGO PLAY AREA */
         .lego-play-area { background:#e8e8e8; border-radius:12px; padding:14px; position:relative; min-height:160px; user-select:none; overflow:hidden; border:2px solid #ccc; }
         .lego-play-area h4 { margin:0 0 8px; font-size:15px; color:#333; font-family:Arial,sans-serif; }
@@ -3091,8 +3094,6 @@
         }
         window.toggleMusic = toggleMusic;
         window.isMusicMuted = () => musicMuted;
-        document.addEventListener('click',   startBgMusic, { once: true });
-        document.addEventListener('keydown', startBgMusic, { once: true });
 
         // ─── COINS & PETS DATA ─────────────────────────────────────────
         const PETS = [
@@ -3170,6 +3171,7 @@
             { id: 'dragon-av',  name: 'Dragon',        price: 0,   dragonUnlock: true,    cls: 'avatar-dragon-av',  preview: `<div class="av-preview av-dragon-av"></div>` },
             { id: 'fat-av',     name: 'Fat Brick',     price: 0,   burgerUnlock: true,    cls: 'avatar-fat',        preview: `<div class="av-preview av-fat"></div>` },
             { id: 'soldier',    name: 'Soldier',       price: 120,                        cls: 'avatar-soldier',    preview: `<div class="av-preview av-soldier"></div>` },
+            { id: 'hacker',     name: 'Hacker',        price: 0,   hackerUnlock: true,    cls: 'avatar-hacker',     preview: `<div class="av-preview av-hacker"></div>` },
         ];
 
         const PANTS = [
@@ -3718,6 +3720,11 @@
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#FFD700">🏆 Win to Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    avatarGrid.appendChild(card);
+                } else if (av.hackerUnlock && !d.ownedAvatars.includes(av.id)) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#00ff44">💻 Secret Button</div><button class="btn-cantafford">🔒 Locked</button>`;
                     avatarGrid.appendChild(card);
                 } else {
                     const owned = av.price === 0 || d.ownedAvatars.includes(av.id);
@@ -5634,11 +5641,12 @@
         function unlockHacker() {
             const d = loadData();
             let changed = false;
-            if (!d.ownedBgs.includes('hacker'))     { d.ownedBgs.push('hacker');     changed = true; }
-            if (!d.ownedHats.includes('hacker'))    { d.ownedHats.push('hacker');    changed = true; }
-            if (!d.ownedPants.includes('hacker'))   { d.ownedPants.push('hacker');   changed = true; }
-            if (!d.owned.includes('hacker-pet'))    { d.owned.push('hacker-pet');    changed = true; }
-            if (!d.ownedItems.includes('computer')) { d.ownedItems.push('computer'); changed = true; }
+            if (!d.ownedBgs.includes('hacker'))          { d.ownedBgs.push('hacker');          changed = true; }
+            if (!d.ownedHats.includes('hacker'))         { d.ownedHats.push('hacker');         changed = true; }
+            if (!d.ownedPants.includes('hacker'))        { d.ownedPants.push('hacker');        changed = true; }
+            if (!d.owned.includes('hacker-pet'))         { d.owned.push('hacker-pet');         changed = true; }
+            if (!d.ownedItems.includes('computer'))      { d.ownedItems.push('computer');      changed = true; }
+            if (!d.ownedAvatars.includes('hacker'))      { d.ownedAvatars.push('hacker');      changed = true; }
             if (changed) {
                 saveData(d); gameData = d;
                 if (document.getElementById('storeModal').classList.contains('open')) renderStore();
