@@ -594,6 +594,27 @@
         }
         #gameboyCloseBtn:hover { background:#555; }
 
+        #mactacModal {
+            display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+            background:rgba(0,0,0,0.92); z-index:5000;
+            align-items:center; justify-content:center; flex-direction:column;
+        }
+        #mactacModal.open { display:flex; }
+        #mactacBox {
+            background:#111; border-radius:12px; padding:18px 22px;
+            box-shadow:0 0 40px rgba(255,200,0,0.3); text-align:center;
+            color:#fff; font-family:Arial,sans-serif;
+        }
+        #mactacBox h3 { margin:0 0 8px; font-size:22px; color:#FFD700; }
+        #mactacBox p  { margin:0 0 12px; font-size:13px; color:#aaa; }
+        #mactacCanvas { display:block; border-radius:6px; cursor:pointer; }
+        #mactacCloseBtn {
+            margin-top:12px; padding:8px 24px; border:none; border-radius:8px;
+            background:#333; color:#fff; font-size:14px; cursor:pointer;
+            display:block; margin-left:auto; margin-right:auto;
+        }
+        #mactacCloseBtn:hover { background:#555; }
+
         /* HACKER SECRET BUTTON */
         #hackerSecretBtn {
             position: fixed; bottom: 5px; right: 5px;
@@ -5179,6 +5200,13 @@
                     </div>`;
                 result.classList.add('show');
                 playSound('buy');
+            } else if (raw === 'mac tac' || raw === 'mactac') {
+                result.innerHTML = `
+                    <div class="g-result-url">mactac.maze › play</div>
+                    <div class="g-result-title" onclick="openMacTac()" style="cursor:pointer">👻 Mac Tac Maze Mini-Game</div>
+                    <div class="g-result-desc">Collect coins &amp; escape the ghost maze! <button onclick="openMacTac()" style="margin-left:8px;padding:4px 12px;background:#FFD700;color:#000;border:none;border-radius:4px;cursor:pointer;font-size:13px;font-weight:bold;">▶ Play</button></div>`;
+                result.classList.add('show');
+                playSound('buy');
             }
         });
 
@@ -5596,6 +5624,176 @@
                     if (!isTypingInInput()) doJumpGB();
                 }
             });
+        })();
+
+        // ─── MAC TAC MAZE ────────────────────────────────────────────────
+        (function() {
+            const CS=30, COLS=13, ROWS=11, W=13*30, H=11*30;
+            const MAZE_TPL=[
+                [1,1,1,1,1,1,1,1,1,1,1,1,1],
+                [1,0,0,0,1,0,0,0,0,0,0,0,1],
+                [1,0,1,0,1,0,1,1,1,0,1,0,1],
+                [1,0,1,0,0,0,1,0,0,0,1,0,1],
+                [1,0,1,1,1,1,1,0,1,1,1,0,1],
+                [1,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,1,1,1,0,1,1,1,0,1,0,1],
+                [1,0,1,0,0,0,0,0,0,0,1,0,1],
+                [1,0,1,0,1,1,1,0,1,0,0,0,1],
+                [1,0,0,0,1,0,0,0,1,0,1,0,1],
+                [1,1,1,1,1,1,1,1,1,1,1,1,1]
+            ];
+            const EXIT={c:11,r:9}, PSTART={c:1,r:1};
+            const GSTARTS=[{c:5,r:1,color:'#ff4444'},{c:7,r:5,color:'#ff88ff'},{c:3,r:7,color:'#ff8844'}];
+            let maze,dots,px,py,ghosts,coinsWon,state='idle',raf,keys={},pTimer=0,lastTs=0;
+            const P_SPD=130, G_SPD=520;
+
+            function canStep(c,r){return c>=0&&r>=0&&c<COLS&&r<ROWS&&maze[r][c]===0;}
+            function initGame(){
+                maze=MAZE_TPL.map(r=>r.slice()); dots=new Set();
+                for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++)
+                    if(maze[r][c]===0&&!(r===PSTART.r&&c===PSTART.c)&&!(r===EXIT.r&&c===EXIT.c))
+                        dots.add(c+','+r);
+                px=PSTART.c; py=PSTART.r;
+                ghosts=GSTARTS.map(g=>({c:g.c,r:g.r,t:0,color:g.color}));
+                coinsWon=0; state='playing'; pTimer=0;
+            }
+            function moveGhost(g){
+                const dc=px-g.c, dr=py-g.r;
+                let dirs;
+                if(Math.random()<0.15){
+                    dirs=[[0,-1],[0,1],[-1,0],[1,0]].sort(()=>Math.random()-0.5);
+                } else {
+                    dirs=Math.abs(dc)>=Math.abs(dr)
+                        ?[[Math.sign(dc),0],[0,Math.sign(dr)],[0,-Math.sign(dr)],[-Math.sign(dc),0]]
+                        :[[0,Math.sign(dr)],[Math.sign(dc),0],[-Math.sign(dc),0],[0,-Math.sign(dr)]];
+                }
+                for(const [ddc,ddr] of dirs){
+                    if(!ddc&&!ddr) continue;
+                    const nc=g.c+ddc,nr=g.r+ddr;
+                    if(canStep(nc,nr)){g.c=nc;g.r=nr;break;}
+                }
+            }
+            function update(dt){
+                if(state!=='playing') return;
+                pTimer+=dt;
+                if(pTimer>=P_SPD){
+                    pTimer=0;
+                    let dc=0,dr=0;
+                    if(keys['ArrowLeft']||keys['KeyA']) dc=-1;
+                    else if(keys['ArrowRight']||keys['KeyD']) dc=1;
+                    else if(keys['ArrowUp']||keys['KeyW']) dr=-1;
+                    else if(keys['ArrowDown']||keys['KeyS']) dr=1;
+                    if((dc||dr)&&canStep(px+dc,py+dr)){px+=dc;py+=dr;}
+                }
+                const dk=px+','+py;
+                if(dots.has(dk)){dots.delete(dk);coinsWon+=10;}
+                if(px===EXIT.c&&py===EXIT.r){
+                    state='win';
+                    const d=loadData(); d.coins+=coinsWon; saveData(d); gameData=d;
+                    document.getElementById('coinDisplay').textContent='🪙 '+d.coins;
+                    playSound('buy'); return;
+                }
+                for(const g of ghosts){
+                    g.t+=dt;
+                    if(g.t>=G_SPD){g.t=0;moveGhost(g);}
+                    if(g.c===px&&g.r===py){state='dead';playSound('nointernet');}
+                }
+            }
+            function drawGhost(ctx,g){
+                const x=g.c*CS+CS/2,y=g.r*CS+CS/2,r=CS/2-3;
+                ctx.fillStyle=g.color;
+                ctx.beginPath(); ctx.arc(x,y-1,r,Math.PI,0);
+                ctx.lineTo(x+r,y+r+1);
+                const w=2*r/3;
+                ctx.quadraticCurveTo(x+r-w/2,y+r-3,x+r-w,y+r+1);
+                ctx.quadraticCurveTo(x+r-w*3/2,y+r-3,x,y+r+1);
+                ctx.quadraticCurveTo(x-w/2,y+r-3,x-r+w,y+r+1);
+                ctx.lineTo(x-r,y+r+1); ctx.closePath(); ctx.fill();
+                ctx.fillStyle='#fff';
+                ctx.beginPath();ctx.arc(x-4,y-2,3,0,Math.PI*2);ctx.fill();
+                ctx.beginPath();ctx.arc(x+4,y-2,3,0,Math.PI*2);ctx.fill();
+                ctx.fillStyle='#333';
+                ctx.beginPath();ctx.arc(x-4,y-2,1.5,0,Math.PI*2);ctx.fill();
+                ctx.beginPath();ctx.arc(x+4,y-2,1.5,0,Math.PI*2);ctx.fill();
+            }
+            function draw(ctx){
+                for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++){
+                    if(maze[r][c]===1){
+                        ctx.fillStyle='#1a1aee'; ctx.fillRect(c*CS,r*CS,CS,CS);
+                        ctx.fillStyle='rgba(0,0,60,0.45)'; ctx.fillRect(c*CS+2,r*CS+2,CS-4,CS-4);
+                    } else {
+                        ctx.fillStyle='#000'; ctx.fillRect(c*CS,r*CS,CS,CS);
+                    }
+                }
+                ctx.fillStyle='#00cc44'; ctx.fillRect(EXIT.c*CS+2,EXIT.r*CS+2,CS-4,CS-4);
+                ctx.fillStyle='#fff'; ctx.font='bold 16px Arial'; ctx.textAlign='center'; ctx.textBaseline='middle';
+                ctx.fillText('★',EXIT.c*CS+CS/2,EXIT.r*CS+CS/2);
+                ctx.fillStyle='#FFD700';
+                for(const k of dots){const[dc,dr]=k.split(',').map(Number);ctx.beginPath();ctx.arc(dc*CS+CS/2,dr*CS+CS/2,4,0,Math.PI*2);ctx.fill();}
+                const pcx=px*CS+CS/2,pcy=py*CS+CS/2;
+                ctx.fillStyle='#FFD700'; ctx.beginPath();ctx.arc(pcx,pcy,CS/2-3,0,Math.PI*2);ctx.fill();
+                ctx.fillStyle='#000';
+                ctx.beginPath();ctx.arc(pcx-4,pcy-3,2.5,0,Math.PI*2);ctx.fill();
+                ctx.beginPath();ctx.arc(pcx+4,pcy-3,2.5,0,Math.PI*2);ctx.fill();
+                ctx.strokeStyle='#000';ctx.lineWidth=1.5;
+                ctx.beginPath();ctx.arc(pcx,pcy+1,5,0.2,Math.PI-0.2);ctx.stroke();
+                ghosts.forEach(g=>drawGhost(ctx,g));
+                ctx.fillStyle='rgba(0,0,0,0.55)';ctx.fillRect(0,0,W,22);
+                ctx.fillStyle='#FFD700';ctx.font='bold 13px Arial';ctx.textAlign='left';ctx.textBaseline='middle';
+                ctx.fillText('🪙 +'+coinsWon,6,11);
+                ctx.fillStyle='#aaa';ctx.textAlign='right';
+                ctx.fillText('Reach ★ to win!',W-6,11);
+                if(state==='win'||state==='dead'){
+                    ctx.fillStyle='rgba(0,0,0,0.65)';ctx.fillRect(0,H/2-40,W,80);
+                    ctx.textAlign='center';ctx.textBaseline='middle';
+                    if(state==='win'){
+                        ctx.fillStyle='#00ff88';ctx.font='bold 22px Arial';
+                        ctx.fillText('You escaped! +'+coinsWon+' coins',W/2,H/2-10);
+                        ctx.fillStyle='#aaa';ctx.font='14px Arial';ctx.fillText('Click to play again',W/2,H/2+16);
+                    } else {
+                        ctx.fillStyle='#ff5555';ctx.font='bold 22px Arial';
+                        ctx.fillText('Caught by a ghost!',W/2,H/2-10);
+                        ctx.fillStyle='#aaa';ctx.font='14px Arial';ctx.fillText('Click to try again',W/2,H/2+16);
+                    }
+                }
+            }
+            function loop(ts){
+                const dt=Math.min(ts-lastTs,80);lastTs=ts;
+                const ctx=canvas.getContext('2d');
+                update(dt);draw(ctx);
+                if(state==='playing') raf=requestAnimationFrame(loop);
+            }
+            function openMacTac(){
+                initGame();
+                document.getElementById('mactacModal').classList.add('open');
+                lastTs=performance.now(); cancelAnimationFrame(raf);
+                raf=requestAnimationFrame(loop);
+            }
+            function closeMacTac(){
+                state='idle'; cancelAnimationFrame(raf);
+                document.getElementById('mactacModal').classList.remove('open');
+            }
+            window.openMacTac=openMacTac; window.closeMacTac=closeMacTac;
+            document.addEventListener('keydown',function(e){
+                if(!document.getElementById('mactacModal').classList.contains('open')) return;
+                if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','KeyW','KeyA','KeyS','KeyD'].includes(e.code)){
+                    keys[e.code]=true; e.preventDefault();
+                }
+                if(e.code==='Escape') closeMacTac();
+            });
+            document.addEventListener('keyup',e=>{keys[e.code]=false;});
+            const canvas=document.createElement('canvas');
+            canvas.id='mactacCanvas'; canvas.width=W; canvas.height=H;
+            canvas.addEventListener('click',()=>{if(state!=='playing') openMacTac();});
+            const modal=document.createElement('div');
+            modal.id='mactacModal';
+            modal.innerHTML=`<div id="mactacBox"><h3>👻 Mac Tac Maze!</h3><p>Collect 🪙 coins and reach <b style="color:#00cc44">★</b> to win! — Arrow keys / WASD</p></div>`;
+            modal.querySelector('#mactacBox').appendChild(canvas);
+            const closeBtn=document.createElement('button');
+            closeBtn.id='mactacCloseBtn'; closeBtn.textContent='✕ Close'; closeBtn.onclick=closeMacTac;
+            modal.querySelector('#mactacBox').appendChild(closeBtn);
+            modal.addEventListener('click',e=>{if(e.target===modal)closeMacTac();});
+            document.body.appendChild(modal);
         })();
 
         // ─── MATRIX RAIN ───────────────────────────────────────────────
