@@ -592,6 +592,52 @@
         }
         #gameboyCloseBtn:hover { background:#555; }
 
+        /* HACKER SECRET BUTTON */
+        #hackerSecretBtn {
+            position:absolute; bottom:0; right:0;
+            width:18px; height:18px;
+            background:transparent; border:none;
+            cursor:default; z-index:10; outline:none;
+            opacity:0;
+        }
+
+        /* HACKER BACKGROUND */
+        #gameContainer.bg-hacker { background:#000 !important; }
+        #matrix-canvas {
+            position:absolute; top:0; left:0;
+            width:800px; height:400px;
+            pointer-events:none; z-index:0; opacity:0.75;
+            display:none;
+        }
+
+        /* HACKER HAT */
+        .hat-hacker { position:relative; }
+        .hat-hacker .hk-dome  { width:28px; height:14px; background:#0a0a0a; margin:0 auto; border-radius:50% 50% 0 0; border:1px solid #005522; box-sizing:border-box; }
+        .hat-hacker .hk-code  { position:absolute; top:1px; left:50%; transform:translateX(-50%); font-size:5px; color:#00ff44; font-family:monospace; white-space:nowrap; text-shadow:0 0 2px #00ff44; pointer-events:none; }
+        .hat-hacker .hk-visor { width:36px; height:4px; background:#111; border-radius:0 2px 2px 0; margin-left:4px; }
+
+        /* HACKER PANTS */
+        .pants-hacker { background-color:#0a0a0a; background-image:repeating-linear-gradient(0deg,transparent,transparent 4px,rgba(0,255,68,0.18) 4px,rgba(0,255,68,0.18) 5px); }
+
+        /* HACKER PET (laptop) */
+        .pet-laptop { position:relative; width:24px; height:20px; }
+        .pet-laptop .screen  { width:22px; height:14px; background:#0a0a0a; border-radius:2px 2px 0 0; position:absolute; top:0; left:1px; border:1px solid #005522; }
+        .pet-laptop .display { width:18px; height:9px; background:#001800; position:absolute; top:3px; left:3px; }
+        .pet-laptop .cl1 { width:10px; height:1px; background:#00ff44; position:absolute; top:4px; left:5px; opacity:0.9; }
+        .pet-laptop .cl2 { width:7px;  height:1px; background:#00ff44; position:absolute; top:7px; left:5px; opacity:0.7; }
+        .pet-laptop .cl3 { width:12px; height:1px; background:#00ff44; position:absolute; top:10px; left:3px; opacity:0.8; }
+        .pet-laptop .base { width:24px; height:6px; background:#111; border-radius:0 0 3px 3px; position:absolute; bottom:0; border:1px solid #222; border-top:2px solid #333; }
+
+        /* COMPUTER ITEM */
+        .item-computer { position:relative; width:20px; height:28px; }
+        .item-computer .monitor { width:20px; height:16px; background:#0a0a0a; border-radius:2px; border:1px solid #00cc44; position:absolute; top:0; }
+        .item-computer .iscreen { width:14px; height:10px; background:#001a00; position:absolute; top:3px; left:3px; }
+        .item-computer .il1 { width:9px;  height:1px; background:#00ff44; position:absolute; top:5px;  left:5px; opacity:0.9; }
+        .item-computer .il2 { width:6px;  height:1px; background:#00ff44; position:absolute; top:8px;  left:5px; opacity:0.7; }
+        .item-computer .il3 { width:11px; height:1px; background:#00ff44; position:absolute; top:11px; left:3px; opacity:0.8; }
+        .item-computer .stand { width:4px; height:5px; background:#1a1a1a; position:absolute; top:16px; left:8px; border:1px solid #333; }
+        .item-computer .cbase { width:14px; height:3px; background:#1a1a1a; border-radius:1px; position:absolute; bottom:0; left:3px; border:1px solid #333; }
+
         #googleHomeModal {
             display:none; position:fixed; top:0; left:0; right:0; bottom:0;
             background:#fff; z-index:4000;
@@ -2332,6 +2378,8 @@
 <body>
     <h1>🏃 Jump Game</h1>
     <div id="gameContainer">
+        <canvas id="matrix-canvas" width="800" height="400"></canvas>
+        <button id="hackerSecretBtn" onclick="unlockHacker()" tabindex="-1" aria-hidden="true"></button>
         <div id="score">Score: 0</div>
         <div id="coinDisplay">🪙 0</div>
         <div id="actionLabel"></div>
@@ -3068,6 +3116,7 @@
             { id: 'ball',       name: 'Ball',         price: 50,  html: `<div class="pet-ball"><div class="seam-h"></div><div class="seam-v"></div></div>` },
             { id: 'duck',       name: 'Duck',         price: 75,  html: `<div class="pet-duck"><div class="body"></div><div class="wing"></div><div class="head"></div><div class="beak"></div><div class="eye"></div><div class="foot-l"></div><div class="foot-r"></div></div>` },
             { id: 'tank-pet',   name: 'Tank',         price: 160, html: `<div class="pet-tank"><div class="tread"></div><div class="body"></div><div class="turret"></div><div class="barrel"></div></div>` },
+            { id: 'hacker-pet', name: 'Laptop',       price: 0,   hackerUnlock: true, html: `<div class="pet-laptop"><div class="screen"></div><div class="display"></div><div class="cl1"></div><div class="cl2"></div><div class="cl3"></div><div class="base"></div></div>` },
         ];
 
         const TURTLE_HTML = `<div class="turtle-shell"><div class="turtle-head"></div><div class="turtle-legs"></div></div>`;
@@ -3093,6 +3142,7 @@
             { id: 'mchat',       name: "McDonald's Hat", price: 0, happymealUnlock: true, html: `<div class="hat-mchat"><div class="mc-visor"></div><div class="mc-top"></div><div class="mc-m">M</div></div>` },
             { id: 'brickhat',    name: 'Brick Hat',     price: 0, bricksandwichUnlock: true, html: `<div class="hat-brickhat"><div class="bh-body"></div><div class="bh-line1"></div><div class="bh-line2"></div></div>` },
             { id: 'catears',     name: 'Cat Ears',      price: 0, cathatUnlock: true,        html: `<div class="hat-catears"><div class="ce-ear-l"></div><div class="ce-ear-r"></div><div class="ce-inner-l"></div><div class="ce-inner-r"></div></div>` },
+            { id: 'hacker',      name: 'Hacker Cap',    price: 0, hackerUnlock: true,        html: `<div class="hat-hacker"><div class="hk-dome"></div><div class="hk-code">&lt;/&gt;</div><div class="hk-visor"></div></div>` },
         ];
 
         const AVATARS = [
@@ -3140,6 +3190,7 @@
             { id: 'football', name: 'Football',   price: 70, cls: 'pants-football',preview: `<div class="pants-full-prev"><div class="pant pants-football"></div></div>` },
             { id: 'nerd',     name: 'Nerd',       price: 0,  mathUnlock: true,     cls: 'pants-nerd',     preview: `<div class="pants-full-prev"><div class="pant pants-nerd"></div></div>` },
             { id: 'stickman', name: 'Stickman',   price: 0,  stickBtnUnlock: true, cls: 'pants-stickman', preview: `<div class="pants-full-prev"><div class="pant pants-stickman"></div></div>` },
+            { id: 'hacker',   name: 'Hacker',     price: 0,  hackerUnlock: true,   cls: 'pants-hacker',   preview: `<div class="pants-full-prev"><div class="pant pants-hacker"></div></div>` },
         ];
 
         const BACKGROUNDS = [
@@ -3156,6 +3207,7 @@
             { id: 'stickman',  name: 'Notebook',    price: 0, stickBtnUnlock: true,  gradient: 'repeating-linear-gradient(to bottom,transparent,transparent 29px,#b8c8d8 29px,#b8c8d8 30px) #f5f5f0', cls: 'bg-stickman' },
             { id: 'city',      name: 'City Night',  price: 0, questionUnlock: true,  gradient: 'linear-gradient(to bottom,#010110 0%,#03031e 30%,#060630 60%,#0a0826 85%,#0e0808 100%)', cls: 'bg-city' },
             { id: 'theater',   name: 'Movie Theater', price: 0, movieUnlock: true, gradient: 'repeating-linear-gradient(to right,#1a0000 0px,#1a0000 18px,#2a0000 18px,#2a0000 20px)', cls: 'bg-theater' },
+            { id: 'hacker',    name: 'Hacker',        price: 0, hackerUnlock: true, gradient: '#000', cls: 'bg-hacker' },
         ];
 
         const ITEMS = [
@@ -3176,7 +3228,8 @@
             { id: 'sprinklejar', name: 'Sprinkle Jar', price: 0, counterUnlock: 3000, html: `<div class="item-sprinklejar"><div class="lid"></div><div class="jar"></div><div class="sp1"></div><div class="sp2"></div><div class="sp3"></div><div class="sp4"></div><div class="sp5"></div></div>` },
             { id: 'coconut', name: 'Coconut', price: 0, palmUnlock: true,  html: `<div class="item-coconut"><div class="shell"></div><div class="eye-l"></div><div class="eye-r"></div><div class="mouth"></div></div>` },
             { id: 'chips',   name: 'Chips',   price: 0, chipsUnlock: true, html: `<div class="item-chips"><div class="chip-l"></div><div class="chip-r"></div><div class="top-l"></div><div class="top-r"></div><div class="bag"></div><div class="stripe"></div></div>` },
-            { id: 'candy',   name: 'Candy',   price: 0, candyUnlock: true, html: `<div class="item-candy"><div class="twist-l"></div><div class="twist-r"></div><div class="wrap"></div><div class="stripe"></div><div class="dot"></div></div>` },
+            { id: 'candy',    name: 'Candy',    price: 0, candyUnlock: true,  html: `<div class="item-candy"><div class="twist-l"></div><div class="twist-r"></div><div class="wrap"></div><div class="stripe"></div><div class="dot"></div></div>` },
+            { id: 'computer', name: 'Computer', price: 0, hackerUnlock: true, html: `<div class="item-computer"><div class="monitor"></div><div class="iscreen"></div><div class="il1"></div><div class="il2"></div><div class="il3"></div><div class="stand"></div><div class="cbase"></div></div>` },
         ];
 
         function loadData() {
@@ -3273,15 +3326,17 @@
         }
 
         // ─── BACKGROUND DISPLAY ────────────────────────────────────────
-        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold','bg-rainbow','bg-ninja','bg-stickman','bg-city','bg-theater'];
+        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold','bg-rainbow','bg-ninja','bg-stickman','bg-city','bg-theater','bg-hacker'];
         function applyBackground() {
             BG_CLASSES.forEach(cls => gameContainer.classList.remove(cls));
             const bg = BACKGROUNDS.find(b => b.id === gameData.equippedBg);
             if (bg && bg.cls) gameContainer.classList.add(bg.cls);
+            if (gameData.equippedBg === 'hacker') startMatrix();
+            else stopMatrix();
         }
 
         // ─── PANTS DISPLAY ─────────────────────────────────────────────
-        const PANTS_CLASSES = ['pants-brick','pants-concrete','pants-blue','pants-red','pants-green','pants-pink','pants-silver','pants-easter','pants-gold','pants-rainbow','pants-ninja','pants-capy','pants-football','pants-nerd','pants-stickman'];
+        const PANTS_CLASSES = ['pants-brick','pants-concrete','pants-blue','pants-red','pants-green','pants-pink','pants-silver','pants-easter','pants-gold','pants-rainbow','pants-ninja','pants-capy','pants-football','pants-nerd','pants-stickman','pants-hacker'];
         const pantsEl = document.getElementById('player-pants');
         function renderIngamePants() {
             PANTS_CLASSES.forEach(cls => pantsEl.classList.remove(cls));
@@ -3572,6 +3627,11 @@
                     const left = Math.max(0, pet.counterUnlock - cur);
                     card.innerHTML = `<div class="pet-preview">${pet.html}</div><div class="pet-name">${pet.name}</div><div class="pet-price" style="color:#FFD700">🔢 ${cur}/${pet.counterUnlock}</div><button class="btn-cantafford">${left > 0 ? '🔒 ' + left + ' more clicks' : '🔒 Locked'}</button>`;
                     petGrid.appendChild(card);
+                } else if (pet.hackerUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${pet.html}</div><div class="pet-name">${pet.name}</div><div class="pet-price" style="color:#00ff44">💻 Secret Button</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    petGrid.appendChild(card);
                 } else {
                     petGrid.appendChild(buildCard(pet, isOwned, d.equipped === pet.id, d.coins >= pet.price, 'buyPet', 'equipPet', pet.html));
                 }
@@ -3582,9 +3642,9 @@
             hatGrid.innerHTML = '';
             HATS.forEach(hat => {
                 const isOwned = d.ownedHats.includes(hat.id);
-                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock && !hat.eggUnlock && !hat.counterUnlock && !hat.mathUnlock && !hat.stickmanUnlock && !hat.happymealUnlock && !hat.bricksandwichUnlock && !hat.cathatUnlock;
+                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock && !hat.eggUnlock && !hat.counterUnlock && !hat.mathUnlock && !hat.stickmanUnlock && !hat.happymealUnlock && !hat.bricksandwichUnlock && !hat.cathatUnlock && !hat.hackerUnlock;
                 const owned = isOwned || freeOwned;
-                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock || hat.counterUnlock || hat.ninjaUnlock || hat.mathUnlock || hat.stickmanUnlock || hat.happymealUnlock || hat.bricksandwichUnlock || hat.cathatUnlock) && !isOwned) {
+                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock || hat.counterUnlock || hat.ninjaUnlock || hat.mathUnlock || hat.stickmanUnlock || hat.happymealUnlock || hat.bricksandwichUnlock || hat.cathatUnlock || hat.hackerUnlock) && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     let lockLabel;
@@ -3597,6 +3657,7 @@
                     else if (hat.happymealUnlock) lockLabel = '🍟 Order a Happy Meal';
                     else if (hat.bricksandwichUnlock) lockLabel = '🥪 Order a Bricksandwich';
                     else if (hat.cathatUnlock) lockLabel = '🐱 Search "cat hat" in Google';
+                    else if (hat.hackerUnlock) lockLabel = '💻 Secret Button';
                     else { const cur = parseInt(localStorage.getItem('wg_counter')||'0'); lockLabel = `🔢 ${cur}/${hat.counterUnlock}`; }
                     card.innerHTML = `
                         <div class="pet-preview">${hat.html}</div>
@@ -3697,6 +3758,11 @@
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${p.preview}</div><div class="pet-name">${p.name}</div><div class="pet-price" style="color:#FFD700">🏆 Win to Unlock</div><button class="btn-cantafford">🔒 Locked</button>`;
                     pantsGrid.appendChild(card);
+                } else if (p.hackerUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${p.preview}</div><div class="pet-name">${p.name}</div><div class="pet-price" style="color:#00ff44">💻 Secret Button</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    pantsGrid.appendChild(card);
                 } else {
                     const owned = p.price === 0 || isOwned;
                     pantsGrid.appendChild(buildCard(p, owned, d.equippedPants === p.id, d.coins >= p.price, 'buyPants', 'equipPants', p.preview));
@@ -3708,7 +3774,7 @@
             itemGrid.innerHTML = '';
             ITEMS.forEach(it => {
                 const isOwned = d.ownedItems.includes(it.id);
-                const owned = (it.price === 0 && !it.eggUnlock && !it.counterUnlock && !it.palmUnlock && !it.chipsUnlock && !it.candyUnlock) || isOwned;
+                const owned = (it.price === 0 && !it.eggUnlock && !it.counterUnlock && !it.palmUnlock && !it.chipsUnlock && !it.candyUnlock && !it.hackerUnlock) || isOwned;
                 const equipped = d.equippedItem === it.id;
                 const canAfford = d.coins >= it.price;
                 const previewHtml = it.html
@@ -3751,6 +3817,11 @@
                     card.className = 'pet-card';
                     card.innerHTML = `${previewHtml}<div class="pet-name">${it.name}</div><div class="pet-price" style="color:#ff88cc">🍬 Find the candy button</div><button class="btn-cantafford">🔒 Locked</button>`;
                     itemGrid.appendChild(card);
+                } else if (it.hackerUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `${previewHtml}<div class="pet-name">${it.name}</div><div class="pet-price" style="color:#00ff44">💻 Secret Button</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    itemGrid.appendChild(card);
                 } else {
                     itemGrid.appendChild(buildCard(it, owned, equipped, canAfford, 'buyItem', 'equipItem', previewHtml));
                 }
@@ -3761,7 +3832,7 @@
             bgGrid.innerHTML = '';
             BACKGROUNDS.forEach(bg => {
                 const isOwned = d.ownedBgs.includes(bg.id);
-                const freeOwned = bg.price === 0 && !bg.winUnlock && !bg.secretUnlock && !bg.ninjaUnlock && !bg.stickBtnUnlock && !bg.questionUnlock && !bg.movieUnlock;
+                const freeOwned = bg.price === 0 && !bg.winUnlock && !bg.secretUnlock && !bg.ninjaUnlock && !bg.stickBtnUnlock && !bg.questionUnlock && !bg.movieUnlock && !bg.hackerUnlock;
                 const owned = isOwned || freeOwned;
                 const equipped = d.equippedBg === bg.id;
                 const canAfford = d.coins >= bg.price;
@@ -3781,8 +3852,8 @@
                     card.className = 'pet-card';
                     card.innerHTML = `${previewHtml}<div class="pet-name">${bg.name}</div><div class="pet-price" style="color:#888">🪄 Secret Button</div><button class="btn-cantafford">🔒 Locked</button>`;
                     bgGrid.appendChild(card);
-                } else if ((bg.winUnlock || bg.secretUnlock || bg.ninjaUnlock) && !isOwned) {
-                    const lockLabel = bg.ninjaUnlock ? '🥷 Secret Unlock' : (bg.winUnlock ? '🏆 Win to Unlock' : '🌈 Secret Unlock');
+                } else if ((bg.winUnlock || bg.secretUnlock || bg.ninjaUnlock || bg.hackerUnlock) && !isOwned) {
+                    const lockLabel = bg.hackerUnlock ? '💻 Secret Button' : bg.ninjaUnlock ? '🥷 Secret Unlock' : (bg.winUnlock ? '🏆 Win to Unlock' : '🌈 Secret Unlock');
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `${previewHtml}<div class="pet-name">${bg.name}</div><div class="pet-price" style="color:#FFD700">${lockLabel}</div><button class="btn-cantafford">🔒 Locked</button>`;
@@ -5520,6 +5591,66 @@
                 }
             });
         })();
+
+        // ─── MATRIX RAIN ───────────────────────────────────────────────
+        let matrixRaf = null;
+        (function() {
+            const mc = document.getElementById('matrix-canvas');
+            const ctx = mc.getContext('2d');
+            const COL_W = 14, cols = Math.floor(800 / COL_W);
+            let drops = Array(cols).fill(0);
+            function drawMatrix() {
+                ctx.fillStyle = 'rgba(0,0,0,0.1)';
+                ctx.fillRect(0, 0, 800, 400);
+                ctx.font = '12px monospace';
+                for (let i = 0; i < drops.length; i++) {
+                    // brighter head, dimmer trail
+                    const y = drops[i] * COL_W;
+                    ctx.fillStyle = '#00ff44';
+                    ctx.globalAlpha = 1;
+                    ctx.fillText(String.fromCharCode(0x30A0 + Math.random() * 96), i * COL_W, y);
+                    ctx.fillStyle = '#00cc33';
+                    ctx.globalAlpha = 0.6;
+                    if (y > COL_W) ctx.fillText(String.fromCharCode(0x30A0 + Math.random() * 96), i * COL_W, y - COL_W);
+                    ctx.globalAlpha = 1;
+                    if (y > 400 && Math.random() > 0.975) drops[i] = 0;
+                    drops[i]++;
+                }
+                matrixRaf = requestAnimationFrame(drawMatrix);
+            }
+            window.startMatrix = function() {
+                mc.style.display = 'block';
+                drops = Array(cols).fill(0);
+                cancelAnimationFrame(matrixRaf);
+                drawMatrix();
+            };
+            window.stopMatrix = function() {
+                cancelAnimationFrame(matrixRaf);
+                mc.style.display = 'none';
+                ctx.clearRect(0, 0, 800, 400);
+            };
+        })();
+
+        // ─── HACKER UNLOCK ──────────────────────────────────────────────
+        function unlockHacker() {
+            const d = loadData();
+            let changed = false;
+            if (!d.ownedBgs.includes('hacker'))     { d.ownedBgs.push('hacker');     changed = true; }
+            if (!d.ownedHats.includes('hacker'))    { d.ownedHats.push('hacker');    changed = true; }
+            if (!d.ownedPants.includes('hacker'))   { d.ownedPants.push('hacker');   changed = true; }
+            if (!d.owned.includes('hacker-pet'))    { d.owned.push('hacker-pet');    changed = true; }
+            if (!d.ownedItems.includes('computer')) { d.ownedItems.push('computer'); changed = true; }
+            if (changed) {
+                saveData(d); gameData = d;
+                if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+                const flash = document.createElement('div');
+                flash.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,255,68,0.18);z-index:9999;pointer-events:none;transition:opacity 0.5s;';
+                document.body.appendChild(flash);
+                setTimeout(() => { flash.style.opacity = '0'; setTimeout(() => flash.remove(), 500); }, 300);
+                playSound('win');
+            }
+        }
+        window.unlockHacker = unlockHacker;
 
         // ─── START ─────────────────────────────────────────────────────
         setInterval(createObstacle, 1500);
