@@ -75,6 +75,8 @@
         #player.avatar-soldier #player-legs .leg { background:#3a4a1a; }
         #player.avatar-hacker { background-color:#0a0a0a; background-image:repeating-linear-gradient(0deg,transparent,transparent 5px,rgba(0,255,68,0.2) 5px,rgba(0,255,68,0.2) 6px),repeating-linear-gradient(90deg,transparent,transparent 11px,rgba(0,255,68,0.1) 11px,rgba(0,255,68,0.1) 12px); box-shadow:inset 0 3px 0 rgba(0,255,68,0.15),inset 0 -3px 0 rgba(0,0,0,0.5),2px 2px 0 #001a00,0 0 8px rgba(0,255,68,0.3); }
         #player.avatar-hacker #player-legs .leg { background:#003300; }
+        #player.avatar-gamer { background-color:#1a0a3a; background-image:repeating-linear-gradient(0deg,transparent,transparent 7px,rgba(180,0,255,0.2) 7px,rgba(180,0,255,0.2) 8px); box-shadow:inset 0 3px 0 rgba(255,255,255,0.1),inset 0 -3px 0 rgba(0,0,0,0.4),2px 2px 0 #0d0520,0 0 12px rgba(150,0,255,0.6); }
+        #player.avatar-gamer #player-legs .leg { background:#0d0520; }
         #player.avatar-dragon-av { background-color:#1a6a1a; background-image:radial-gradient(circle 3px at 20% 25%,rgba(0,0,0,0.2) 100%,transparent 0),radial-gradient(circle 3px at 65% 55%,rgba(0,0,0,0.15) 100%,transparent 0),radial-gradient(circle 4px at 80% 18%,rgba(80,255,80,0.25) 100%,transparent 0); animation:dragonAvatarGlow 2s ease-in-out infinite; }
         #player.avatar-dragon-av #player-legs .leg { background:#0e4a0e; }
         #player.avatar-eyes::before, #player.avatar-eyes::after { content:''; position:absolute; top:10px; width:10px; height:10px; background:#333; border-radius:1px; z-index:1; }
@@ -637,6 +639,13 @@
         .hat-hacker .hk-dome  { width:28px; height:14px; background:#0a0a0a; margin:0 auto; border-radius:50% 50% 0 0; border:1px solid #005522; box-sizing:border-box; }
         .hat-hacker .hk-code  { position:absolute; top:1px; left:50%; transform:translateX(-50%); font-size:5px; color:#00ff44; font-family:monospace; white-space:nowrap; text-shadow:0 0 2px #00ff44; pointer-events:none; }
         .hat-hacker .hk-visor { width:36px; height:4px; background:#111; border-radius:0 2px 2px 0; margin-left:4px; }
+        /* GAMER HEADSET HAT */
+        .hat-gamer { position:relative; width:38px; height:24px; }
+        .hat-gamer .hg-arc { position:absolute; top:0; left:4px; width:30px; height:16px; border:3px solid #cc00ff; border-bottom:none; border-radius:50% 50% 0 0; box-sizing:border-box; }
+        .hat-gamer .hg-left  { position:absolute; bottom:0; left:0; width:9px; height:14px; background:#cc00ff; border-radius:3px; }
+        .hat-gamer .hg-right { position:absolute; bottom:0; right:0; width:9px; height:14px; background:#cc00ff; border-radius:3px; }
+        .hat-gamer .hg-mic { position:absolute; bottom:2px; left:-8px; width:12px; height:2px; background:#aaa; border-radius:1px; transform:rotate(-30deg); transform-origin:right center; }
+        .hat-gamer .hg-mic::after { content:''; position:absolute; left:-1px; top:-3px; width:5px; height:5px; background:#cc00ff; border-radius:50%; box-shadow:0 0 4px #cc00ff; }
 
         /* HACKER PANTS */
         .pants-hacker { background-color:#0a0a0a; background-image:repeating-linear-gradient(0deg,transparent,transparent 4px,rgba(0,255,68,0.18) 4px,rgba(0,255,68,0.18) 5px); }
@@ -940,6 +949,7 @@
         .avatar-soldier { background-color:#4a5a2a !important; background-image:radial-gradient(circle 2px at 20% 30%,#3a4a1a 100%,transparent 0),radial-gradient(circle 3px at 60% 20%,#2a3a10 100%,transparent 0),radial-gradient(circle 2px at 80% 60%,#3a4a1a 100%,transparent 0),radial-gradient(circle 3px at 40% 70%,#2a3a10 100%,transparent 0) !important; }
         .av-soldier { width:34px; height:34px; background:#4a5a2a; border-radius:3px; position:relative; background-image:radial-gradient(circle 2px at 20% 30%,#2a3a10 100%,transparent 0),radial-gradient(circle 3px at 65% 20%,#3a4a1a 100%,transparent 0),radial-gradient(circle 2px at 80% 65%,#2a3a10 100%,transparent 0),radial-gradient(circle 3px at 35% 72%,#3a4a1a 100%,transparent 0); }
         .av-hacker { width:34px; height:34px; background:#0a0a0a; border-radius:3px; background-image:repeating-linear-gradient(0deg,transparent,transparent 5px,rgba(0,255,68,0.2) 5px,rgba(0,255,68,0.2) 6px),repeating-linear-gradient(90deg,transparent,transparent 11px,rgba(0,255,68,0.1) 11px,rgba(0,255,68,0.1) 12px); box-shadow:0 0 6px rgba(0,255,68,0.4); }
+        .av-gamer  { width:34px; height:34px; background:#1a0a3a; border-radius:3px; background-image:repeating-linear-gradient(0deg,transparent,transparent 7px,rgba(180,0,255,0.2) 7px,rgba(180,0,255,0.2) 8px); box-shadow:0 0 8px rgba(150,0,255,0.6); }
         /* LEGO PLAY AREA */
         .lego-play-area { background:#e8e8e8; border-radius:12px; padding:14px; position:relative; min-height:160px; user-select:none; overflow:hidden; border:2px solid #ccc; }
         .lego-play-area h4 { margin:0 0 8px; font-size:15px; color:#333; font-family:Arial,sans-serif; }
@@ -3164,6 +3174,7 @@
             { id: 'brickhat',    name: 'Brick Hat',     price: 0, bricksandwichUnlock: true, html: `<div class="hat-brickhat"><div class="bh-body"></div><div class="bh-line1"></div><div class="bh-line2"></div></div>` },
             { id: 'catears',     name: 'Cat Ears',      price: 0, cathatUnlock: true,        html: `<div class="hat-catears"><div class="ce-ear-l"></div><div class="ce-ear-r"></div><div class="ce-inner-l"></div><div class="ce-inner-r"></div></div>` },
             { id: 'hacker',      name: 'Hacker Cap',    price: 0, hackerUnlock: true,        html: `<div class="hat-hacker"><div class="hk-dome"></div><div class="hk-code">&lt;/&gt;</div><div class="hk-visor"></div></div>` },
+            { id: 'gamer',       name: 'Gamer Headset', price: 0, mactacUnlock: true,        html: `<div class="hat-gamer"><div class="hg-arc"></div><div class="hg-left"></div><div class="hg-right"></div><div class="hg-mic"></div></div>` },
         ];
 
         const AVATARS = [
@@ -3193,6 +3204,7 @@
             { id: 'fat-av',     name: 'Fat Brick',     price: 0,   burgerUnlock: true,    cls: 'avatar-fat',        preview: `<div class="av-preview av-fat"></div>` },
             { id: 'soldier',    name: 'Soldier',       price: 120,                        cls: 'avatar-soldier',    preview: `<div class="av-preview av-soldier"></div>` },
             { id: 'hacker',     name: 'Hacker',        price: 0,   hackerUnlock: true,    cls: 'avatar-hacker',     preview: `<div class="av-preview av-hacker"></div>` },
+            { id: 'gamer',      name: 'Gamer',         price: 0,   mactacUnlock: true,    cls: 'avatar-gamer',      preview: `<div class="av-preview av-gamer"></div>` },
         ];
 
         const PANTS = [
@@ -3664,9 +3676,9 @@
             hatGrid.innerHTML = '';
             HATS.forEach(hat => {
                 const isOwned = d.ownedHats.includes(hat.id);
-                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock && !hat.eggUnlock && !hat.counterUnlock && !hat.mathUnlock && !hat.stickmanUnlock && !hat.happymealUnlock && !hat.bricksandwichUnlock && !hat.cathatUnlock && !hat.hackerUnlock;
+                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock && !hat.eggUnlock && !hat.counterUnlock && !hat.mathUnlock && !hat.stickmanUnlock && !hat.happymealUnlock && !hat.bricksandwichUnlock && !hat.cathatUnlock && !hat.hackerUnlock && !hat.mactacUnlock;
                 const owned = isOwned || freeOwned;
-                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock || hat.counterUnlock || hat.ninjaUnlock || hat.mathUnlock || hat.stickmanUnlock || hat.happymealUnlock || hat.bricksandwichUnlock || hat.cathatUnlock || hat.hackerUnlock) && !isOwned) {
+                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock || hat.counterUnlock || hat.ninjaUnlock || hat.mathUnlock || hat.stickmanUnlock || hat.happymealUnlock || hat.bricksandwichUnlock || hat.cathatUnlock || hat.hackerUnlock || hat.mactacUnlock) && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     let lockLabel;
@@ -3680,6 +3692,7 @@
                     else if (hat.bricksandwichUnlock) lockLabel = '🥪 Order a Bricksandwich';
                     else if (hat.cathatUnlock) lockLabel = '🐱 Search "cat hat" in Google';
                     else if (hat.hackerUnlock) lockLabel = '💻 Secret Button';
+                    else if (hat.mactacUnlock) lockLabel = '👻 Beat Mac Tac Maze';
                     else { const cur = parseInt(localStorage.getItem('wg_counter')||'0'); lockLabel = `🔢 ${cur}/${hat.counterUnlock}`; }
                     card.innerHTML = `
                         <div class="pet-preview">${hat.html}</div>
@@ -3746,6 +3759,11 @@
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#00ff44">💻 Secret Button</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    avatarGrid.appendChild(card);
+                } else if (av.mactacUnlock && !d.ownedAvatars.includes(av.id)) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#cc00ff">👻 Beat Mac Tac Maze</div><button class="btn-cantafford">🔒 Locked</button>`;
                     avatarGrid.appendChild(card);
                 } else {
                     const owned = av.price === 0 || d.ownedAvatars.includes(av.id);
@@ -5689,8 +5707,12 @@
                 if(dots.has(dk)){dots.delete(dk);coinsWon+=10;}
                 if(px===EXIT.c&&py===EXIT.r){
                     state='win';
-                    const d=loadData(); d.coins+=coinsWon; saveData(d); gameData=d;
+                    const d=loadData(); d.coins+=coinsWon;
+                    if(!d.ownedAvatars.includes('gamer')) d.ownedAvatars.push('gamer');
+                    if(!d.ownedHats.includes('gamer')) d.ownedHats.push('gamer');
+                    saveData(d); gameData=d;
                     document.getElementById('coinDisplay').textContent='🪙 '+d.coins;
+                    if(document.getElementById('storeModal').classList.contains('open')) renderStore();
                     playSound('buy'); return;
                 }
                 for(const g of ghosts){
