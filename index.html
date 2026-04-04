@@ -534,6 +534,62 @@
                 linear-gradient(to bottom, #0d0000 0%, #1a0000 40%, #200000 70%, #100000 100%);
         }
 
+        /* WIFI / INTERNET UNLOCK BUTTON */
+        #wifiBtn {
+            position:fixed; left:272px; top:calc(50% - 256px);
+            width:48px; height:48px; border-radius:50%;
+            background:linear-gradient(135deg,#003366,#0055aa);
+            border:3px solid #44aaff; cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #wifiBtn:hover { transform:scale(1.15); }
+
+        /* GOOGLE HOME SCREEN MODAL */
+        #googleHomeModal {
+            display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+            background:#fff; z-index:4000;
+            flex-direction:column; align-items:center; justify-content:flex-start;
+            padding-top:80px;
+        }
+        #googleHomeModal.open { display:flex; }
+        #googleHomeClose {
+            position:absolute; top:14px; right:18px;
+            background:none; border:none; font-size:22px; cursor:pointer; color:#444;
+        }
+        #googleHomeLogo {
+            font-size:72px; font-weight:900; letter-spacing:-3px;
+            font-family:Arial,sans-serif; margin-bottom:28px;
+        }
+        #googleHomeLogo .gh1{color:#4285F4}
+        #googleHomeLogo .gh2{color:#EA4335}
+        #googleHomeLogo .gh3{color:#FBBC05}
+        #googleHomeLogo .gh4{color:#4285F4}
+        #googleHomeLogo .gh5{color:#34A853}
+        #googleHomeLogo .gh6{color:#EA4335}
+        #googleSearchBar {
+            display:flex; align-items:center;
+            border:1px solid #dfe1e5; border-radius:24px;
+            padding:10px 18px; width:500px; max-width:90vw;
+            box-shadow:0 1px 6px rgba(32,33,36,0.28);
+        }
+        #googleSearchBar:focus-within { box-shadow:0 1px 6px rgba(32,33,36,0.5); }
+        #googleSearchIcon { font-size:18px; margin-right:10px; color:#9aa0a6; }
+        #googleSearchInput {
+            flex:1; border:none; outline:none; font-size:16px;
+            font-family:Arial,sans-serif; color:#202124; background:none;
+        }
+        #googleSearchResult {
+            margin-top:28px; max-width:560px; width:90%;
+            font-family:Arial,sans-serif; display:none;
+        }
+        #googleSearchResult.show { display:block; }
+        .g-result-url { font-size:13px; color:#202124; margin-bottom:2px; }
+        .g-result-title { font-size:20px; color:#1a0dab; font-weight:bold; margin-bottom:4px; cursor:pointer; }
+        .g-result-title:hover { text-decoration:underline; }
+        .g-result-desc { font-size:14px; color:#4d5156; line-height:1.5; }
+
         /* MOVIE BUTTON */
         #movieBtn {
             position:fixed; left:272px; top:calc(50% - 320px);
@@ -2286,6 +2342,26 @@
             <br>
             <button id="movieQuizSubmit" onclick="submitMovieQuiz()">Submit</button>
             <div id="movieQuizMsg"></div>
+        </div>
+    </div>
+
+    <!-- WIFI / INTERNET UNLOCK BUTTON -->
+    <button id="wifiBtn" onclick="unlockInternet()" title="Unlock Internet">📶</button>
+
+    <!-- GOOGLE HOME SCREEN -->
+    <div id="googleHomeModal">
+        <button id="googleHomeClose" onclick="closeGoogleHome()">✕</button>
+        <div id="googleHomeLogo">
+            <span class="gh1">G</span><span class="gh2">o</span><span class="gh3">o</span><span class="gh4">g</span><span class="gh5">l</span><span class="gh6">e</span>
+        </div>
+        <div id="googleSearchBar">
+            <span id="googleSearchIcon">🔍</span>
+            <input type="text" id="googleSearchInput" placeholder="Search Google or type a URL" autocomplete="off">
+        </div>
+        <div id="googleSearchResult">
+            <div class="g-result-url">jump_brick.game › about</div>
+            <div class="g-result-title">Wesley officially made Jump Brick</div>
+            <div class="g-result-desc">Wesley officially made jump_brick with Claude AI 🎮🤖</div>
         </div>
     </div>
 
@@ -4626,9 +4702,37 @@
             }
         }
 
+        // ─── INTERNET UNLOCK ─────────────────────────────────────────────
+        function unlockInternet() {
+            localStorage.setItem('wg_internet_unlocked', '1');
+            playSound('buy');
+            const btn = document.getElementById('wifiBtn');
+            btn.textContent = '✅';
+            btn.title = 'Internet Unlocked!';
+            setTimeout(() => { btn.textContent = '📶'; btn.title = 'Internet Unlocked'; }, 1500);
+        }
+        (function initWifiBtn() {
+            if (localStorage.getItem('wg_internet_unlocked') === '1') {
+                const btn = document.getElementById('wifiBtn');
+                btn.style.background = 'linear-gradient(135deg,#004400,#006600)';
+                btn.style.borderColor = '#44ff88';
+            }
+        })();
+
         // ─── GOOGLE LOGO ────────────────────────────────────────────────
         function spawnGoogle() {
-            document.getElementById('googleDisplay').classList.toggle('visible');
+            if (localStorage.getItem('wg_internet_unlocked') === '1') {
+                document.getElementById('googleDisplay').classList.remove('visible');
+                document.getElementById('googleSearchInput').value = '';
+                document.getElementById('googleSearchResult').classList.remove('show');
+                document.getElementById('googleHomeModal').classList.add('open');
+                setTimeout(() => document.getElementById('googleSearchInput').focus(), 100);
+            } else {
+                document.getElementById('googleDisplay').classList.toggle('visible');
+            }
+        }
+        function closeGoogleHome() {
+            document.getElementById('googleHomeModal').classList.remove('open');
         }
         document.getElementById('googleDisplay').addEventListener('click', function() {
             playSound('nointernet');
@@ -4637,6 +4741,18 @@
             void el.offsetWidth;
             el.classList.add('showing');
             setTimeout(() => el.classList.remove('showing'), 3100);
+        });
+        document.getElementById('googleSearchInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const q = this.value.trim().toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+                const result = document.getElementById('googleSearchResult');
+                if (q === 'who_made_jump_brick' || q === 'who_made_jumpbrick' || this.value.trim().toLowerCase().includes('who made jump')) {
+                    result.classList.add('show');
+                    playSound('buy');
+                } else {
+                    result.classList.remove('show');
+                }
+            }
         });
 
         // ─── PAPER DRAWING ──────────────────────────────────────────────
