@@ -633,6 +633,25 @@
             pointer-events:none; z-index:0; opacity:0.75;
             display:none;
         }
+        #gameContainer.bg-tacos { background:linear-gradient(to bottom,#ff9de2 0%,#ffcba4 40%,#ffe8a1 100%) !important; }
+        #taco-canvas {
+            position:absolute; top:0; left:0;
+            width:800px; height:400px;
+            pointer-events:none; z-index:0; opacity:0.9;
+            display:none;
+        }
+        /* TACO ITEM */
+        .item-taco { position:relative; width:28px; height:22px; }
+        .item-taco .shell { position:absolute; bottom:0; left:2px; width:24px; height:14px; background:#e8a030; border-radius:0 0 14px 14px; border:2px solid #c07010; box-sizing:border-box; }
+        .item-taco .lettuce { position:absolute; top:3px; left:1px; width:26px; height:8px; background:#5aaa2a; border-radius:4px 4px 0 0; }
+        .item-taco .meat { position:absolute; top:5px; left:4px; width:20px; height:6px; background:#8B4513; border-radius:2px; }
+        .item-taco .cheese { position:absolute; top:4px; left:3px; width:22px; height:4px; background:#FFD700; border-radius:2px; opacity:0.85; }
+        .item-taco .tomato { position:absolute; top:6px; left:9px; width:5px; height:5px; background:#dd2222; border-radius:50%; }
+        /* PLAYR6 STYLES */
+        #playr6Area { position:relative; width:460px; height:300px; background:#f5f0e8; border-radius:8px; overflow:hidden; border:2px solid #d4c8a0; }
+        .plushie { position:absolute; cursor:grab; user-select:none; }
+        .plushie:active { cursor:grabbing; }
+        .toy-house { position:absolute; cursor:grab; user-select:none; }
 
         /* HACKER HAT */
         .hat-hacker { position:relative; }
@@ -2579,6 +2598,7 @@
     <h1>🏃 Jump Game</h1>
     <div id="gameContainer">
         <canvas id="matrix-canvas" width="800" height="400"></canvas>
+        <canvas id="taco-canvas" width="800" height="400"></canvas>
         <div id="score">Score: 0</div>
         <div id="coinDisplay">🪙 0</div>
         <div id="actionLabel"></div>
@@ -2780,6 +2800,68 @@
 
     <!-- WIFI / INTERNET UNLOCK BUTTON -->
     <button id="wifiBtn" onclick="unlockInternet()" title="Unlock Internet">📶</button>
+
+    <!-- PLAYR6 MODAL -->
+    <div id="playr6Modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.82);z-index:5000;align-items:center;justify-content:center;flex-direction:column;">
+        <div style="background:#fff8f0;border-radius:14px;padding:18px 22px;box-shadow:0 0 40px rgba(255,150,80,0.4);text-align:center;font-family:Arial,sans-serif;">
+            <h3 style="margin:0 0 8px;font-size:22px;color:#ff6633;">🧸 Plushie Playtime!</h3>
+            <p style="margin:0 0 12px;font-size:13px;color:#888;">Drag the plushies and house around!</p>
+            <div id="playr6Area">
+                <!-- toy house -->
+                <div class="toy-house" id="toyHouse" style="left:160px;top:60px;">
+                    <svg width="100" height="110" viewBox="0 0 100 110">
+                        <polygon points="50,5 5,50 95,50" fill="#e05030" stroke="#a03020" stroke-width="2"/>
+                        <rect x="10" y="48" width="80" height="57" fill="#f5dab0" stroke="#c0a060" stroke-width="2"/>
+                        <rect x="35" y="70" width="30" height="35" fill="#8B5e3c" rx="2"/>
+                        <rect x="15" y="60" width="18" height="18" fill="#aaddff" stroke="#88aacc" stroke-width="1.5" rx="1"/>
+                        <rect x="67" y="60" width="18" height="18" fill="#aaddff" stroke="#88aacc" stroke-width="1.5" rx="1"/>
+                        <line x1="24" y1="60" x2="24" y2="78" stroke="#88aacc" stroke-width="1"/>
+                        <line x1="15" y1="69" x2="33" y2="69" stroke="#88aacc" stroke-width="1"/>
+                        <line x1="76" y1="60" x2="76" y2="78" stroke="#88aacc" stroke-width="1"/>
+                        <line x1="67" y1="69" x2="85" y2="69" stroke="#88aacc" stroke-width="1"/>
+                        <circle cx="63" cy="89" r="3" fill="#cc8800"/>
+                    </svg>
+                </div>
+                <!-- plushie 1 (pink bunny) -->
+                <div class="plushie" id="plushie1" style="left:30px;top:100px;">
+                    <svg width="52" height="72" viewBox="0 0 52 72">
+                        <ellipse cx="16" cy="12" rx="7" ry="14" fill="#ffb6d9" stroke="#e090c0" stroke-width="1.5"/>
+                        <ellipse cx="36" cy="12" rx="7" ry="14" fill="#ffb6d9" stroke="#e090c0" stroke-width="1.5"/>
+                        <ellipse cx="16" cy="13" rx="4" ry="10" fill="#ff88bb"/>
+                        <ellipse cx="36" cy="13" rx="4" ry="10" fill="#ff88bb"/>
+                        <ellipse cx="26" cy="38" rx="20" ry="24" fill="#ffccee" stroke="#e090c0" stroke-width="1.5"/>
+                        <ellipse cx="26" cy="34" rx="14" ry="16" fill="#ffb6d9" stroke="#e090c0" stroke-width="1.5"/>
+                        <ellipse cx="26" cy="52" rx="10" ry="8" fill="#ffe0f0"/>
+                        <circle cx="21" cy="31" r="3" fill="#fff"/>
+                        <circle cx="31" cy="31" r="3" fill="#fff"/>
+                        <circle cx="22" cy="31" r="1.5" fill="#222"/>
+                        <circle cx="32" cy="31" r="1.5" fill="#222"/>
+                        <ellipse cx="26" cy="37" rx="3" ry="2" fill="#ff88bb"/>
+                        <path d="M23 40 Q26 43 29 40" fill="none" stroke="#cc4488" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <!-- plushie 2 (blue bear) -->
+                <div class="plushie" id="plushie2" style="left:360px;top:110px;">
+                    <svg width="52" height="68" viewBox="0 0 52 68">
+                        <circle cx="14" cy="14" r="10" fill="#88bbff" stroke="#5599ee" stroke-width="1.5"/>
+                        <circle cx="38" cy="14" r="10" fill="#88bbff" stroke="#5599ee" stroke-width="1.5"/>
+                        <circle cx="14" cy="14" r="6" fill="#aaccff"/>
+                        <circle cx="38" cy="14" r="6" fill="#aaccff"/>
+                        <ellipse cx="26" cy="44" rx="22" ry="22" fill="#aaccff" stroke="#5599ee" stroke-width="1.5"/>
+                        <ellipse cx="26" cy="38" rx="16" ry="18" fill="#88bbff" stroke="#5599ee" stroke-width="1.5"/>
+                        <ellipse cx="26" cy="50" rx="11" ry="8" fill="#cce0ff"/>
+                        <circle cx="20" cy="35" r="3.5" fill="#fff"/>
+                        <circle cx="32" cy="35" r="3.5" fill="#fff"/>
+                        <circle cx="21" cy="35" r="1.8" fill="#222"/>
+                        <circle cx="33" cy="35" r="1.8" fill="#222"/>
+                        <ellipse cx="26" cy="41" rx="4" ry="3" fill="#6699dd"/>
+                        <path d="M22 44 Q26 48 30 44" fill="none" stroke="#4477cc" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+            <button onclick="closePlayr6()" style="margin-top:14px;padding:8px 24px;border:none;border-radius:8px;background:#333;color:#fff;font-size:14px;cursor:pointer;">✕ Close</button>
+        </div>
+    </div>
 
     <!-- NOTEBOOK MODAL -->
     <div id="notebookModal">
@@ -3476,6 +3558,7 @@
             { id: 'city',      name: 'City Night',  price: 0, questionUnlock: true,  gradient: 'linear-gradient(to bottom,#010110 0%,#03031e 30%,#060630 60%,#0a0826 85%,#0e0808 100%)', cls: 'bg-city' },
             { id: 'theater',   name: 'Movie Theater', price: 0, movieUnlock: true, gradient: 'repeating-linear-gradient(to right,#1a0000 0px,#1a0000 18px,#2a0000 18px,#2a0000 20px)', cls: 'bg-theater' },
             { id: 'hacker',    name: 'Hacker',        price: 0, hackerUnlock: true, gradient: '#000', cls: 'bg-hacker' },
+            { id: 'tacos',     name: 'Raining Tacos', price: 120, gradient: 'linear-gradient(to bottom,#ff9de2 0%,#ffcba4 40%,#ffe8a1 100%)', cls: 'bg-tacos' },
         ];
 
         const ITEMS = [
@@ -3498,6 +3581,7 @@
             { id: 'chips',   name: 'Chips',   price: 0, chipsUnlock: true, html: `<div class="item-chips"><div class="chip-l"></div><div class="chip-r"></div><div class="top-l"></div><div class="top-r"></div><div class="bag"></div><div class="stripe"></div></div>` },
             { id: 'candy',    name: 'Candy',    price: 0, candyUnlock: true,  html: `<div class="item-candy"><div class="twist-l"></div><div class="twist-r"></div><div class="wrap"></div><div class="stripe"></div><div class="dot"></div></div>` },
             { id: 'computer', name: 'Computer', price: 0, hackerUnlock: true, html: `<div class="item-computer"><div class="monitor"></div><div class="iscreen"></div><div class="il1"></div><div class="il2"></div><div class="il3"></div><div class="stand"></div><div class="cbase"></div></div>` },
+            { id: 'taco',     name: 'Taco',     price: 55, html: `<div class="item-taco"><div class="lettuce"></div><div class="meat"></div><div class="cheese"></div><div class="tomato"></div><div class="shell"></div></div>` },
         ];
 
         function loadData() {
@@ -3594,13 +3678,13 @@
         }
 
         // ─── BACKGROUND DISPLAY ────────────────────────────────────────
-        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold','bg-rainbow','bg-ninja','bg-stickman','bg-city','bg-theater','bg-hacker'];
+        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold','bg-rainbow','bg-ninja','bg-stickman','bg-city','bg-theater','bg-hacker','bg-tacos'];
         function applyBackground() {
             BG_CLASSES.forEach(cls => gameContainer.classList.remove(cls));
             const bg = BACKGROUNDS.find(b => b.id === gameData.equippedBg);
             if (bg && bg.cls) gameContainer.classList.add(bg.cls);
-            if (gameData.equippedBg === 'hacker') { if (window.startMatrix) window.startMatrix(); }
-            else { if (window.stopMatrix) window.stopMatrix(); }
+            if (gameData.equippedBg === 'hacker') { if (window.startMatrix) window.startMatrix(); } else { if (window.stopMatrix) window.stopMatrix(); }
+            if (gameData.equippedBg === 'tacos') { if (window.startTacoRain) window.startTacoRain(); } else { if (window.stopTacoRain) window.stopTacoRain(); }
         }
 
         // ─── PANTS DISPLAY ─────────────────────────────────────────────
@@ -5585,6 +5669,27 @@
                     </div>`;
                 result.classList.add('show');
                 playSound('buy');
+            } else if (raw === 'joyride') {
+                result.innerHTML = `
+                    <div class="g-result-url">joyride.store › sweets</div>
+                    <div class="g-result-title">🐻 Joyride Gummy Bears</div>
+                    <div class="g-result-desc">
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
+                            <button class="hunger-item" onclick="buyGummies('small',40)"><span class="h-emoji">🐻</span>Small Bag<div class="h-price">🪙 40</div></button>
+                            <button class="hunger-item" onclick="buyGummies('medium',90)"><span class="h-emoji">🐻🐻</span>Medium Bag<div class="h-price">🪙 90</div></button>
+                            <button class="hunger-item" onclick="buyGummies('mega',200)"><span class="h-emoji">🐻🐻🐻</span>Mega Bag<div class="h-price">🪙 200</div></button>
+                        </div>
+                        <div id="gummyMsg" style="margin-top:6px;font-size:13px;"></div>
+                    </div>`;
+                result.classList.add('show');
+                playSound('buy');
+            } else if (raw === 'playr6') {
+                result.innerHTML = `
+                    <div class="g-result-url">playr6.toys › play</div>
+                    <div class="g-result-title" onclick="openPlayr6()" style="cursor:pointer">🧸 Plushie Playtime!</div>
+                    <div class="g-result-desc">Drag the plushies and toy house around! <button onclick="openPlayr6()" style="margin-left:8px;padding:4px 12px;background:#ff8866;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;font-weight:bold;">▶ Play</button></div>`;
+                result.classList.add('show');
+                playSound('buy');
             } else if (raw === 'notebook' || raw === 'note book') {
                 result.innerHTML = `
                     <div class="g-result-url">notebook.write › open</div>
@@ -6220,6 +6325,96 @@
             modal.addEventListener('click',e=>{if(e.target===modal)closeMacTac();});
             document.body.appendChild(modal);
         })();
+
+        // ─── TACO RAIN ─────────────────────────────────────────────────
+        let tacoRaf = null;
+        (function() {
+            const tc = document.getElementById('taco-canvas');
+            const ctx = tc.getContext('2d');
+            const TACOS = ['🌮','🌮','🌮','🫔','🥑'];
+            const cols = 14;
+            let drops = Array.from({length:cols}, (_,i) => ({x: i*(800/cols)+20, y: Math.random()*-400, speed: 1.5+Math.random()*2, rot: Math.random()*Math.PI*2, spin: (Math.random()-0.5)*0.08, emoji: TACOS[Math.floor(Math.random()*TACOS.length)]}));
+            function drawTacos() {
+                ctx.clearRect(0, 0, 800, 400);
+                ctx.font = '28px serif';
+                ctx.textAlign = 'center';
+                drops.forEach(d => {
+                    ctx.save();
+                    ctx.translate(d.x, d.y);
+                    ctx.rotate(d.rot);
+                    ctx.fillText(d.emoji, 0, 0);
+                    ctx.restore();
+                    d.y += d.speed;
+                    d.rot += d.spin;
+                    if (d.y > 430) { d.y = -40; d.x = Math.random()*800; d.emoji = TACOS[Math.floor(Math.random()*TACOS.length)]; }
+                });
+                tacoRaf = requestAnimationFrame(drawTacos);
+            }
+            window.startTacoRain = function() { tc.style.display='block'; cancelAnimationFrame(tacoRaf); drawTacos(); };
+            window.stopTacoRain  = function() { cancelAnimationFrame(tacoRaf); tc.style.display='none'; ctx.clearRect(0,0,800,400); };
+        })();
+
+        // ─── GUMMY BEARS ───────────────────────────────────────────────
+        function buyGummies(size, price) {
+            const d = loadData();
+            const msg = document.getElementById('gummyMsg');
+            if (!msg) return;
+            if (d.coins < price) { msg.innerHTML = `<span style="color:#ffaaaa">❌ Need 🪙${price}!</span>`; playSound('nointernet'); return; }
+            d.coins -= price; saveData(d); gameData = d;
+            coinDisplay.textContent = '🪙 ' + d.coins;
+            const names = {small:'a Small Bag 🐻',medium:'a Medium Bag 🐻🐻',mega:'a MEGA Bag 🐻🐻🐻'};
+            msg.innerHTML = `<span style="color:#ccffcc">✅ You got ${names[size]}! Enjoy!</span>`;
+            playSound('buy');
+        }
+        window.buyGummies = buyGummies;
+
+        // ─── PLAYR6 ────────────────────────────────────────────────────
+        function openPlayr6() {
+            closeGoogleHome();
+            const modal = document.getElementById('playr6Modal');
+            modal.style.display = 'flex';
+            initPlayr6Drag();
+        }
+        function closePlayr6() { document.getElementById('playr6Modal').style.display = 'none'; }
+        window.openPlayr6 = openPlayr6; window.closePlayr6 = closePlayr6;
+        function initPlayr6Drag() {
+            const area = document.getElementById('playr6Area');
+            const draggables = area.querySelectorAll('.plushie, .toy-house');
+            let dragging = null, ox = 0, oy = 0;
+            draggables.forEach(el => {
+                el.addEventListener('mousedown', e => {
+                    dragging = el; el.style.zIndex = 10;
+                    const r = area.getBoundingClientRect();
+                    ox = e.clientX - r.left - el.offsetLeft;
+                    oy = e.clientY - r.top  - el.offsetTop;
+                    e.preventDefault();
+                });
+                el.addEventListener('touchstart', e => {
+                    dragging = el; el.style.zIndex = 10;
+                    const r = area.getBoundingClientRect();
+                    const t = e.touches[0];
+                    ox = t.clientX - r.left - el.offsetLeft;
+                    oy = t.clientY - r.top  - el.offsetTop;
+                    e.preventDefault();
+                }, {passive:false});
+            });
+            document.addEventListener('mousemove', e => {
+                if (!dragging) return;
+                const r = area.getBoundingClientRect();
+                dragging.style.left = Math.max(0, Math.min(area.clientWidth  - dragging.offsetWidth,  e.clientX - r.left - ox)) + 'px';
+                dragging.style.top  = Math.max(0, Math.min(area.clientHeight - dragging.offsetHeight, e.clientY - r.top  - oy)) + 'px';
+            });
+            document.addEventListener('touchmove', e => {
+                if (!dragging) return;
+                const r = area.getBoundingClientRect();
+                const t = e.touches[0];
+                dragging.style.left = Math.max(0, Math.min(area.clientWidth  - dragging.offsetWidth,  t.clientX - r.left - ox)) + 'px';
+                dragging.style.top  = Math.max(0, Math.min(area.clientHeight - dragging.offsetHeight, t.clientY - r.top  - oy)) + 'px';
+                e.preventDefault();
+            }, {passive:false});
+            document.addEventListener('mouseup',  () => { if (dragging) { dragging.style.zIndex=''; dragging=null; } });
+            document.addEventListener('touchend', () => { if (dragging) { dragging.style.zIndex=''; dragging=null; } });
+        }
 
         // ─── MATRIX RAIN ───────────────────────────────────────────────
         let matrixRaf = null;
