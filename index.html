@@ -949,7 +949,8 @@
         .avatar-soldier { background-color:#4a5a2a !important; background-image:radial-gradient(circle 2px at 20% 30%,#3a4a1a 100%,transparent 0),radial-gradient(circle 3px at 60% 20%,#2a3a10 100%,transparent 0),radial-gradient(circle 2px at 80% 60%,#3a4a1a 100%,transparent 0),radial-gradient(circle 3px at 40% 70%,#2a3a10 100%,transparent 0) !important; }
         .av-soldier { width:34px; height:34px; background:#4a5a2a; border-radius:3px; position:relative; background-image:radial-gradient(circle 2px at 20% 30%,#2a3a10 100%,transparent 0),radial-gradient(circle 3px at 65% 20%,#3a4a1a 100%,transparent 0),radial-gradient(circle 2px at 80% 65%,#2a3a10 100%,transparent 0),radial-gradient(circle 3px at 35% 72%,#3a4a1a 100%,transparent 0); }
         .av-hacker { width:34px; height:34px; background:#0a0a0a; border-radius:3px; background-image:repeating-linear-gradient(0deg,transparent,transparent 5px,rgba(0,255,68,0.2) 5px,rgba(0,255,68,0.2) 6px),repeating-linear-gradient(90deg,transparent,transparent 11px,rgba(0,255,68,0.1) 11px,rgba(0,255,68,0.1) 12px); box-shadow:0 0 6px rgba(0,255,68,0.4); }
-        .av-gamer  { width:34px; height:34px; background:#1a0a3a; border-radius:3px; background-image:repeating-linear-gradient(0deg,transparent,transparent 7px,rgba(180,0,255,0.2) 7px,rgba(180,0,255,0.2) 8px); box-shadow:0 0 8px rgba(150,0,255,0.6); }
+        .av-gamer       { width:34px; height:34px; background:#1a0a3a; border-radius:3px; background-image:repeating-linear-gradient(0deg,transparent,transparent 7px,rgba(180,0,255,0.2) 7px,rgba(180,0,255,0.2) 8px); box-shadow:0 0 8px rgba(150,0,255,0.6); }
+        .av-programmer  { width:34px; height:34px; background:#0d3a4a; border-radius:3px; background-image:repeating-linear-gradient(0deg,transparent,transparent 5px,rgba(0,200,255,0.15) 5px,rgba(0,200,255,0.15) 6px); box-shadow:0 0 8px rgba(0,180,255,0.5); }
         /* LEGO PLAY AREA */
         .lego-play-area { background:#e8e8e8; border-radius:12px; padding:14px; position:relative; min-height:160px; user-select:none; overflow:hidden; border:2px solid #ccc; }
         .lego-play-area h4 { margin:0 0 8px; font-size:15px; color:#333; font-family:Arial,sans-serif; }
@@ -1121,6 +1122,114 @@
             100% { transform:translateX(-280px) rotate(0deg);   opacity:0; }
         }
         #bearDisplay.running .bear-wrap { animation:bearRun 0.8s ease-in forwards; pointer-events:none; }
+
+        /* PANDA BUTTON */
+        #pandaBtn {
+            position:fixed; right:16px; top:calc(50% - 182px);
+            width:48px; height:48px; border-radius:50%;
+            background:#1a1a1a; border:3px solid #888;
+            cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #pandaBtn:hover { transform:scale(1.15); }
+        #pandaDisplay {
+            position:fixed; right:82px; top:calc(50% - 212px);
+            display:none; z-index:500; cursor:pointer; user-select:none;
+        }
+        #pandaDisplay.visible { display:flex; align-items:flex-end; gap:6px; }
+        .panda-wrap { position:relative; width:42px; height:52px; }
+        .panda-body { position:absolute; bottom:0; left:4px; width:34px; height:28px; background:#f5f5f5; border-radius:40% 40% 30% 30%; }
+        .panda-head { position:absolute; top:0; left:6px; width:30px; height:28px; background:#f5f5f5; border-radius:50%; }
+        .panda-ear-l { position:absolute; top:-7px; left:5px; width:12px; height:12px; background:#1a1a1a; border-radius:50%; }
+        .panda-ear-r { position:absolute; top:-7px; right:5px; width:12px; height:12px; background:#1a1a1a; border-radius:50%; }
+        .panda-patch-l { position:absolute; top:5px; left:4px; width:11px; height:11px; background:#1a1a1a; border-radius:50%; }
+        .panda-patch-r { position:absolute; top:5px; right:4px; width:11px; height:11px; background:#1a1a1a; border-radius:50%; }
+        .panda-eye-l { position:absolute; top:7px; left:6px; width:5px; height:5px; background:#fff; border-radius:50%; }
+        .panda-eye-r { position:absolute; top:7px; right:6px; width:5px; height:5px; background:#fff; border-radius:50%; }
+        .panda-nose { position:absolute; top:17px; left:50%; transform:translateX(-50%); width:7px; height:5px; background:#1a1a1a; border-radius:50%; }
+        .panda-belly { position:absolute; bottom:6px; left:50%; transform:translateX(-50%); width:16px; height:12px; background:#e0e0e0; border-radius:50%; }
+        .panda-arm-l { position:absolute; bottom:15px; left:-5px; width:11px; height:18px; background:#1a1a1a; border-radius:40% 40% 30% 30%; transform:rotate(-15deg); }
+        .panda-arm-r { position:absolute; bottom:15px; right:-5px; width:11px; height:18px; background:#1a1a1a; border-radius:40% 40% 30% 30%; transform:rotate(15deg); }
+        .bamboo-wrap { display:none; align-items:flex-end; gap:5px; padding-bottom:2px; }
+        #pandaDisplay.fed .bamboo-wrap { display:flex; }
+        .bamboo-stalk { width:7px; height:36px; background:#4a8a2a; border-radius:2px; position:relative; }
+        .bamboo-stalk::before { content:''; position:absolute; top:10px; left:50%; transform:translateX(-50%); width:11px; height:2px; background:#3a6a1a; }
+        .bamboo-stalk::after  { content:''; position:absolute; top:22px; left:50%; transform:translateX(-50%); width:11px; height:2px; background:#3a6a1a; }
+        .bamboo-leaf { position:absolute; top:3px; right:-8px; width:11px; height:6px; background:#5aaa2a; border-radius:50%; transform:rotate(-30deg); }
+        @keyframes pandaEat { 0%,100%{transform:rotate(0deg)} 25%{transform:rotate(-6deg)} 75%{transform:rotate(6deg)} }
+        #pandaDisplay.fed .panda-wrap { animation:pandaEat 0.5s ease-in-out infinite; }
+
+        /* CLOUD BUTTON */
+        #cloudBtn {
+            position:fixed; right:16px; top:calc(50% - 236px);
+            width:48px; height:48px; border-radius:50%;
+            background:#6aabdd; border:3px solid #aaddff;
+            cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.4); z-index:500;
+            transition:transform 0.15s;
+        }
+        #cloudBtn:hover { transform:scale(1.15); }
+        #cloudDisplay {
+            position:fixed; right:82px; top:calc(50% - 252px);
+            display:none; z-index:500; cursor:pointer; user-select:none;
+        }
+        #cloudDisplay.visible { display:block; }
+        .cloud-wrap { position:relative; width:86px; height:50px; }
+        .cloud-main  { position:absolute; bottom:0; left:8px; width:70px; height:30px; background:#e8f0ff; border-radius:15px; box-shadow:0 2px 8px rgba(100,150,255,0.2); }
+        .cloud-bump1 { position:absolute; bottom:22px; left:10px; width:28px; height:28px; background:#e8f0ff; border-radius:50%; }
+        .cloud-bump2 { position:absolute; bottom:22px; left:30px; width:36px; height:36px; background:#e8f0ff; border-radius:50%; }
+        .cloud-bump3 { position:absolute; bottom:22px; right:10px; width:24px; height:24px; background:#e8f0ff; border-radius:50%; }
+        @keyframes rainFall { 0%{opacity:1;transform:translateY(0)} 100%{opacity:0;transform:translateY(70px)} }
+        .raindrop { position:absolute; width:3px; height:12px; background:linear-gradient(to bottom,rgba(80,130,255,0.9),rgba(80,130,255,0)); border-radius:0 0 4px 4px; animation:rainFall 0.7s ease-in forwards; pointer-events:none; }
+
+        /* QUIZ BUTTON */
+        #quizBtn {
+            position:fixed; right:16px; top:calc(50% - 290px);
+            width:48px; height:48px; border-radius:50%;
+            background:#8833cc; border:3px solid #cc77ff;
+            cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.4); z-index:500;
+            transition:transform 0.15s;
+        }
+        #quizBtn:hover { transform:scale(1.15); }
+        #quizModal {
+            display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+            background:rgba(0,0,0,0.88); z-index:5000;
+            align-items:center; justify-content:center;
+        }
+        #quizModal.open { display:flex; }
+        #quizBox {
+            background:#1a1028; border-radius:14px; padding:28px 32px;
+            box-shadow:0 0 40px rgba(180,80,255,0.4); text-align:center;
+            color:#fff; font-family:Arial,sans-serif; min-width:340px;
+        }
+        #quizBox h3 { margin:0 0 6px; font-size:22px; color:#cc77ff; }
+        #quizProgress { font-size:12px; color:#888; margin-bottom:12px; }
+        #quizQuestion { font-size:18px; margin:0 0 18px; font-weight:bold; }
+        #quizOptions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+        .quiz-opt { padding:10px 22px; border:2px solid #8833cc; border-radius:8px; background:#2a1040; color:#fff; font-size:15px; cursor:pointer; transition:background 0.15s,transform 0.1s; }
+        .quiz-opt:hover { background:#8833cc; transform:scale(1.05); }
+        #quizMsg { margin-top:16px; font-size:15px; min-height:20px; }
+        #quizCloseBtn { margin-top:14px; padding:8px 24px; border:none; border-radius:8px; background:#333; color:#fff; font-size:14px; cursor:pointer; display:none; }
+        #quizCloseBtn:hover { background:#555; }
+
+        /* PROGRAMMER AVATAR */
+        #player.avatar-programmer { background-color:#0d3a4a; background-image:repeating-linear-gradient(0deg,transparent,transparent 5px,rgba(0,200,255,0.15) 5px,rgba(0,200,255,0.15) 6px),repeating-linear-gradient(90deg,transparent,transparent 9px,rgba(0,200,255,0.1) 9px,rgba(0,200,255,0.1) 10px); box-shadow:inset 0 3px 0 rgba(255,255,255,0.12),inset 0 -3px 0 rgba(0,0,0,0.3),2px 2px 0 #062030,0 0 10px rgba(0,180,255,0.4); }
+        #player.avatar-programmer #player-legs .leg { background:#062030; }
+
+        /* PANDA PET */
+        .pet-panda { position:relative; width:24px; height:28px; }
+        .pet-panda .body { position:absolute; bottom:0; left:3px; width:18px; height:14px; background:#f5f5f5; border-radius:40% 40% 30% 30%; }
+        .pet-panda .head { position:absolute; top:0; left:4px; width:16px; height:16px; background:#f5f5f5; border-radius:50%; }
+        .pet-panda .ear-l { position:absolute; top:-4px; left:3px; width:7px; height:7px; background:#1a1a1a; border-radius:50%; }
+        .pet-panda .ear-r { position:absolute; top:-4px; right:3px; width:7px; height:7px; background:#1a1a1a; border-radius:50%; }
+        .pet-panda .patch-l { position:absolute; top:2px; left:3px; width:5px; height:5px; background:#1a1a1a; border-radius:50%; }
+        .pet-panda .patch-r { position:absolute; top:2px; right:3px; width:5px; height:5px; background:#1a1a1a; border-radius:50%; }
+        .pet-panda .nose { position:absolute; top:9px; left:50%; transform:translateX(-50%); width:4px; height:3px; background:#1a1a1a; border-radius:50%; }
 
         /* GOOGLE BUTTON */
         #googleBtn {
@@ -2488,6 +2597,49 @@
             <div class="bear-body"></div>
         </div>
     </div>
+    <!-- PANDA BUTTON -->
+    <button id="pandaBtn" onclick="spawnPanda()" title="Spawn panda">🐼</button>
+    <div id="pandaDisplay">
+        <div class="bamboo-wrap">
+            <div class="bamboo-stalk"><div class="bamboo-leaf"></div></div>
+            <div class="bamboo-stalk"><div class="bamboo-leaf"></div></div>
+        </div>
+        <div class="panda-wrap">
+            <div class="panda-ear-l"></div><div class="panda-ear-r"></div>
+            <div class="panda-head">
+                <div class="panda-patch-l"></div><div class="panda-patch-r"></div>
+                <div class="panda-eye-l"></div><div class="panda-eye-r"></div>
+                <div class="panda-nose"></div>
+            </div>
+            <div class="panda-body">
+                <div class="panda-arm-l"></div><div class="panda-arm-r"></div>
+                <div class="panda-belly"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLOUD BUTTON -->
+    <button id="cloudBtn" onclick="spawnCloud()" title="Spawn cloud">☁️</button>
+    <div id="cloudDisplay">
+        <div class="cloud-wrap">
+            <div class="cloud-bump1"></div><div class="cloud-bump2"></div><div class="cloud-bump3"></div>
+            <div class="cloud-main"></div>
+        </div>
+    </div>
+
+    <!-- QUIZ BUTTON -->
+    <button id="quizBtn" onclick="openQuiz()" title="Personality quiz">🎯</button>
+    <div id="quizModal">
+        <div id="quizBox">
+            <h3>🎯 Quick Quiz!</h3>
+            <div id="quizProgress"></div>
+            <div id="quizQuestion"></div>
+            <div id="quizOptions"></div>
+            <div id="quizMsg"></div>
+            <button id="quizCloseBtn" onclick="closeQuiz()">✕ Close</button>
+        </div>
+    </div>
+
     <!-- GOOGLE BUTTON -->
     <button id="googleBtn" onclick="spawnGoogle()" title="Google">G</button>
     <div id="googleDisplay">
@@ -3148,6 +3300,7 @@
             { id: 'duck',       name: 'Duck',         price: 75,  html: `<div class="pet-duck"><div class="body"></div><div class="wing"></div><div class="head"></div><div class="beak"></div><div class="eye"></div><div class="foot-l"></div><div class="foot-r"></div></div>` },
             { id: 'tank-pet',   name: 'Tank',         price: 160, html: `<div class="pet-tank"><div class="tread"></div><div class="body"></div><div class="turret"></div><div class="barrel"></div></div>` },
             { id: 'hacker-pet', name: 'Laptop',       price: 0,   hackerUnlock: true, html: `<div class="pet-laptop"><div class="screen"></div><div class="display"></div><div class="cl1"></div><div class="cl2"></div><div class="cl3"></div><div class="base"></div></div>` },
+            { id: 'panda',      name: 'Panda',        price: 0,   pandaUnlock: true,  html: `<div class="pet-panda"><div class="body"></div><div class="head"></div><div class="ear-l"></div><div class="ear-r"></div><div class="patch-l"></div><div class="patch-r"></div><div class="nose"></div></div>` },
         ];
 
         const TURTLE_HTML = `<div class="turtle-shell"><div class="turtle-head"></div><div class="turtle-legs"></div></div>`;
@@ -3205,6 +3358,7 @@
             { id: 'soldier',    name: 'Soldier',       price: 120,                        cls: 'avatar-soldier',    preview: `<div class="av-preview av-soldier"></div>` },
             { id: 'hacker',     name: 'Hacker',        price: 0,   hackerUnlock: true,    cls: 'avatar-hacker',     preview: `<div class="av-preview av-hacker"></div>` },
             { id: 'gamer',      name: 'Gamer',         price: 0,   mactacUnlock: true,    cls: 'avatar-gamer',      preview: `<div class="av-preview av-gamer"></div>` },
+            { id: 'programmer', name: 'Programmer',    price: 0,   programmerUnlock: true, cls: 'avatar-programmer', preview: `<div class="av-preview av-programmer"></div>` },
         ];
 
         const PANTS = [
@@ -3345,7 +3499,7 @@
         }
 
         // ─── AVATAR DISPLAY ────────────────────────────────────────────
-        const AVATAR_CLASSES = ['avatar-stone','avatar-dirt','avatar-concrete','avatar-blue','avatar-green','avatar-pink','avatar-eyes','avatar-easter','avatar-gold','avatar-chocolate','avatar-ninja','avatar-sprinkle','avatar-capy','avatar-dolphin','avatar-football','avatar-nerd','avatar-stickman'];
+        const AVATAR_CLASSES = ['avatar-stone','avatar-dirt','avatar-concrete','avatar-blue','avatar-green','avatar-pink','avatar-eyes','avatar-easter','avatar-gold','avatar-chocolate','avatar-ninja','avatar-sprinkle','avatar-capy','avatar-dolphin','avatar-football','avatar-nerd','avatar-stickman','avatar-gamer','avatar-programmer'];
         function renderIngameAvatar() {
             AVATAR_CLASSES.forEach(cls => player.classList.remove(cls));
             const av = AVATARS.find(a => a.id === gameData.equippedAvatar);
@@ -3666,6 +3820,11 @@
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${pet.html}</div><div class="pet-name">${pet.name}</div><div class="pet-price" style="color:#00ff44">💻 Secret Button</div><button class="btn-cantafford">🔒 Locked</button>`;
                     petGrid.appendChild(card);
+                } else if (pet.pandaUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${pet.html}</div><div class="pet-name">${pet.name}</div><div class="pet-price" style="color:#aaa">🐼 Feed the panda</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    petGrid.appendChild(card);
                 } else {
                     petGrid.appendChild(buildCard(pet, isOwned, d.equipped === pet.id, d.coins >= pet.price, 'buyPet', 'equipPet', pet.html));
                 }
@@ -3764,6 +3923,11 @@
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#cc00ff">👻 Beat Mac Tac Maze</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    avatarGrid.appendChild(card);
+                } else if (av.programmerUnlock && !d.ownedAvatars.includes(av.id)) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#00ccff">💻 Pass the quiz</div><button class="btn-cantafford">🔒 Locked</button>`;
                     avatarGrid.appendChild(card);
                 } else {
                     const owned = av.price === 0 || d.ownedAvatars.includes(av.id);
@@ -4405,6 +4569,129 @@
             this.classList.add('running');
             setTimeout(() => this.classList.remove('visible', 'running'), 850);
         });
+
+        // ─── PANDA ─────────────────────────────────────────────────────
+        (function() {
+            const display = document.getElementById('pandaDisplay');
+            let pandaState = 0; // 0=idle, 1=fed bamboo
+            function spawnPanda() {
+                pandaState = 0;
+                display.classList.remove('fed');
+                void display.offsetWidth;
+                display.classList.toggle('visible');
+            }
+            window.spawnPanda = spawnPanda;
+            display.addEventListener('click', function() {
+                if (!this.classList.contains('visible')) return;
+                if (pandaState === 0) {
+                    pandaState = 1;
+                    this.classList.add('fed');
+                    playSound('buy');
+                } else {
+                    this.classList.remove('visible', 'fed');
+                    pandaState = 0;
+                    const d = loadData();
+                    if (!d.owned.includes('panda')) {
+                        d.owned.push('panda');
+                        saveData(d); gameData = d;
+                        if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+                    }
+                    playSound('win');
+                }
+            });
+        })();
+
+        // ─── CLOUD ─────────────────────────────────────────────────────
+        (function() {
+            const display = document.getElementById('cloudDisplay');
+            const cloudWrap = display.querySelector('.cloud-wrap');
+            function spawnCloud() {
+                display.classList.toggle('visible');
+            }
+            window.spawnCloud = spawnCloud;
+            display.addEventListener('click', function() {
+                if (!this.classList.contains('visible')) return;
+                const rect = cloudWrap.getBoundingClientRect();
+                for (let i = 0; i < 12; i++) {
+                    const drop = document.createElement('div');
+                    drop.className = 'raindrop';
+                    drop.style.left = (10 + Math.random() * 60) + 'px';
+                    drop.style.top = (rect.height - 2) + 'px';
+                    drop.style.animationDelay = (Math.random() * 0.3) + 's';
+                    cloudWrap.appendChild(drop);
+                    setTimeout(() => drop.remove(), 1200);
+                }
+                playSound('buy');
+            });
+        })();
+
+        // ─── QUIZ ──────────────────────────────────────────────────────
+        (function() {
+            const QUESTIONS = [
+                { q: 'Candy or Chocolate?',    opts: ['Candy','Chocolate'],       correct: 'Chocolate' },
+                { q: 'Water or Coke?',         opts: ['Water','Coke'],            correct: 'Water'     },
+                { q: 'Apple or Orange?',       opts: ['Apple','Orange'],          correct: 'Orange'    },
+                { q: 'Red, Blue, or Pink?',    opts: ['Red','Blue','Pink'],       correct: ['Red','Pink'] },
+                { q: 'Computer or Xbox?',      opts: ['Computer','Xbox'],         correct: 'Computer'  },
+            ];
+            let step = 0, allCorrect = true;
+            function openQuiz() {
+                step = 0; allCorrect = true;
+                document.getElementById('quizModal').classList.add('open');
+                document.getElementById('quizCloseBtn').style.display = 'none';
+                document.getElementById('quizMsg').textContent = '';
+                showQuestion();
+            }
+            function closeQuiz() {
+                document.getElementById('quizModal').classList.remove('open');
+            }
+            function showQuestion() {
+                const q = QUESTIONS[step];
+                document.getElementById('quizProgress').textContent = `Question ${step+1} / ${QUESTIONS.length}`;
+                document.getElementById('quizQuestion').textContent = q.q;
+                const opts = document.getElementById('quizOptions');
+                opts.innerHTML = '';
+                q.opts.forEach(o => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quiz-opt';
+                    btn.textContent = o;
+                    btn.onclick = () => answer(o);
+                    opts.appendChild(btn);
+                });
+            }
+            function answer(choice) {
+                const q = QUESTIONS[step];
+                const correct = Array.isArray(q.correct) ? q.correct.includes(choice) : q.correct === choice;
+                if (!correct) allCorrect = false;
+                step++;
+                if (step < QUESTIONS.length) {
+                    showQuestion();
+                } else {
+                    document.getElementById('quizOptions').innerHTML = '';
+                    document.getElementById('quizProgress').textContent = '';
+                    if (allCorrect) {
+                        const d = loadData();
+                        if (!d.ownedAvatars.includes('programmer')) {
+                            d.ownedAvatars.push('programmer');
+                            saveData(d); gameData = d;
+                            if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+                        }
+                        document.getElementById('quizQuestion').textContent = '🎉 You unlocked the Programmer avatar!';
+                        document.getElementById('quizMsg').style.color = '#00ccff';
+                        document.getElementById('quizMsg').textContent = 'Check your avatar shop!';
+                        playSound('win');
+                    } else {
+                        document.getElementById('quizQuestion').textContent = '❌ Not quite! Try again?';
+                        document.getElementById('quizMsg').style.color = '#ff8888';
+                        document.getElementById('quizMsg').textContent = 'Hint: chocolate, water, orange, red or pink, computer.';
+                        playSound('nointernet');
+                    }
+                    document.getElementById('quizCloseBtn').style.display = 'inline-block';
+                }
+            }
+            window.openQuiz = openQuiz;
+            window.closeQuiz = closeQuiz;
+        })();
 
         // ─── BUSH / FOX ─────────────────────────────────────────────────
         const bushDisplay = document.getElementById('bushDisplay');
