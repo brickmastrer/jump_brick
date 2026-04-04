@@ -845,6 +845,100 @@
         }
         #bearDisplay.running .bear-wrap { animation:bearRun 0.8s ease-in forwards; pointer-events:none; }
 
+        /* GOOGLE BUTTON */
+        #googleBtn {
+            position:fixed; left:80px; top:calc(50% + 64px);
+            width:48px; height:48px; border-radius:50%;
+            background:#fff; border:3px solid #ddd;
+            cursor:pointer; font-size:20px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.3); z-index:500;
+            transition:transform 0.15s;
+        }
+        #googleBtn:hover { transform:scale(1.15); }
+        #googleDisplay {
+            position:fixed; left:144px; top:calc(50% + 30px);
+            display:none; z-index:500; cursor:pointer; user-select:none;
+            background:#fff; border-radius:12px; padding:12px 16px;
+            box-shadow:0 4px 20px rgba(0,0,0,0.25); text-align:center;
+        }
+        #googleDisplay.visible { display:block; }
+        .google-wordmark { font-size:26px; font-weight:700; letter-spacing:-1px; font-family:Arial,sans-serif; margin-top:4px; }
+        .google-wordmark .g1{color:#4285F4}.google-wordmark .g2{color:#EA4335}.google-wordmark .g3{color:#FBBC05}
+        .google-wordmark .g4{color:#4285F4}.google-wordmark .g5{color:#34A853}.google-wordmark .g6{color:#EA4335}
+        /* CSS Google G icon */
+        .google-g-wrap { position:relative; width:48px; height:48px; margin:0 auto 4px; }
+        .google-g-ring { width:48px; height:48px; border-radius:50%;
+            background:conic-gradient(#4285F4 0deg 210deg, #FBBC05 210deg 255deg, #34A853 255deg 315deg, #EA4335 315deg 360deg);
+            position:relative;
+        }
+        .google-g-ring::before { content:''; position:absolute; top:10px; left:10px; right:10px; bottom:10px; background:#fff; border-radius:50%; }
+        .google-g-bar { position:absolute; top:50%; right:-2px; width:26px; height:11px; background:#4285F4; transform:translateY(-50%); border-radius:0 4px 4px 0; z-index:1; }
+
+        @keyframes noInternetAnim {
+            0%  { opacity:0; transform:translate(-50%,-50%) scale(0.6); }
+            12% { opacity:1; transform:translate(-50%,-50%) scale(1.05); }
+            22% { opacity:1; transform:translate(-50%,-50%) scale(1); }
+            80% { opacity:1; }
+            100%{ opacity:0; transform:translate(-50%,-50%) scale(0.95); }
+        }
+        #noInternetText {
+            position:fixed; top:42%; left:50%;
+            transform:translate(-50%,-50%);
+            font-size:44px; font-weight:900; color:#333;
+            font-family:Arial,sans-serif; display:none; text-align:center;
+            z-index:9998; pointer-events:none; white-space:nowrap;
+        }
+        #noInternetText .dino-run { font-size:32px; display:block; margin-bottom:6px; }
+        #noInternetText.showing { display:block; animation:noInternetAnim 3s ease forwards; }
+
+        /* PAPER BUTTON */
+        #paperBtn {
+            position:fixed; left:124px; top:calc(50% + 192px);
+            width:48px; height:48px; border-radius:50%;
+            background:#fffde7; border:3px solid #aaa;
+            cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.3); z-index:500;
+            transition:transform 0.15s;
+        }
+        #paperBtn:hover { transform:scale(1.15); }
+
+        /* PAPER DRAW MODAL */
+        #paperModal {
+            display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+            background:rgba(0,0,0,0.6); z-index:3000;
+            align-items:center; justify-content:center;
+        }
+        #paperModal.open { display:flex; }
+        #paperModalContent {
+            background:#fff; border-radius:8px; padding:12px;
+            box-shadow:0 8px 40px rgba(0,0,0,0.5); position:relative;
+        }
+        #paperToolbar {
+            display:flex; gap:8px; align-items:center; margin-bottom:8px;
+        }
+        .paper-tool-btn {
+            padding:5px 12px; border:2px solid #aaa; border-radius:6px;
+            cursor:pointer; font-size:13px; font-weight:bold; background:#f5f5f5;
+        }
+        .paper-tool-btn.active { background:#333; color:#fff; border-color:#333; }
+        .paper-tool-btn:hover { background:#eee; color:#333; }
+        .paper-tool-btn.active:hover { background:#555; color:#fff; }
+        #paperColorPick { width:32px; height:32px; border:2px solid #aaa; border-radius:6px; cursor:pointer; padding:0; }
+        #paperSizeRange { width:80px; }
+        #paperClose {
+            position:absolute; top:8px; right:8px;
+            background:#ff5252; color:#fff; border:none;
+            border-radius:50%; width:28px; height:28px; cursor:pointer;
+            font-weight:bold; font-size:14px; line-height:1;
+        }
+        #paperCanvas {
+            display:block; border:1px solid #ccc; border-radius:4px;
+            cursor:crosshair;
+            background:repeating-linear-gradient(to bottom, transparent, transparent 29px, #b8d4f0 29px, #b8d4f0 30px) #fff;
+        }
+
         /* CITY BUTTON */
         #cityBtn {
             position:fixed; left:272px; top:calc(50% - 384px);
@@ -2078,6 +2172,38 @@
             <div class="bear-body"></div>
         </div>
     </div>
+    <!-- GOOGLE BUTTON -->
+    <button id="googleBtn" onclick="spawnGoogle()" title="Google">G</button>
+    <div id="googleDisplay">
+        <div class="google-g-wrap">
+            <div class="google-g-ring"></div>
+            <div class="google-g-bar"></div>
+        </div>
+        <div class="google-wordmark">
+            <span class="g1">G</span><span class="g2">o</span><span class="g3">o</span><span class="g4">g</span><span class="g5">l</span><span class="g6">e</span>
+        </div>
+    </div>
+    <div id="noInternetText">
+        <span class="dino-run">🦕</span>
+        No Internet
+    </div>
+
+    <!-- PAPER BUTTON -->
+    <button id="paperBtn" onclick="openPaper()" title="Draw on paper">📝</button>
+    <div id="paperModal">
+        <div id="paperModalContent">
+            <button id="paperClose" onclick="closePaper()">✕</button>
+            <div id="paperToolbar">
+                <button class="paper-tool-btn active" id="pencilBtn" onclick="setPaperTool('draw')">✏️ Draw</button>
+                <button class="paper-tool-btn" id="eraserBtn" onclick="setPaperTool('erase')">🧹 Erase</button>
+                <input type="color" id="paperColorPick" value="#000000" title="Color">
+                <input type="range" id="paperSizeRange" min="1" max="30" value="4" title="Size">
+                <button class="paper-tool-btn" onclick="clearPaper()">🗑️ Clear</button>
+            </div>
+            <canvas id="paperCanvas" width="560" height="400"></canvas>
+        </div>
+    </div>
+
     <!-- CITY BUTTON -->
     <button id="cityBtn" onclick="openCityQuiz()" title="City background quiz!">🏙️</button>
 
@@ -2546,6 +2672,21 @@
                 gain.gain.setValueAtTime(0.35, now);
                 gain.gain.linearRampToValueAtTime(0, now + 0.3);
                 osc.start(now); osc.stop(now + 0.3);
+            } else if (type === 'nointernet') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.linearRampToValueAtTime(110, now + 0.08);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.12);
+                osc.start(now); osc.stop(now + 0.12);
+                const osc2 = audioCtx.createOscillator(), gain2 = audioCtx.createGain();
+                osc2.connect(gain2); gain2.connect(audioCtx.destination);
+                osc2.type = 'square';
+                osc2.frequency.setValueAtTime(165, now + 0.15);
+                osc2.frequency.linearRampToValueAtTime(82, now + 0.23);
+                gain2.gain.setValueAtTime(0.25, now + 0.15);
+                gain2.gain.linearRampToValueAtTime(0, now + 0.27);
+                osc2.start(now + 0.15); osc2.stop(now + 0.27);
             } else if (type === 'chips') {
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(900, now);
@@ -4370,6 +4511,75 @@
                 this.classList.add('popped');
             }
         });
+
+        // ─── GOOGLE LOGO ────────────────────────────────────────────────
+        function spawnGoogle() {
+            document.getElementById('googleDisplay').classList.toggle('visible');
+        }
+        document.getElementById('googleDisplay').addEventListener('click', function() {
+            playSound('nointernet');
+            const el = document.getElementById('noInternetText');
+            el.classList.remove('showing');
+            void el.offsetWidth;
+            el.classList.add('showing');
+            setTimeout(() => el.classList.remove('showing'), 3100);
+        });
+
+        // ─── PAPER DRAWING ──────────────────────────────────────────────
+        let paperDrawing = false, paperTool = 'draw';
+        const paperCanvas = document.getElementById('paperCanvas');
+        const paperCtx = paperCanvas.getContext('2d');
+
+        function openPaper() { document.getElementById('paperModal').classList.add('open'); }
+        function closePaper() { document.getElementById('paperModal').classList.remove('open'); }
+        function setPaperTool(tool) {
+            paperTool = tool;
+            document.getElementById('pencilBtn').classList.toggle('active', tool === 'draw');
+            document.getElementById('eraserBtn').classList.toggle('active', tool === 'erase');
+        }
+        function clearPaper() { paperCtx.clearRect(0, 0, paperCanvas.width, paperCanvas.height); }
+
+        function getPaperPos(e) {
+            const r = paperCanvas.getBoundingClientRect();
+            if (e.touches) {
+                return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
+            }
+            return { x: e.clientX - r.left, y: e.clientY - r.top };
+        }
+        function paperStartDraw(e) {
+            e.preventDefault();
+            paperDrawing = true;
+            const p = getPaperPos(e);
+            paperCtx.beginPath();
+            paperCtx.moveTo(p.x, p.y);
+        }
+        function paperDoDraw(e) {
+            if (!paperDrawing) return;
+            e.preventDefault();
+            const p = getPaperPos(e);
+            const size = parseInt(document.getElementById('paperSizeRange').value);
+            if (paperTool === 'erase') {
+                paperCtx.clearRect(p.x - size, p.y - size, size * 2, size * 2);
+            } else {
+                paperCtx.strokeStyle = document.getElementById('paperColorPick').value;
+                paperCtx.lineWidth = size;
+                paperCtx.lineCap = 'round';
+                paperCtx.lineJoin = 'round';
+                paperCtx.lineTo(p.x, p.y);
+                paperCtx.stroke();
+                paperCtx.beginPath();
+                paperCtx.moveTo(p.x, p.y);
+            }
+        }
+        function paperStopDraw() { paperDrawing = false; }
+
+        paperCanvas.addEventListener('mousedown', paperStartDraw);
+        paperCanvas.addEventListener('mousemove', paperDoDraw);
+        paperCanvas.addEventListener('mouseup', paperStopDraw);
+        paperCanvas.addEventListener('mouseleave', paperStopDraw);
+        paperCanvas.addEventListener('touchstart', paperStartDraw, { passive: false });
+        paperCanvas.addEventListener('touchmove', paperDoDraw, { passive: false });
+        paperCanvas.addEventListener('touchend', paperStopDraw);
 
         // ─── START ─────────────────────────────────────────────────────
         setInterval(createObstacle, 1500);
