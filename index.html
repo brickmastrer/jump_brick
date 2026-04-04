@@ -3082,14 +3082,18 @@
         }
 
         // ─── CONTROLS ──────────────────────────────────────────────────
+        function isTypingInInput() {
+            const tag = document.activeElement && document.activeElement.tagName;
+            return tag === 'INPUT' || tag === 'TEXTAREA';
+        }
         document.addEventListener('keydown', (e) => {
-            if (document.activeElement === document.getElementById('usernameInput')) return;
+            if (isTypingInInput()) return;
             if (e.code === 'Space')                               { e.preventDefault(); jump(); }
             if (e.code === 'KeyS' || e.code === 'ArrowDown')     { e.preventDefault(); crouch(); }
             if (e.code === 'KeyF' || e.code === 'KeyZ')          { punch(); }
         });
         document.addEventListener('keyup', (e) => {
-            if (document.activeElement === document.getElementById('usernameInput')) return;
+            if (isTypingInInput()) return;
             if (e.code === 'KeyS' || e.code === 'ArrowDown') standUp();
         });
 
