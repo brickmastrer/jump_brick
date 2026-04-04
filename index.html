@@ -806,6 +806,22 @@
         .hat-stick { position:relative; width:28px; }
         .hat-stick .hat-body { width:14px; height:17px; background:transparent; border:3px solid #111; border-radius:1px 1px 0 0; margin:0 auto; box-sizing:border-box; }
         .hat-stick .hat-brim { width:26px; height:4px; background:transparent; border:3px solid #111; border-radius:1px; margin:0 auto; box-sizing:border-box; }
+        /* McDONALD'S HAT */
+        .hat-mchat { position:relative; width:34px; }
+        .hat-mchat .mc-top { width:32px; height:14px; background:#da291c; border-radius:4px 4px 0 0; margin:0 auto; }
+        .hat-mchat .mc-visor { width:38px; height:6px; background:#da291c; border-radius:2px; margin:0 auto; }
+        .hat-mchat .mc-m { position:absolute; top:1px; left:50%; transform:translateX(-50%); font-size:11px; font-weight:900; color:#FFC72C; font-family:Arial,sans-serif; line-height:1; }
+        /* BRICK HAT */
+        .hat-brickhat { position:relative; width:30px; }
+        .hat-brickhat .bh-body { width:28px; height:16px; background:#b5451b; border-radius:2px 2px 0 0; margin:0 auto; position:relative; }
+        .hat-brickhat .bh-line1 { position:absolute; top:5px; left:0; width:100%; height:2px; background:#8a3210; }
+        .hat-brickhat .bh-line2 { position:absolute; top:11px; left:0; width:100%; height:2px; background:#8a3210; }
+        .hat-brickhat .bh-body::before { content:''; position:absolute; top:0; left:50%; width:2px; height:5px; background:#8a3210; }
+        .hat-brickhat .bh-body::after  { content:''; position:absolute; top:7px; left:25%; width:2px; height:4px; background:#8a3210; }
+        /* FAT BRICK AVATAR */
+        .avatar-fat { transform:scaleX(1.5) scaleY(1.2); }
+        .av-fat { width:34px; height:34px; background:#c0392b; border-radius:4px; position:relative; }
+        .av-fat::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(to bottom,transparent 0px,transparent 9px,rgba(0,0,0,0.18) 9px,rgba(0,0,0,0.18) 11px); border-radius:4px; }
 
         /* OATMEAL ITEM */
         .item-oatmeal { position:relative; width:18px; height:18px; }
@@ -2943,6 +2959,8 @@
             { id: 'ninja',       name: 'Ninja Mask',    price: 0, ninjaUnlock: true,   html: `<div class="hat-ninja"><div class="band"><div class="slit"></div></div></div>` },
             { id: 'mortar',      name: 'Mortarboard',   price: 0, mathUnlock: true,      html: `<div class="hat-mortar"><div class="tassel"></div><div class="board"></div><div class="cap"></div></div>` },
             { id: 'stick-hat',   name: 'Stick Hat',     price: 0, stickmanUnlock: true,  html: `<div class="hat-stick"><div class="hat-body"></div><div class="hat-brim"></div></div>` },
+            { id: 'mchat',       name: "McDonald's Hat", price: 0, happymealUnlock: true, html: `<div class="hat-mchat"><div class="mc-visor"></div><div class="mc-top"></div><div class="mc-m">M</div></div>` },
+            { id: 'brickhat',    name: 'Brick Hat',     price: 0, bricksandwichUnlock: true, html: `<div class="hat-brickhat"><div class="bh-body"></div><div class="bh-line1"></div><div class="bh-line2"></div></div>` },
         ];
 
         const AVATARS = [
@@ -2969,6 +2987,7 @@
             { id: 'white',      name: 'White',         price: 80,                         cls: 'avatar-white',      preview: `<div class="av-preview av-white"></div>` },
             { id: 'flag',       name: 'American Flag', price: 120,                        cls: 'avatar-flag',       preview: `<div class="av-preview av-flag"></div>` },
             { id: 'dragon-av',  name: 'Dragon',        price: 0,   dragonUnlock: true,    cls: 'avatar-dragon-av',  preview: `<div class="av-preview av-dragon-av"></div>` },
+            { id: 'fat-av',     name: 'Fat Brick',     price: 0,   burgerUnlock: true,    cls: 'avatar-fat',        preview: `<div class="av-preview av-fat"></div>` },
         ];
 
         const PANTS = [
@@ -3430,9 +3449,9 @@
             hatGrid.innerHTML = '';
             HATS.forEach(hat => {
                 const isOwned = d.ownedHats.includes(hat.id);
-                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock && !hat.eggUnlock && !hat.counterUnlock && !hat.mathUnlock && !hat.stickmanUnlock;
+                const freeOwned = hat.price === 0 && !hat.winUnlock && !hat.secretUnlock && !hat.eggUnlock && !hat.counterUnlock && !hat.mathUnlock && !hat.stickmanUnlock && !hat.happymealUnlock && !hat.bricksandwichUnlock;
                 const owned = isOwned || freeOwned;
-                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock || hat.counterUnlock || hat.ninjaUnlock || hat.mathUnlock || hat.stickmanUnlock) && !isOwned) {
+                if ((hat.winUnlock || hat.secretUnlock || hat.eggUnlock || hat.counterUnlock || hat.ninjaUnlock || hat.mathUnlock || hat.stickmanUnlock || hat.happymealUnlock || hat.bricksandwichUnlock) && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     let lockLabel;
@@ -3442,6 +3461,8 @@
                     else if (hat.ninjaUnlock) lockLabel = '🥷 Secret Unlock';
                     else if (hat.mathUnlock) lockLabel = '🧮 Solve Math';
                     else if (hat.stickmanUnlock) lockLabel = '🛏️ Wake the stickman';
+                    else if (hat.happymealUnlock) lockLabel = '🍟 Order a Happy Meal';
+                    else if (hat.bricksandwichUnlock) lockLabel = '🥪 Order a Bricksandwich';
                     else { const cur = parseInt(localStorage.getItem('wg_counter')||'0'); lockLabel = `🔢 ${cur}/${hat.counterUnlock}`; }
                     card.innerHTML = `
                         <div class="pet-preview">${hat.html}</div>
@@ -3481,6 +3502,11 @@
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#888">🪄 Secret Button</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    avatarGrid.appendChild(card);
+                } else if (av.burgerUnlock && !d.ownedAvatars.includes(av.id)) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `<div class="pet-preview">${av.preview}</div><div class="pet-name">${av.name}</div><div class="pet-price" style="color:#ffaa44">🍔 Order a Burger</div><button class="btn-cantafford">🔒 Locked</button>`;
                     avatarGrid.appendChild(card);
                 } else if (av.dragonUnlock && !d.ownedAvatars.includes(av.id)) {
                     const card = document.createElement('div');
@@ -4815,6 +4841,24 @@
             lastBrickOrder = item;
             plateBites = 0;
             playSound('buy');
+            // grant unlocks
+            const d = loadData();
+            if (item === 'happy meal' && !d.ownedHats.includes('mchat')) {
+                d.ownedHats.push('mchat');
+                saveData(d); gameData = d;
+                setTimeout(() => { document.getElementById('brickOrderMsg').textContent += " 🎓 You got the McDonald's Hat!"; }, 800);
+            }
+            if (item === 'burger' && !d.ownedAvatars.includes('fat-av')) {
+                d.ownedAvatars.push('fat-av');
+                saveData(d); gameData = d;
+                setTimeout(() => { document.getElementById('brickOrderMsg').textContent += ' 🧱 You got the Fat Brick avatar!'; }, 800);
+            }
+            if (item === 'bricksandwich' && !d.ownedHats.includes('brickhat')) {
+                d.ownedHats.push('brickhat');
+                saveData(d); gameData = d;
+                setTimeout(() => { document.getElementById('brickOrderMsg').textContent += ' 🧱 You got the Brick Hat!'; }, 800);
+            }
+            if (document.getElementById('storeModal').classList.contains('open')) renderStore();
         }
         document.getElementById('googleSearchInput').addEventListener('keydown', function(e) {
             if (e.key !== 'Enter') return;
