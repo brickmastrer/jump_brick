@@ -589,6 +589,15 @@
         .g-result-title { font-size:20px; color:#1a0dab; font-weight:bold; margin-bottom:4px; cursor:pointer; }
         .g-result-title:hover { text-decoration:underline; }
         .g-result-desc { font-size:14px; color:#4d5156; line-height:1.5; }
+        .hunger-panel { background:linear-gradient(135deg,#7b2ff7,#4a00a0); border-radius:14px; padding:20px 24px; color:#fff; font-family:Arial,sans-serif; }
+        .hunger-panel h3 { margin:0 0 6px; font-size:22px; }
+        .hunger-panel p { margin:0 0 16px; font-size:14px; opacity:0.9; }
+        .hunger-items { display:flex; gap:12px; flex-wrap:wrap; }
+        .hunger-item { background:#fff; color:#4a00a0; border-radius:10px; padding:12px 16px; text-align:center; cursor:pointer; font-weight:bold; font-size:14px; min-width:100px; border:none; transition:transform 0.12s; }
+        .hunger-item:hover { transform:scale(1.07); }
+        .hunger-item .h-emoji { font-size:26px; display:block; margin-bottom:4px; }
+        .hunger-item .h-price { font-size:12px; color:#888; margin-top:3px; }
+        #hungerOrderMsg { margin-top:14px; font-size:15px; font-weight:bold; min-height:20px; }
         .brickdonalds-panel { background:#da291c; border-radius:14px; padding:20px 24px; color:#fff; font-family:Arial,sans-serif; }
         .brickdonalds-panel h3 { margin:0 0 6px; font-size:22px; }
         .brickdonalds-panel p { margin:0 0 16px; font-size:14px; opacity:0.9; }
@@ -4887,6 +4896,21 @@
                     <div class="g-result-desc">🐾 A capybara is a friendly animal that likes going in pawns of water.</div>`;
                 result.classList.add('show');
                 playSound('buy');
+            } else if (raw === 'super meg hungr' || raw === 'super mega hungry' || raw === 'super meg hungry') {
+                result.innerHTML = `
+                    <div class="hunger-panel">
+                        <h3>😤 Super Meg Hungr!</h3>
+                        <p>Pick something to eat:</p>
+                        <div class="hunger-items">
+                            <button class="hunger-item" onclick="hungerOrder('oreos',100)"><span class="h-emoji">🍪</span>Oreos<div class="h-price">🪙 100</div></button>
+                            <button class="hunger-item" onclick="hungerOrder('crackers',150)"><span class="h-emoji">🫙</span>Crackers<div class="h-price">🪙 150</div></button>
+                            <button class="hunger-item" onclick="hungerOrder('pizza',500)"><span class="h-emoji">🍕</span>Pizza<div class="h-price">🪙 500</div></button>
+                            <button class="hunger-item" onclick="hungerOrder('chicken',1000)"><span class="h-emoji">🍗</span>Chicken<div class="h-price">🪙 1000</div></button>
+                        </div>
+                        <div id="hungerOrderMsg"></div>
+                    </div>`;
+                result.classList.add('show');
+                playSound('buy');
             } else if (raw.includes('order from brickdonalds') || raw.includes('brickdonalds')) {
                 result.innerHTML = `
                     <div class="brickdonalds-panel">
@@ -4903,6 +4927,26 @@
                 playSound('buy');
             }
         });
+
+        // ─── HUNGER MENU ────────────────────────────────────────────────
+        function hungerOrder(item, price) {
+            const d = loadData();
+            const msg = document.getElementById('hungerOrderMsg');
+            if (!msg) return;
+            if (d.coins < price) {
+                msg.textContent = `❌ Not enough coins! You need 🪙${price}.`;
+                msg.style.color = '#ffaaaa';
+                playSound('nointernet');
+                return;
+            }
+            d.coins -= price;
+            saveData(d); gameData = d;
+            coinDisplay.textContent = '🪙 ' + d.coins;
+            const names = { oreos:'Oreos 🍪', crackers:'Crackers 🫙', pizza:'Pizza 🍕', chicken:'Chicken 🍗' };
+            msg.textContent = `✅ You bought ${names[item]}! Enjoy!`;
+            msg.style.color = '#ccffcc';
+            playSound('buy');
+        }
 
         // ─── PLATE / BRICKDONALDS ORDER ─────────────────────────────────
         let plateBites = 0;
