@@ -726,8 +726,14 @@
         .zoo-scroll::-webkit-scrollbar { height:6px; }
         .zoo-scroll::-webkit-scrollbar-track { background:#f0f0f0; border-radius:3px; }
         .zoo-scroll::-webkit-scrollbar-thumb { background:#bbb; border-radius:3px; }
-        .zoo-card { display:flex; flex-direction:column; align-items:center; gap:6px; flex-shrink:0; background:#f6f8ff; border:1.5px solid #dde3ff; border-radius:12px; padding:10px 8px 8px; min-width:72px; cursor:default; }
-        .zoo-card:hover { background:#eceeff; }
+        .zoo-card { display:flex; flex-direction:column; align-items:center; gap:6px; flex-shrink:0; background:#f6f8ff; border:1.5px solid #dde3ff; border-radius:12px; padding:10px 8px 8px; min-width:72px; cursor:pointer; transition:transform 0.1s,background 0.15s; }
+        .zoo-card:hover { background:#eceeff; transform:scale(1.06); }
+        .zoo-card.active { background:#e0e8ff; border-color:#88aaff; }
+        #zooReview { margin-top:10px; padding:10px 14px; background:#fffbe6; border:1.5px solid #ffe066; border-radius:10px; font-size:13px; color:#333; display:none; }
+        #zooReview.show { display:block; animation:zrFade 0.2s ease; }
+        @keyframes zrFade { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
+        #zooReview .zr-title { font-weight:bold; font-size:15px; margin-bottom:5px; }
+        #zooReview .zr-fact { line-height:1.5; }
         .zoo-wrap { width:60px; height:60px; display:flex; align-items:center; justify-content:center; transform:scale(1.1); }
         .zoo-name { font-size:11px; font-weight:bold; color:#444; text-align:center; }
         /* NEW ZOO ANIMALS */
@@ -5728,23 +5734,24 @@
             } else if (raw === 'animal zoo' || raw === 'zoo') {
                 result.innerHTML = `
                     <div class="g-result-url">zoo.animals › browse</div>
-                    <div class="g-result-title">🦁 Animal Zoo — Scroll to see all animals!</div>
+                    <div class="g-result-title">🦁 Animal Zoo — Click an animal for a review!</div>
                     <div class="g-result-desc" style="padding-top:4px;">
                         <div class="zoo-scroll">
-                            <div class="zoo-card"><div class="zoo-wrap"><div class="panda-wrap" style="transform:scale(0.72) translate(-4px,4px);"><div class="panda-ear-l"></div><div class="panda-ear-r"></div><div class="panda-head"><div class="panda-patch-l"></div><div class="panda-patch-r"></div><div class="panda-eye-l"></div><div class="panda-eye-r"></div><div class="panda-nose"></div></div><div class="panda-body"><div class="panda-arm-l"></div><div class="panda-arm-r"></div><div class="panda-belly"></div></div></div></div><div class="zoo-name">Panda</div></div>
-                            <div class="zoo-card"><div class="zoo-wrap"><div class="zoo-lion"><div class="mane"></div><div class="face"></div><div class="ear-l"></div><div class="ear-r"></div><div class="eye-l"></div><div class="eye-r"></div><div class="nose"></div><div class="mouth"></div></div></div><div class="zoo-name">Lion</div></div>
-                            <div class="zoo-card"><div class="zoo-wrap"><div class="zoo-raccoon"><div class="body"></div><div class="head"></div><div class="ear-l"></div><div class="ear-r"></div><div class="ear-il"></div><div class="ear-ir"></div><div class="mask"></div><div class="eye-l"></div><div class="eye-r"></div><div class="pupil-l"></div><div class="pupil-r"></div><div class="snout"></div><div class="nose"></div></div></div><div class="zoo-name">Raccoon</div></div>
-                            <div class="zoo-card"><div class="zoo-wrap"><div class="pet-penguin" style="transform:scale(1.5);"><div class="body"></div><div class="belly"></div><div class="beak"></div><div class="eye-l"></div><div class="eye-r"></div></div></div><div class="zoo-name">Penguin</div></div>
-                            <div class="zoo-card"><div class="zoo-wrap"><div class="turtle-shell" style="transform:scale(1.6) translate(2px,6px);"><div class="turtle-head"></div><div class="turtle-legs"></div></div></div><div class="zoo-name">Turtle</div></div>
-                            <div class="zoo-card"><div class="zoo-wrap"><div class="zoo-hippo"><div class="body"></div><div class="head"></div><div class="snout"></div><div class="nostril-l"></div><div class="nostril-r"></div><div class="ear-l"></div><div class="ear-r"></div><div class="eye-l"></div><div class="eye-r"></div></div></div><div class="zoo-name">Hippo</div></div>
-                            <div class="zoo-card"><div class="zoo-wrap"><div class="pet-fox" style="transform:scale(1.5) translate(0,4px);"><div class="tail"></div><div class="body"></div><div class="belly"></div><div class="head"><div class="ear-l"></div><div class="ear-r"></div><div class="eye"></div><div class="nose"></div></div></div></div><div class="zoo-name">Fox</div></div>
-                            <div class="zoo-card"><div class="zoo-wrap"><div class="capy-big" style="transform:scale(0.9) translate(-2px,6px);"><div class="body"></div><div class="leg leg-fl"></div><div class="leg leg-fr"></div><div class="leg leg-bl"></div><div class="leg leg-br"></div><div class="head"></div><div class="nose"></div><div class="nostril-l"></div><div class="nostril-r"></div><div class="eye"></div><div class="ear"></div></div></div><div class="zoo-name">Capybara</div></div>
-                            <div class="zoo-card"><div class="zoo-wrap"><div class="pet-polarbear" style="transform:scale(1.4) translate(0,4px);"><div class="body"></div><div class="head"></div><div class="ear-l"></div><div class="ear-r"></div><div class="nose"></div><div class="eye-l"></div><div class="eye-r"></div></div></div><div class="zoo-name">Polar Bear</div></div>
-                            <div class="zoo-card"><div class="zoo-wrap"><div class="pet-bunny" style="transform:scale(1.5) translate(0,2px);"><div class="ear-l"></div><div class="ear-r"></div><div class="inner-l"></div><div class="inner-r"></div><div class="body"></div><div class="head"></div><div class="eye"></div><div class="nose"></div><div class="tail"></div></div></div><div class="zoo-name">Bunny</div></div>
-                            <div class="zoo-card"><div class="zoo-wrap"><div class="pet-dolphin" style="transform:scale(1.5) translate(0,6px);"><div class="tail-t"></div><div class="tail-b"></div><div class="body"></div><div class="belly"></div><div class="fin"></div><div class="head"></div><div class="snout"></div><div class="eye"></div></div></div><div class="zoo-name">Dolphin</div></div>
-                            <div class="zoo-card"><div class="zoo-wrap"><div class="pet-duck" style="transform:scale(1.6) translate(0,4px);"><div class="body"></div><div class="wing"></div><div class="head"></div><div class="beak"></div><div class="eye"></div><div class="foot-l"></div><div class="foot-r"></div></div></div><div class="zoo-name">Duck</div></div>
-                            <div class="zoo-card"><div class="zoo-wrap"><div class="zoo-chicken"><div class="body"></div><div class="head"></div><div class="comb"></div><div class="wattle"></div><div class="beak"></div><div class="eye"></div><div class="wing"></div><div class="leg-l"></div><div class="leg-r"></div><div class="foot-l"></div><div class="foot-r"></div></div></div><div class="zoo-name">Chicken</div></div>
+                            <div class="zoo-card" onclick="showZooReview('Panda')"><div class="zoo-wrap"><div class="panda-wrap" style="transform:scale(0.72) translate(-4px,4px);"><div class="panda-ear-l"></div><div class="panda-ear-r"></div><div class="panda-head"><div class="panda-patch-l"></div><div class="panda-patch-r"></div><div class="panda-eye-l"></div><div class="panda-eye-r"></div><div class="panda-nose"></div></div><div class="panda-body"><div class="panda-arm-l"></div><div class="panda-arm-r"></div><div class="panda-belly"></div></div></div></div><div class="zoo-name">Panda</div></div>
+                            <div class="zoo-card" onclick="showZooReview('Lion')"><div class="zoo-wrap"><div class="zoo-lion"><div class="mane"></div><div class="face"></div><div class="ear-l"></div><div class="ear-r"></div><div class="eye-l"></div><div class="eye-r"></div><div class="nose"></div><div class="mouth"></div></div></div><div class="zoo-name">Lion</div></div>
+                            <div class="zoo-card" onclick="showZooReview('Raccoon')"><div class="zoo-wrap"><div class="zoo-raccoon"><div class="body"></div><div class="head"></div><div class="ear-l"></div><div class="ear-r"></div><div class="ear-il"></div><div class="ear-ir"></div><div class="mask"></div><div class="eye-l"></div><div class="eye-r"></div><div class="pupil-l"></div><div class="pupil-r"></div><div class="snout"></div><div class="nose"></div></div></div><div class="zoo-name">Raccoon</div></div>
+                            <div class="zoo-card" onclick="showZooReview('Penguin')"><div class="zoo-wrap"><div class="pet-penguin" style="transform:scale(1.5);"><div class="body"></div><div class="belly"></div><div class="beak"></div><div class="eye-l"></div><div class="eye-r"></div></div></div><div class="zoo-name">Penguin</div></div>
+                            <div class="zoo-card" onclick="showZooReview('Turtle')"><div class="zoo-wrap"><div class="turtle-shell" style="transform:scale(1.6) translate(2px,6px);"><div class="turtle-head"></div><div class="turtle-legs"></div></div></div><div class="zoo-name">Turtle</div></div>
+                            <div class="zoo-card" onclick="showZooReview('Hippo')"><div class="zoo-wrap"><div class="zoo-hippo"><div class="body"></div><div class="head"></div><div class="snout"></div><div class="nostril-l"></div><div class="nostril-r"></div><div class="ear-l"></div><div class="ear-r"></div><div class="eye-l"></div><div class="eye-r"></div></div></div><div class="zoo-name">Hippo</div></div>
+                            <div class="zoo-card" onclick="showZooReview('Fox')"><div class="zoo-wrap"><div class="pet-fox" style="transform:scale(1.5) translate(0,4px);"><div class="tail"></div><div class="body"></div><div class="belly"></div><div class="head"><div class="ear-l"></div><div class="ear-r"></div><div class="eye"></div><div class="nose"></div></div></div></div><div class="zoo-name">Fox</div></div>
+                            <div class="zoo-card" onclick="showZooReview('Capybara')"><div class="zoo-wrap"><div class="capy-big" style="transform:scale(0.9) translate(-2px,6px);"><div class="body"></div><div class="leg leg-fl"></div><div class="leg leg-fr"></div><div class="leg leg-bl"></div><div class="leg leg-br"></div><div class="head"></div><div class="nose"></div><div class="nostril-l"></div><div class="nostril-r"></div><div class="eye"></div><div class="ear"></div></div></div><div class="zoo-name">Capybara</div></div>
+                            <div class="zoo-card" onclick="showZooReview('Polar Bear')"><div class="zoo-wrap"><div class="pet-polarbear" style="transform:scale(1.4) translate(0,4px);"><div class="body"></div><div class="head"></div><div class="ear-l"></div><div class="ear-r"></div><div class="nose"></div><div class="eye-l"></div><div class="eye-r"></div></div></div><div class="zoo-name">Polar Bear</div></div>
+                            <div class="zoo-card" onclick="showZooReview('Bunny')"><div class="zoo-wrap"><div class="pet-bunny" style="transform:scale(1.5) translate(0,2px);"><div class="ear-l"></div><div class="ear-r"></div><div class="inner-l"></div><div class="inner-r"></div><div class="body"></div><div class="head"></div><div class="eye"></div><div class="nose"></div><div class="tail"></div></div></div><div class="zoo-name">Bunny</div></div>
+                            <div class="zoo-card" onclick="showZooReview('Dolphin')"><div class="zoo-wrap"><div class="pet-dolphin" style="transform:scale(1.5) translate(0,6px);"><div class="tail-t"></div><div class="tail-b"></div><div class="body"></div><div class="belly"></div><div class="fin"></div><div class="head"></div><div class="snout"></div><div class="eye"></div></div></div><div class="zoo-name">Dolphin</div></div>
+                            <div class="zoo-card" onclick="showZooReview('Duck')"><div class="zoo-wrap"><div class="pet-duck" style="transform:scale(1.6) translate(0,4px);"><div class="body"></div><div class="wing"></div><div class="head"></div><div class="beak"></div><div class="eye"></div><div class="foot-l"></div><div class="foot-r"></div></div></div><div class="zoo-name">Duck</div></div>
+                            <div class="zoo-card" onclick="showZooReview('Chicken')"><div class="zoo-wrap"><div class="zoo-chicken"><div class="body"></div><div class="head"></div><div class="comb"></div><div class="wattle"></div><div class="beak"></div><div class="eye"></div><div class="wing"></div><div class="leg-l"></div><div class="leg-r"></div><div class="foot-l"></div><div class="foot-r"></div></div></div><div class="zoo-name">Chicken</div></div>
                         </div>
+                        <div id="zooReview"></div>
                     </div>`;
                 result.classList.add('show');
                 playSound('buy');
@@ -5785,6 +5792,37 @@
                 playSound('buy');
             }
         });
+
+        // ─── ZOO REVIEWS ────────────────────────────────────────────────
+        const ZOO_REVIEWS = {
+            'Panda':      { emoji:'🐼', fact:'Eats up to 40 lbs of bamboo every single day — bamboo is basically their whole personality. Super lazy and super cute. Sleeps up to 14 hours. 10/10 animal.' },
+            'Lion':       { emoji:'🦁', fact:'King of the savanna (not the jungle — that\'s a myth!). Sleeps 20 hours a day. A roar can be heard 5 miles away. Only the males have the fluffy mane.' },
+            'Raccoon':    { emoji:'🦝', fact:'Will 100% steal your snacks. Rinses food before eating. Has tiny hands that feel almost human. Master of the midnight trash can raid.' },
+            'Penguin':    { emoji:'🐧', fact:'Can\'t fly but swims up to 25mph! Wears a tuxedo 24/7. Male penguins hold eggs on their feet all winter to keep them warm. Very dedicated dads.' },
+            'Turtle':     { emoji:'🐢', fact:'Some turtles live over 150 years! The shell is part of its spine — it can actually feel you touching it. Has been around since the dinosaurs.' },
+            'Hippo':      { emoji:'🦛', fact:'One of the most dangerous animals on Earth! Can run 20mph on land. Loves going in ponds and rivers all day to stay cool. Their sweat is actually red and works as sunscreen!' },
+            'Fox':        { emoji:'🦊', fact:'Makes over 40 different sounds. Can hear a mouse under 3 feet of snow and pounce right onto it. Very clever — often outsmarts hunters.' },
+            'Capybara':   { emoji:'🐾', fact:'World\'s largest rodent and the ultimate chill animal. LOVES going in ponds and rivers — excellent swimmers! Every other animal likes them: birds, monkeys, crocs, you name it. Pure friend energy.' },
+            'Polar Bear': { emoji:'🐻‍❄️', fact:'World\'s largest land predator. Their fur looks white but is actually transparent — the black skin underneath soaks up heat from the sun. Can smell a seal from 20 miles away!' },
+            'Bunny':      { emoji:'🐇', fact:'Teeth never stop growing their whole life. Does a happy leap-twist called a "binky" when excited. Can sleep with their eyes wide open. Surprisingly fast — up to 45mph!' },
+            'Dolphin':    { emoji:'🐬', fact:'One of the smartest animals alive! Each dolphin has a unique whistle name. Sleeps with half its brain while the other half stays awake. Very playful and loves surfing boat waves.' },
+            'Duck':       { emoji:'🦆', fact:'Baby ducks imprint on the first thing they see after hatching — could be you! Feathers are totally waterproof. A group of ducks is called a "raft." Quack!' },
+            'Chicken':    { emoji:'🐓', fact:'Descended from dinosaurs! Can recognize over 100 different faces. Dreams when they sleep. There are more chickens on Earth than any other bird — over 30 billion!' },
+        };
+        function showZooReview(name) {
+            const panel = document.getElementById('zooReview');
+            if (!panel) return;
+            const rev = ZOO_REVIEWS[name];
+            if (!rev) return;
+            document.querySelectorAll('.zoo-card').forEach(c => c.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            panel.className = '';
+            panel.innerHTML = `<div class="zr-title">${rev.emoji} ${name}</div><div class="zr-fact">${rev.fact}</div>`;
+            void panel.offsetWidth;
+            panel.classList.add('show');
+            playSound('buy');
+        }
+        window.showZooReview = showZooReview;
 
         // ─── NOTEBOOK ───────────────────────────────────────────────────
         function openNotebook() {
