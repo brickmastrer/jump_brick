@@ -3331,8 +3331,8 @@
             BG_CLASSES.forEach(cls => gameContainer.classList.remove(cls));
             const bg = BACKGROUNDS.find(b => b.id === gameData.equippedBg);
             if (bg && bg.cls) gameContainer.classList.add(bg.cls);
-            if (gameData.equippedBg === 'hacker') startMatrix();
-            else stopMatrix();
+            if (gameData.equippedBg === 'hacker') { if (window.startMatrix) window.startMatrix(); }
+            else { if (window.stopMatrix) window.stopMatrix(); }
         }
 
         // ─── PANTS DISPLAY ─────────────────────────────────────────────
