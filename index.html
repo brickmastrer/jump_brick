@@ -547,6 +547,28 @@
         #wifiBtn:hover { transform:scale(1.15); }
 
         /* GOOGLE HOME SCREEN MODAL */
+        /* PARKOUR MINI-GAME */
+        #parkourModal {
+            display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+            background:rgba(0,0,0,0.92); z-index:5000;
+            align-items:center; justify-content:center; flex-direction:column;
+        }
+        #parkourModal.open { display:flex; }
+        #parkourBox {
+            background:#111; border-radius:12px; padding:18px 22px;
+            box-shadow:0 0 40px rgba(0,200,255,0.3); text-align:center;
+            color:#fff; font-family:Arial,sans-serif;
+        }
+        #parkourBox h3 { margin:0 0 8px; font-size:22px; color:#00eeff; }
+        #parkourBox p  { margin:0 0 12px; font-size:13px; color:#aaa; }
+        #parkourCanvas { display:block; border-radius:6px; cursor:pointer; }
+        #parkourMsg { margin-top:10px; font-size:18px; font-weight:bold; min-height:24px; }
+        #parkourCloseBtn {
+            margin-top:12px; padding:8px 24px; border:none; border-radius:8px;
+            background:#333; color:#fff; font-size:14px; cursor:pointer;
+        }
+        #parkourCloseBtn:hover { background:#555; }
+
         #googleHomeModal {
             display:none; position:fixed; top:0; left:0; right:0; bottom:0;
             background:#fff; z-index:4000;
@@ -4889,6 +4911,13 @@
                     <div class="g-result-desc">🐢 Etchpot is a buddy.</div>`;
                 result.classList.add('show');
                 playSound('buy');
+            } else if (raw === 'peak ur' || raw === 'parkour') {
+                result.innerHTML = `
+                    <div class="g-result-url">parkour.game › play</div>
+                    <div class="g-result-title" onclick="openParkour()" style="cursor:pointer">🏃 Parkour Mini-Game</div>
+                    <div class="g-result-desc">Jump over 2 obstacles to win! <button onclick="openParkour()" style="margin-left:8px;padding:4px 12px;background:#1a73e8;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;">▶ Play</button></div>`;
+                result.classList.add('show');
+                playSound('buy');
             } else if (raw === 'capybara') {
                 result.innerHTML = `
                     <div class="g-result-url">animals.wiki › capybara</div>
@@ -5039,6 +5068,130 @@
         paperCanvas.addEventListener('touchstart', paperStartDraw, { passive: false });
         paperCanvas.addEventListener('touchmove', paperDoDraw, { passive: false });
         paperCanvas.addEventListener('touchend', paperStopDraw);
+
+        // ─── PARKOUR MINI-GAME ──────────────────────────────────────────
+        (function() {
+            const W = 520, H = 160;
+            const GROUND = 120, PW = 22, PH = 28;
+            const PIT_W = 52, PIT_GAP = 210;
+            let raf, px, py, vy, onGround, pits, passed, state, jumpReady;
+
+            function openParkour() {
+                document.getElementById('parkourModal').classList.add('open');
+                startParkour();
+            }
+            function closeParkour() {
+                document.getElementById('parkourModal').classList.remove('open');
+                cancelAnimationFrame(raf);
+            }
+            function startParkour() {
+                px = 60; py = GROUND - PH; vy = 0; onGround = true; jumpReady = true;
+                pits = [
+                    { x: W + 60 },
+                    { x: W + 60 + PIT_GAP }
+                ];
+                passed = 0; state = 'playing';
+                document.getElementById('parkourMsg').textContent = '';
+                document.getElementById('parkourMsg').style.color = '#fff';
+                cancelAnimationFrame(raf);
+                loop();
+            }
+            function doJump() {
+                if (state !== 'playing') { startParkour(); return; }
+                if (onGround && jumpReady) { vy = -9; onGround = false; jumpReady = false; }
+            }
+            function loop() {
+                const canvas = document.getElementById('parkourCanvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                // physics
+                if (state === 'playing') {
+                    vy += 0.55; py += vy;
+                    if (!onGround) jumpReady = true;
+                    const speed = 3.2;
+                    pits.forEach(p => p.x -= speed);
+                    // ground collision — check if player is over a pit
+                    let overPit = false;
+                    pits.forEach(p => {
+                        if (px + PW > p.x && px < p.x + PIT_W) overPit = true;
+                        if (px >= p.x + PIT_W && !p.counted) { p.counted = true; passed++; }
+                    });
+                    if (!overPit && py + PH >= GROUND) {
+                        py = GROUND - PH; vy = 0; onGround = true;
+                    }
+                    if (py + PH > H + 10) { state = 'fail'; }
+                    if (passed >= 2 && py + PH >= GROUND) { state = 'win'; }
+                }
+                // draw
+                ctx.clearRect(0, 0, W, H);
+                // sky
+                ctx.fillStyle = '#87CEEB';
+                ctx.fillRect(0, 0, W, GROUND);
+                // ground (draw in segments around pits)
+                ctx.fillStyle = '#5a8a3a';
+                let gx = 0;
+                const sortedPits = [...pits].sort((a,b) => a.x - b.x);
+                sortedPits.forEach(p => {
+                    if (p.x > gx) { ctx.fillRect(gx, GROUND, p.x - gx, H - GROUND); }
+                    gx = p.x + PIT_W;
+                });
+                if (gx < W) ctx.fillRect(gx, GROUND, W - gx, H - GROUND);
+                // pit (dark hole)
+                sortedPits.forEach(p => {
+                    ctx.fillStyle = '#111';
+                    ctx.fillRect(Math.max(0, p.x), GROUND, Math.min(PIT_W, W - p.x), H - GROUND);
+                });
+                // player (brick block)
+                ctx.fillStyle = '#c0392b';
+                ctx.fillRect(px, py, PW, PH);
+                ctx.fillStyle = '#8a2010';
+                for (let r = 0; r < 3; r++) {
+                    ctx.fillRect(px, py + r * 9 + 9, PW, 2);
+                }
+                ctx.fillRect(px + PW/2, py, 2, 9);
+                ctx.fillRect(px + PW/4, py + 9, 2, 9);
+                ctx.fillRect(px + PW*3/4, py + 18, 2, 9);
+                // messages
+                const msg = document.getElementById('parkourMsg');
+                if (state === 'win') {
+                    msg.textContent = '🎉 You win! Click to play again.';
+                    msg.style.color = '#44ff88';
+                } else if (state === 'fail') {
+                    msg.textContent = '💀 You fell! Click to try again.';
+                    msg.style.color = '#ff5555';
+                }
+                if (state === 'playing') raf = requestAnimationFrame(loop);
+            }
+            window.openParkour = openParkour;
+            window.closeParkour = closeParkour;
+            window.doJump = doJump;
+            const canvas = document.createElement('canvas');
+            canvas.id = 'parkourCanvas'; canvas.width = W; canvas.height = H;
+            // inject modal HTML
+            const modal = document.createElement('div');
+            modal.id = 'parkourModal';
+            modal.innerHTML = `<div id="parkourBox">
+                <h3>🏃 Parkour!</h3>
+                <p>Jump over 2 pits to win! — Click or Space to jump</p>
+            </div>`;
+            modal.querySelector('#parkourBox').appendChild(canvas);
+            const msgDiv = document.createElement('div'); msgDiv.id = 'parkourMsg';
+            modal.querySelector('#parkourBox').appendChild(msgDiv);
+            const closeBtn = document.createElement('button');
+            closeBtn.id = 'parkourCloseBtn'; closeBtn.textContent = '✕ Close';
+            closeBtn.onclick = closeParkour;
+            modal.querySelector('#parkourBox').appendChild(closeBtn);
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) closeParkour();
+            });
+            document.body.appendChild(modal);
+            canvas.addEventListener('click', doJump);
+            document.addEventListener('keydown', function(e) {
+                if (e.code === 'Space' && document.getElementById('parkourModal').classList.contains('open')) {
+                    if (!isTypingInInput()) doJump();
+                }
+            });
+        })();
 
         // ─── START ─────────────────────────────────────────────────────
         setInterval(createObstacle, 1500);
