@@ -528,6 +528,53 @@
                 radial-gradient(ellipse 120% 55% at 50% 100%, rgba(255,100,15,0.45) 0%, transparent 65%),
                 linear-gradient(to bottom, #010110 0%, #03031e 30%, #060630 60%, #0a0826 85%, #0e0808 100%);
         }
+        #gameContainer.bg-theater {
+            background:
+                repeating-linear-gradient(to right, #1a0000 0px, #1a0000 18px, #2a0000 18px, #2a0000 20px),
+                linear-gradient(to bottom, #0d0000 0%, #1a0000 40%, #200000 70%, #100000 100%);
+        }
+
+        /* MOVIE BUTTON */
+        #movieBtn {
+            position:fixed; left:272px; top:calc(50% - 448px);
+            width:48px; height:48px; border-radius:50%;
+            background:linear-gradient(135deg,#1a0000,#600000);
+            border:3px solid #cc2222; cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
+            transition:transform 0.15s;
+        }
+        #movieBtn:hover { transform:scale(1.15); }
+
+        /* MOVIE QUIZ POPUP */
+        #movieQuizPopup {
+            display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+            background:rgba(0,0,0,0.88); z-index:3000;
+            align-items:center; justify-content:center;
+        }
+        #movieQuizPopup.open { display:flex; }
+        #movieQuizContent {
+            background:linear-gradient(135deg,#1a0000,#2a0000);
+            border:3px solid #cc2222; border-radius:16px;
+            padding:32px 28px; max-width:420px; width:90%;
+            text-align:center; color:#fff; font-family:inherit;
+            box-shadow:0 0 40px rgba(200,0,0,0.4);
+        }
+        #movieQuizContent h3 { margin:0 0 10px; font-size:26px; }
+        #movieQuizContent p { margin:0 0 16px; color:#ffcccc; font-size:15px; }
+        #movieQuizInput {
+            width:90%; padding:10px 14px; border-radius:8px;
+            border:2px solid #cc2222; background:#0d0000;
+            color:#fff; font-size:17px; margin-bottom:14px; box-sizing:border-box;
+        }
+        #movieQuizInput::placeholder { color:#aa6666; }
+        #movieQuizSubmit {
+            padding:10px 28px; border-radius:8px; border:none;
+            background:#cc2222; color:#fff; font-size:16px; cursor:pointer;
+            font-weight:bold; transition:background 0.15s;
+        }
+        #movieQuizSubmit:hover { background:#ee3333; }
+        #movieQuizMsg { margin-top:14px; font-size:16px; min-height:22px; }
 
         /* TANK BUTTON */
         #tankBtn {
@@ -2229,6 +2276,19 @@
         </div>
     </div>
 
+    <!-- MOVIE BUTTON -->
+    <button id="movieBtn" onclick="openMovieQuiz()" title="Favorite movie?">🎬</button>
+    <div id="movieQuizPopup">
+        <div id="movieQuizContent">
+            <h3>🎬 Movie Theater Background!</h3>
+            <p>What's your favorite movie?<br>Type it below to find out if you unlock it!</p>
+            <input type="text" id="movieQuizInput" placeholder="Type your favorite movie..." autocomplete="off">
+            <br>
+            <button id="movieQuizSubmit" onclick="submitMovieQuiz()">Submit</button>
+            <div id="movieQuizMsg"></div>
+        </div>
+    </div>
+
     <!-- CANDY BUTTON -->
     <button id="candyBtn" onclick="giveCandy()" title="Candy!">🍬</button>
     <div id="candyPopText">🍬 candy! 🍬</div>
@@ -2806,6 +2866,7 @@
             { id: 'ninja',     name: 'Ninja Night', price: 0, ninjaUnlock: true,     gradient: 'linear-gradient(to bottom,#080810,#0d0d22,#0a1020,#111828)',               cls: 'bg-ninja'    },
             { id: 'stickman',  name: 'Notebook',    price: 0, stickBtnUnlock: true,  gradient: 'repeating-linear-gradient(to bottom,transparent,transparent 29px,#b8c8d8 29px,#b8c8d8 30px) #f5f5f0', cls: 'bg-stickman' },
             { id: 'city',      name: 'City Night',  price: 0, questionUnlock: true,  gradient: 'linear-gradient(to bottom,#010110 0%,#03031e 30%,#060630 60%,#0a0826 85%,#0e0808 100%)', cls: 'bg-city' },
+            { id: 'theater',   name: 'Movie Theater', price: 0, movieUnlock: true, gradient: 'repeating-linear-gradient(to right,#1a0000 0px,#1a0000 18px,#2a0000 18px,#2a0000 20px)', cls: 'bg-theater' },
         ];
 
         const ITEMS = [
@@ -2923,7 +2984,7 @@
         }
 
         // ─── BACKGROUND DISPLAY ────────────────────────────────────────
-        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold','bg-rainbow','bg-ninja','bg-stickman','bg-city'];
+        const BG_CLASSES = ['bg-forest','bg-snow','bg-mountain','bg-grassland','bg-beach','bg-easter','bg-gold','bg-rainbow','bg-ninja','bg-stickman','bg-city','bg-theater'];
         function applyBackground() {
             BG_CLASSES.forEach(cls => gameContainer.classList.remove(cls));
             const bg = BACKGROUNDS.find(b => b.id === gameData.equippedBg);
@@ -3399,12 +3460,17 @@
             bgGrid.innerHTML = '';
             BACKGROUNDS.forEach(bg => {
                 const isOwned = d.ownedBgs.includes(bg.id);
-                const freeOwned = bg.price === 0 && !bg.winUnlock && !bg.secretUnlock && !bg.ninjaUnlock && !bg.stickBtnUnlock && !bg.questionUnlock;
+                const freeOwned = bg.price === 0 && !bg.winUnlock && !bg.secretUnlock && !bg.ninjaUnlock && !bg.stickBtnUnlock && !bg.questionUnlock && !bg.movieUnlock;
                 const owned = isOwned || freeOwned;
                 const equipped = d.equippedBg === bg.id;
                 const canAfford = d.coins >= bg.price;
                 const previewHtml = `<div class="bg-card-preview" style="background:${bg.gradient}"></div>`;
-                if (bg.questionUnlock && !isOwned) {
+                if (bg.movieUnlock && !isOwned) {
+                    const card = document.createElement('div');
+                    card.className = 'pet-card';
+                    card.innerHTML = `${previewHtml}<div class="pet-name">${bg.name}</div><div class="pet-price" style="color:#ff8888">🎬 Answer the movie question</div><button class="btn-cantafford">🔒 Locked</button>`;
+                    bgGrid.appendChild(card);
+                } else if (bg.questionUnlock && !isOwned) {
                     const card = document.createElement('div');
                     card.className = 'pet-card';
                     card.innerHTML = `${previewHtml}<div class="pet-name">${bg.name}</div><div class="pet-price" style="color:#aaaaff">❓ Answer the question</div><button class="btn-cantafford">🔒 Locked</button>`;
@@ -4511,6 +4577,50 @@
                 this.classList.add('popped');
             }
         });
+
+        // ─── MOVIE THEATER BACKGROUND ───────────────────────────────────
+        function openMovieQuiz() {
+            const d = loadData();
+            if (d.ownedBgs.includes('theater')) {
+                document.getElementById('movieQuizMsg').textContent = '✅ You already own this background!';
+                document.getElementById('movieQuizMsg').style.color = '#88ff88';
+                document.getElementById('movieQuizPopup').classList.add('open');
+                return;
+            }
+            document.getElementById('movieQuizInput').value = '';
+            document.getElementById('movieQuizMsg').textContent = '';
+            document.getElementById('movieQuizPopup').classList.add('open');
+            setTimeout(() => document.getElementById('movieQuizInput').focus(), 100);
+        }
+        document.getElementById('movieQuizInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') submitMovieQuiz();
+        });
+        document.getElementById('movieQuizPopup').addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('open');
+        });
+        function submitMovieQuiz() {
+            const input = document.getElementById('movieQuizInput').value.trim().toLowerCase();
+            const msg = document.getElementById('movieQuizMsg');
+            if (!input) { msg.textContent = '✏️ Type something first!'; msg.style.color = '#ffcc88'; return; }
+            const firstLetter = input[0];
+            const wins = input === 'sonic' || firstLetter === 'e' || firstLetter === 'a' || firstLetter === 'r';
+            if (wins) {
+                const d = loadData();
+                if (!d.ownedBgs.includes('theater')) {
+                    d.ownedBgs.push('theater');
+                    saveData(d); gameData = d;
+                }
+                msg.textContent = '🎬 You unlocked the Movie Theater background!';
+                msg.style.color = '#ffdd88';
+                playSound('buy');
+                if (document.getElementById('storeModal').classList.contains('open')) renderStore();
+                setTimeout(() => document.getElementById('movieQuizPopup').classList.remove('open'), 2000);
+            } else {
+                msg.textContent = '❌ Nope! Try a different movie.';
+                msg.style.color = '#ff8888';
+                playSound('nointernet');
+            }
+        }
 
         // ─── GOOGLE LOGO ────────────────────────────────────────────────
         function spawnGoogle() {
