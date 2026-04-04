@@ -2831,19 +2831,7 @@
         #trashDisplay.popped .raccoon { display: block; animation: raccoonJump 0.8s cubic-bezier(0.36,0.07,0.19,0.97) forwards; }
         #trashDisplay.popped .trash-lid { animation: lidPop 0.5s ease forwards; }
 
-        /* TREE BUTTON */
-        #treeBtn {
-            position:fixed; left:140px; top:calc(50% + 256px);
-            width:48px; height:48px; border-radius:50%;
-            background:#3a8a3a; border:3px solid #7ad47a;
-            cursor:pointer; font-size:22px;
-            display:flex; align-items:center; justify-content:center;
-            box-shadow:0 2px 10px rgba(0,0,0,0.5); z-index:500;
-            transition:transform 0.15s;
-        }
-        #treeBtn:hover { transform:scale(1.15); }
-
-        /* FRIEND STICKMAN BUTTON */
+/* FRIEND STICKMAN BUTTON */
         #friendBtn {
             position:fixed; left:80px; top:50%; transform:translateY(-50%);
             width:48px; height:48px; border-radius:50%;
@@ -2894,25 +2882,6 @@
         }
 
         /* IN-GAME TREE */
-        .game-tree { position:absolute; bottom:20px; width:60px; cursor:pointer; }
-        .game-tree .tree-trunk { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:14px; background:#7a4a1a; border-radius:3px 3px 0 0; }
-        .game-tree .tree-top { position:absolute; width:0; height:0; left:50%; transform:translateX(-50%); border-left:28px solid transparent; border-right:28px solid transparent; border-bottom:40px solid #2a8a2a; }
-        .game-tree .tree-top2 { position:absolute; width:0; height:0; left:50%; transform:translateX(-50%); border-left:22px solid transparent; border-right:22px solid transparent; border-bottom:34px solid #3aaa3a; }
-        .game-tree .tree-top3 { position:absolute; width:0; height:0; left:50%; transform:translateX(-50%); border-left:16px solid transparent; border-right:16px solid transparent; border-bottom:28px solid #4acc4a; }
-
-        /* IN-GAME SQUIRREL */
-        .game-squirrel { position:absolute; left:50%; transform:translateX(-50%); pointer-events:none; }
-        .game-squirrel .sq-body { width:12px; height:10px; background:#c87830; border-radius:50% 50% 40% 40%; }
-        .game-squirrel .sq-head { position:absolute; top:-8px; left:1px; width:10px; height:9px; background:#c87830; border-radius:50%; }
-        .game-squirrel .sq-ear-l { position:absolute; top:-11px; left:1px; width:4px; height:4px; background:#c87830; border-radius:50% 50% 0 50%; }
-        .game-squirrel .sq-ear-r { position:absolute; top:-11px; right:1px; width:4px; height:4px; background:#c87830; border-radius:50% 50% 50% 0; }
-        .game-squirrel .sq-eye { position:absolute; top:-5px; right:2px; width:3px; height:3px; background:#222; border-radius:50%; }
-        .game-squirrel .sq-tail { position:absolute; top:-14px; right:-8px; width:10px; height:16px; background:#c87830; border-radius:50% 80% 50% 20%; border:2px solid #a05010; transform:rotate(30deg); }
-        @keyframes squirrelClimb {
-            0%   { bottom:0px; }
-            100% { bottom:90px; }
-        }
-        .game-squirrel.climbing { animation:squirrelClimb 1.2s ease-in-out forwards; }
     </style>
 </head>
 <body>
@@ -3132,9 +3101,6 @@
 
     <!-- WIFI / INTERNET UNLOCK BUTTON -->
     <button id="wifiBtn" onclick="unlockInternet()" title="Unlock Internet">📶</button>
-
-    <!-- TREE BUTTON -->
-    <button id="treeBtn" onclick="spawnTree()" title="Spawn a tree">🌲</button>
 
     <!-- FRIEND STICKMAN BUTTON -->
     <button id="friendBtn" onclick="spawnFriend()" title="Spawn stickman friend">🚶</button>
@@ -6892,43 +6858,6 @@
             }
         }
         window.unlockHacker = unlockHacker;
-
-        // ─── TREE + SQUIRREL ───────────────────────────────────────────
-        function spawnTree() {
-            const TRUNK_H = 36;
-            const tree = document.createElement('div');
-            tree.className = 'game-tree';
-            // random x between 200 and 680
-            tree.style.left = (200 + Math.floor(Math.random() * 480)) + 'px';
-            tree.innerHTML = `
-                <div class="tree-trunk" style="height:${TRUNK_H}px;"></div>
-                <div class="tree-top"  style="bottom:${TRUNK_H + 24}px;"></div>
-                <div class="tree-top2" style="bottom:${TRUNK_H + 34}px;"></div>
-                <div class="tree-top3" style="bottom:${TRUNK_H + 50}px;"></div>
-            `;
-            const squirrel = document.createElement('div');
-            squirrel.className = 'game-squirrel';
-            squirrel.style.bottom = '0px';
-            squirrel.innerHTML = `
-                <div class="sq-tail"></div>
-                <div class="sq-body">
-                    <div class="sq-head">
-                        <div class="sq-ear-l"></div>
-                        <div class="sq-ear-r"></div>
-                        <div class="sq-eye"></div>
-                    </div>
-                </div>
-            `;
-            tree.appendChild(squirrel);
-            gameContainer.appendChild(tree);
-
-            tree.addEventListener('click', function() {
-                if (squirrel.classList.contains('climbing')) return;
-                squirrel.classList.remove('climbing');
-                void squirrel.offsetWidth; // reset animation
-                squirrel.classList.add('climbing');
-            });
-        }
 
         // ─── FRIEND STICKMAN ───────────────────────────────────────────
         (function() {
