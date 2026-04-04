@@ -1351,6 +1351,64 @@
         .paper-tool-btn.active:hover { background:#555; color:#fff; }
         #paperColorPick { width:32px; height:32px; border:2px solid #aaa; border-radius:6px; cursor:pointer; padding:0; }
         #paperSizeRange { width:80px; }
+        /* NOTEBOOK */
+        #notebookModal {
+            display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+            background:rgba(0,0,0,0.65); z-index:5000;
+            align-items:center; justify-content:center;
+        }
+        #notebookModal.open { display:flex; }
+        #notebookBox {
+            position:relative; width:480px;
+            background:#fdf8e1;
+            border-radius:4px 10px 10px 4px;
+            box-shadow:4px 4px 0 #c8b870, 0 8px 40px rgba(0,0,0,0.5);
+            overflow:hidden;
+            display:flex; flex-direction:column;
+        }
+        #notebookSpiral {
+            position:absolute; left:0; top:0; bottom:0; width:38px;
+            background:#d0c070;
+            display:flex; flex-direction:column; align-items:center;
+            justify-content:space-around; padding:10px 0; z-index:2;
+        }
+        .spiral-ring {
+            width:22px; height:22px; border:3px solid #888;
+            border-radius:50%; background:#c0b060;
+            box-shadow:inset 0 2px 3px rgba(0,0,0,0.25);
+        }
+        #notebookHeader {
+            background:#e8d060; padding:8px 12px 8px 48px;
+            font-size:13px; font-weight:bold; color:#665500;
+            display:flex; align-items:center; justify-content:space-between;
+            border-bottom:2px solid #c8b060; z-index:1;
+        }
+        #notebookSaveBtn {
+            padding:4px 14px; background:#665500; color:#fdf8e1;
+            border:none; border-radius:5px; cursor:pointer; font-size:12px; font-weight:bold;
+        }
+        #notebookSaveBtn:hover { background:#887700; }
+        #notebookCloseBtn {
+            padding:4px 10px; background:#cc4444; color:#fff;
+            border:none; border-radius:5px; cursor:pointer; font-size:12px; font-weight:bold;
+        }
+        #notebookCloseBtn:hover { background:#ee6666; }
+        #notebookArea {
+            position:relative; flex:1; padding-left:48px;
+            background:
+                linear-gradient(to right, transparent 46px, #e05050 1px, transparent 47px),
+                repeating-linear-gradient(to bottom, transparent, transparent 29px, #9ab8e8 29px, #9ab8e8 30px);
+            background-color:#fdf8e1;
+        }
+        #notebookTextarea {
+            width:100%; height:360px; resize:none;
+            background:transparent; border:none; outline:none;
+            font-family:'Segoe UI', Arial, sans-serif; font-size:15px;
+            line-height:30px; color:#222;
+            padding:5px 14px 5px 10px; box-sizing:border-box;
+            z-index:1; position:relative;
+        }
+
         #paperClose {
             position:absolute; top:8px; right:8px;
             background:#ff5252; color:#fff; border:none;
@@ -2722,6 +2780,28 @@
 
     <!-- WIFI / INTERNET UNLOCK BUTTON -->
     <button id="wifiBtn" onclick="unlockInternet()" title="Unlock Internet">📶</button>
+
+    <!-- NOTEBOOK MODAL -->
+    <div id="notebookModal">
+        <div id="notebookBox">
+            <div id="notebookSpiral">
+                <div class="spiral-ring"></div><div class="spiral-ring"></div>
+                <div class="spiral-ring"></div><div class="spiral-ring"></div>
+                <div class="spiral-ring"></div><div class="spiral-ring"></div>
+                <div class="spiral-ring"></div><div class="spiral-ring"></div>
+            </div>
+            <div id="notebookHeader">
+                <span>📓 My Notebook</span>
+                <div style="display:flex;gap:8px;">
+                    <button id="notebookSaveBtn" onclick="saveNotebook()">💾 Save</button>
+                    <button id="notebookCloseBtn" onclick="closeNotebook()">✕ Close</button>
+                </div>
+            </div>
+            <div id="notebookArea">
+                <textarea id="notebookTextarea" placeholder="Write something..."></textarea>
+            </div>
+        </div>
+    </div>
 
     <!-- GOOGLE HOME SCREEN -->
     <div id="googleHomeModal">
@@ -5505,6 +5585,13 @@
                     </div>`;
                 result.classList.add('show');
                 playSound('buy');
+            } else if (raw === 'notebook' || raw === 'note book') {
+                result.innerHTML = `
+                    <div class="g-result-url">notebook.write › open</div>
+                    <div class="g-result-title" onclick="openNotebook()" style="cursor:pointer">📓 My Notebook</div>
+                    <div class="g-result-desc">A lined notebook you can write in — your notes are saved! <button onclick="openNotebook()" style="margin-left:8px;padding:4px 12px;background:#665500;color:#fdf8e1;border:none;border-radius:4px;cursor:pointer;font-size:13px;font-weight:bold;">📝 Open</button></div>`;
+                result.classList.add('show');
+                playSound('buy');
             } else if (raw === 'mac tac' || raw === 'mactac') {
                 result.innerHTML = `
                     <div class="g-result-url">mactac.maze › play</div>
@@ -5512,6 +5599,35 @@
                     <div class="g-result-desc">Collect coins &amp; escape the ghost maze! <button onclick="openMacTac()" style="margin-left:8px;padding:4px 12px;background:#FFD700;color:#000;border:none;border-radius:4px;cursor:pointer;font-size:13px;font-weight:bold;">▶ Play</button></div>`;
                 result.classList.add('show');
                 playSound('buy');
+            }
+        });
+
+        // ─── NOTEBOOK ───────────────────────────────────────────────────
+        function openNotebook() {
+            closeGoogleHome();
+            const ta = document.getElementById('notebookTextarea');
+            ta.value = localStorage.getItem('wg_notebook') || '';
+            document.getElementById('notebookModal').classList.add('open');
+            setTimeout(() => ta.focus(), 80);
+        }
+        function saveNotebook() {
+            localStorage.setItem('wg_notebook', document.getElementById('notebookTextarea').value);
+            const btn = document.getElementById('notebookSaveBtn');
+            btn.textContent = '✅ Saved!';
+            setTimeout(() => btn.textContent = '💾 Save', 1200);
+            playSound('buy');
+        }
+        function closeNotebook() {
+            saveNotebook();
+            document.getElementById('notebookModal').classList.remove('open');
+        }
+        document.getElementById('notebookModal').addEventListener('click', function(e) {
+            if (e.target === this) closeNotebook();
+        });
+        // Ctrl+S to save while notebook is open
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 's' && document.getElementById('notebookModal').classList.contains('open')) {
+                e.preventDefault(); saveNotebook();
             }
         });
 
