@@ -2894,7 +2894,7 @@
         }
 
         /* IN-GAME TREE */
-        .game-tree { position:absolute; bottom:20px; pointer-events:none; }
+        .game-tree { position:absolute; bottom:20px; width:60px; cursor:pointer; }
         .game-tree .tree-trunk { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:14px; background:#7a4a1a; border-radius:3px 3px 0 0; }
         .game-tree .tree-top { position:absolute; width:0; height:0; left:50%; transform:translateX(-50%); border-left:28px solid transparent; border-right:28px solid transparent; border-bottom:40px solid #2a8a2a; }
         .game-tree .tree-top2 { position:absolute; width:0; height:0; left:50%; transform:translateX(-50%); border-left:22px solid transparent; border-right:22px solid transparent; border-bottom:34px solid #3aaa3a; }
@@ -6895,11 +6895,11 @@
 
         // ─── TREE + SQUIRREL ───────────────────────────────────────────
         function spawnTree() {
-            if (!gameRunning) return;
             const TRUNK_H = 36;
             const tree = document.createElement('div');
             tree.className = 'game-tree';
-            tree.style.right = '0px';
+            // random x between 200 and 680
+            tree.style.left = (200 + Math.floor(Math.random() * 480)) + 'px';
             tree.innerHTML = `
                 <div class="tree-trunk" style="height:${TRUNK_H}px;"></div>
                 <div class="tree-top"  style="bottom:${TRUNK_H + 24}px;"></div>
@@ -6922,22 +6922,12 @@
             tree.appendChild(squirrel);
             gameContainer.appendChild(tree);
 
-            let treeX = 800;
-            const speed = 3;
-            let squirrelTriggered = false;
-            const moveTree = setInterval(() => {
-                if (!gameRunning) { clearInterval(moveTree); return; }
-                treeX -= speed;
-                tree.style.right = (800 - treeX) + 'px';
-                if (!squirrelTriggered && checkCollision(tree)) {
-                    squirrelTriggered = true;
-                    squirrel.classList.add('climbing');
-                }
-                if (treeX < -80) {
-                    tree.remove();
-                    clearInterval(moveTree);
-                }
-            }, 20);
+            tree.addEventListener('click', function() {
+                if (squirrel.classList.contains('climbing')) return;
+                squirrel.classList.remove('climbing');
+                void squirrel.offsetWidth; // reset animation
+                squirrel.classList.add('climbing');
+            });
         }
 
         // ─── FRIEND STICKMAN ───────────────────────────────────────────
