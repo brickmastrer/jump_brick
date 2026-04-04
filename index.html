@@ -1003,6 +1003,44 @@
         #noInternetText .dino-run { font-size:32px; display:block; margin-bottom:6px; }
         #noInternetText.showing { display:block; animation:noInternetAnim 3s ease forwards; }
 
+        /* PLATE BUTTON */
+        #plateBtn {
+            position:fixed; left:80px; top:calc(50% + 128px);
+            width:48px; height:48px; border-radius:50%;
+            background:linear-gradient(135deg,#f5f0e8,#e8e0d0);
+            border:3px solid #ccc; cursor:pointer; font-size:22px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.2); z-index:500;
+            transition:transform 0.15s;
+        }
+        #plateBtn:hover { transform:scale(1.15); }
+        #plateDisplay {
+            position:fixed; left:144px; top:calc(50% + 80px);
+            display:none; z-index:500; user-select:none; text-align:center;
+        }
+        #plateDisplay.visible { display:block; }
+        .plate-wrap { position:relative; width:100px; height:100px; margin:0 auto; }
+        .plate-dish {
+            width:100px; height:100px; border-radius:50%;
+            background:radial-gradient(circle at 38% 35%, #fff 0%, #f0ece4 55%, #ddd8ce 100%);
+            border:3px solid #bbb; box-shadow:0 4px 12px rgba(0,0,0,0.18);
+            position:absolute; top:0; left:0;
+        }
+        .plate-food {
+            position:absolute; top:50%; left:50%; transform:translate(-50%,-52%);
+            font-size:44px; cursor:pointer; transition:transform 0.1s;
+            z-index:1; line-height:1;
+        }
+        .plate-food:hover { transform:translate(-50%,-52%) scale(1.1); }
+        .plate-bite-1 { clip-path:polygon(0% 0%,85% 0%,100% 15%,100% 100%,0% 100%); }
+        .plate-bite-2 { clip-path:polygon(0% 0%,70% 0%,100% 20%,100% 80%,80% 100%,0% 100%); }
+        .plate-bite-3 { clip-path:polygon(0% 0%,55% 0%,100% 25%,100% 75%,65% 100%,0% 100%); }
+        .plate-bite-4 { clip-path:polygon(15% 0%,40% 0%,100% 30%,100% 70%,50% 100%,0% 100%,0% 15%); }
+        .plate-empty { font-size:18px; color:#999; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); white-space:nowrap; }
+        #plateNoOrderMsg {
+            font-size:13px; color:#999; margin-top:6px; font-family:Arial,sans-serif;
+        }
+
         /* PAPER BUTTON */
         #paperBtn {
             position:fixed; left:124px; top:calc(50% + 192px);
@@ -2299,6 +2337,16 @@
         No Internet
     </div>
 
+    <!-- PLATE BUTTON -->
+    <button id="plateBtn" onclick="spawnPlate()" title="Show your Brickdonalds order">🍽️</button>
+    <div id="plateDisplay">
+        <div class="plate-wrap">
+            <div class="plate-dish"></div>
+            <div class="plate-food" id="plateFoodEmoji" onclick="biteFood()"></div>
+        </div>
+        <div id="plateNoOrderMsg"></div>
+    </div>
+
     <!-- PAPER BUTTON -->
     <button id="paperBtn" onclick="openPaper()" title="Draw on paper">📝</button>
     <div id="paperModal">
@@ -2838,6 +2886,15 @@
                 gain.gain.setValueAtTime(0.2, now);
                 gain.gain.linearRampToValueAtTime(0, now + 0.2);
                 osc.start(now); osc.stop(now + 0.2);
+            } else if (type === 'eat') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.linearRampToValueAtTime(200, now + 0.06);
+                osc.frequency.setValueAtTime(350, now + 0.09);
+                osc.frequency.linearRampToValueAtTime(180, now + 0.14);
+                gain.gain.setValueAtTime(0.18, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.16);
+                osc.start(now); osc.stop(now + 0.16);
             }
         }
         document.addEventListener('keydown', () => audioCtx.resume(), { once: true });
@@ -4746,6 +4803,8 @@
             el.classList.add('showing');
             setTimeout(() => el.classList.remove('showing'), 3100);
         });
+        let lastBrickOrder = null;
+        const brickOrderEmojis = { 'happy meal': '🎁', 'burger': '🍔', 'bricksandwich': '🥪' };
         function brickdonaldsOrder(item) {
             const msgs = {
                 'happy meal': '🎉 One Happy Meal coming right up! Enjoy your Brickdonalds!',
@@ -4753,6 +4812,8 @@
                 'bricksandwich': '🥪 One Bricksandwich coming right up! Enjoy your Brickdonalds!'
             };
             document.getElementById('brickOrderMsg').textContent = msgs[item] || '';
+            lastBrickOrder = item;
+            plateBites = 0;
             playSound('buy');
         }
         document.getElementById('googleSearchInput').addEventListener('keydown', function(e) {
@@ -4791,6 +4852,40 @@
                 playSound('buy');
             }
         });
+
+        // ─── PLATE / BRICKDONALDS ORDER ─────────────────────────────────
+        let plateBites = 0;
+        function spawnPlate() {
+            const display = document.getElementById('plateDisplay');
+            display.classList.toggle('visible');
+            if (display.classList.contains('visible')) updatePlateDisplay();
+        }
+        function updatePlateDisplay() {
+            const foodEl = document.getElementById('plateFoodEmoji');
+            const msg = document.getElementById('plateNoOrderMsg');
+            foodEl.className = 'plate-food';
+            if (!lastBrickOrder) {
+                foodEl.textContent = '';
+                msg.textContent = 'Order from Brickdonalds first!';
+                return;
+            }
+            msg.textContent = '';
+            const emoji = brickOrderEmojis[lastBrickOrder] || '🍽️';
+            if (plateBites >= 5) {
+                foodEl.textContent = '';
+                msg.textContent = 'All gone! 😋';
+            } else {
+                foodEl.textContent = emoji;
+                if (plateBites > 0) foodEl.classList.add('plate-bite-' + plateBites);
+            }
+        }
+        function biteFood() {
+            if (!lastBrickOrder) return;
+            if (plateBites >= 5) return;
+            plateBites++;
+            playSound('eat');
+            updatePlateDisplay();
+        }
 
         // ─── PAPER DRAWING ──────────────────────────────────────────────
         let paperDrawing = false, paperTool = 'draw';
