@@ -5011,26 +5011,27 @@
         function initLegoDrag() {
             const area = document.getElementById('legoArea');
             if (!area) return;
+            let dragging = null, ox = 0, oy = 0;
             area.querySelectorAll('.lego-brick').forEach(brick => {
-                let ox, oy, dragging = false;
                 brick.addEventListener('mousedown', e => {
-                    dragging = true;
-                    ox = e.clientX - brick.offsetLeft;
-                    oy = e.clientY - brick.offsetTop;
+                    const r = area.getBoundingClientRect();
+                    dragging = brick;
+                    ox = e.clientX - r.left - brick.offsetLeft;
+                    oy = e.clientY - r.top  - brick.offsetTop;
                     brick.style.zIndex = 99;
                     e.preventDefault();
                 });
-                document.addEventListener('mousemove', e => {
-                    if (!dragging) return;
-                    const r = area.getBoundingClientRect();
-                    let nx = e.clientX - r.left - ox + brick.offsetLeft;
-                    let ny = e.clientY - r.top - oy + brick.offsetTop;
-                    nx = Math.max(0, Math.min(area.clientWidth - brick.offsetWidth, nx + (e.clientX - r.left - ox)));
-                    ny = Math.max(24, Math.min(area.clientHeight - brick.offsetHeight, ny));
-                    brick.style.left = (e.clientX - r.left - ox) + 'px';
-                    brick.style.top  = (e.clientY - r.top  - oy) + 'px';
-                });
-                document.addEventListener('mouseup', () => { dragging = false; brick.style.zIndex = ''; });
+            });
+            document.addEventListener('mousemove', e => {
+                if (!dragging) return;
+                const r = area.getBoundingClientRect();
+                const nx = Math.max(0, Math.min(area.clientWidth  - dragging.offsetWidth,  e.clientX - r.left - ox));
+                const ny = Math.max(24, Math.min(area.clientHeight - dragging.offsetHeight, e.clientY - r.top  - oy));
+                dragging.style.left = nx + 'px';
+                dragging.style.top  = ny + 'px';
+            });
+            document.addEventListener('mouseup', () => {
+                if (dragging) { dragging.style.zIndex = ''; dragging = null; }
             });
         }
 
