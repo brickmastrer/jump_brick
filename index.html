@@ -4839,7 +4839,7 @@
             setTimeout(() => el.classList.remove('showing'), 3100);
         });
         let lastBrickOrder = null;
-        const brickOrderEmojis = { 'happy meal': '🎁', 'burger': '🍔', 'bricksandwich': '🥪' };
+        const brickOrderEmojis = { 'happy meal': '🎁', 'burger': '🍔', 'bricksandwich': '🥪', 'oreos': '🍪', 'crackers': '🫙', 'pizza': '🍕', 'chicken': '🍗' };
         function brickdonaldsOrder(item) {
             const msgs = {
                 'happy meal': '🎉 One Happy Meal coming right up! Enjoy your Brickdonalds!',
@@ -4945,6 +4945,8 @@
             const names = { oreos:'Oreos 🍪', crackers:'Crackers 🫙', pizza:'Pizza 🍕', chicken:'Chicken 🍗' };
             msg.textContent = `✅ You bought ${names[item]}! Enjoy!`;
             msg.style.color = '#ccffcc';
+            lastBrickOrder = item;
+            plateBites = 0;
             playSound('buy');
         }
 
