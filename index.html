@@ -589,6 +589,14 @@
         .g-result-title { font-size:20px; color:#1a0dab; font-weight:bold; margin-bottom:4px; cursor:pointer; }
         .g-result-title:hover { text-decoration:underline; }
         .g-result-desc { font-size:14px; color:#4d5156; line-height:1.5; }
+        .brickdonalds-panel { background:#da291c; border-radius:14px; padding:20px 24px; color:#fff; font-family:Arial,sans-serif; }
+        .brickdonalds-panel h3 { margin:0 0 6px; font-size:22px; }
+        .brickdonalds-panel p { margin:0 0 16px; font-size:14px; opacity:0.9; }
+        .brickdonalds-items { display:flex; gap:14px; flex-wrap:wrap; }
+        .brickdonalds-item { background:#fff; color:#da291c; border-radius:10px; padding:14px 18px; text-align:center; cursor:pointer; font-weight:bold; font-size:15px; min-width:110px; border:none; transition:transform 0.12s; }
+        .brickdonalds-item:hover { transform:scale(1.07); }
+        .brickdonalds-item .bd-emoji { font-size:28px; display:block; margin-bottom:6px; }
+        #brickOrderMsg { margin-top:14px; font-size:15px; font-weight:bold; min-height:20px; }
 
         /* MOVIE BUTTON */
         #movieBtn {
@@ -2358,11 +2366,7 @@
             <span id="googleSearchIcon">🔍</span>
             <input type="text" id="googleSearchInput" placeholder="Search Google or type a URL" autocomplete="off">
         </div>
-        <div id="googleSearchResult">
-            <div class="g-result-url">jump_brick.game › about</div>
-            <div class="g-result-title">Wesley officially made Jump Brick</div>
-            <div class="g-result-desc">Wesley officially made jump_brick with Claude AI 🎮🤖</div>
-        </div>
+        <div id="googleSearchResult"></div>
     </div>
 
     <!-- CANDY BUTTON -->
@@ -4742,16 +4746,49 @@
             el.classList.add('showing');
             setTimeout(() => el.classList.remove('showing'), 3100);
         });
+        function brickdonaldsOrder(item) {
+            const msgs = {
+                'happy meal': '🎉 One Happy Meal coming right up! Enjoy your Brickdonalds!',
+                'burger':     '🍔 One Burger coming right up! Enjoy your Brickdonalds!',
+                'bricksandwich': '🥪 One Bricksandwich coming right up! Enjoy your Brickdonalds!'
+            };
+            document.getElementById('brickOrderMsg').textContent = msgs[item] || '';
+            playSound('buy');
+        }
         document.getElementById('googleSearchInput').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                const q = this.value.trim().toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
-                const result = document.getElementById('googleSearchResult');
-                if (q === 'who_made_jump_brick' || q === 'who_made_jumpbrick' || this.value.trim().toLowerCase().includes('who made jump')) {
-                    result.classList.add('show');
-                    playSound('buy');
-                } else {
-                    result.classList.remove('show');
-                }
+            if (e.key !== 'Enter') return;
+            const raw = this.value.trim().toLowerCase();
+            const result = document.getElementById('googleSearchResult');
+            result.classList.remove('show');
+            result.innerHTML = '';
+            if (raw.includes('who made jump')) {
+                result.innerHTML = `
+                    <div class="g-result-url">jump_brick.game › about</div>
+                    <div class="g-result-title">Wesley officially made Jump Brick</div>
+                    <div class="g-result-desc">Wesley officially made jump_brick with Claude AI 🎮🤖</div>`;
+                result.classList.add('show');
+                playSound('buy');
+            } else if (raw === 'etchpot') {
+                result.innerHTML = `
+                    <div class="g-result-url">etchpot.buddy › profile</div>
+                    <div class="g-result-title">Etchpot</div>
+                    <div class="g-result-desc">🐢 Etchpot is a buddy.</div>`;
+                result.classList.add('show');
+                playSound('buy');
+            } else if (raw.includes('order from brickdonalds') || raw.includes('brickdonalds')) {
+                result.innerHTML = `
+                    <div class="brickdonalds-panel">
+                        <h3>🍟 Brickdonalds</h3>
+                        <p>What would you like to order?</p>
+                        <div class="brickdonalds-items">
+                            <button class="brickdonalds-item" onclick="brickdonaldsOrder('happy meal')"><span class="bd-emoji">🎁</span>Happy Meal</button>
+                            <button class="brickdonalds-item" onclick="brickdonaldsOrder('burger')"><span class="bd-emoji">🍔</span>Burger</button>
+                            <button class="brickdonalds-item" onclick="brickdonaldsOrder('bricksandwich')"><span class="bd-emoji">🥪</span>Bricksandwich</button>
+                        </div>
+                        <div id="brickOrderMsg"></div>
+                    </div>`;
+                result.classList.add('show');
+                playSound('buy');
             }
         });
 
