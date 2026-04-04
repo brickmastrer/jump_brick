@@ -2988,6 +2988,65 @@
         document.addEventListener('keydown', () => audioCtx.resume(), { once: true });
         document.addEventListener('click',   () => audioCtx.resume(), { once: true });
 
+        // ─── BACKGROUND MUSIC ──────────────────────────────────────────
+        const musicGain = audioCtx.createGain();
+        musicGain.gain.value = 0.07;
+        musicGain.connect(audioCtx.destination);
+        let musicMuted = false;
+        let musicTimeout = null;
+        let musicStarted = false;
+        let musicNoteIdx = 0;
+        // simple looping 8-bit melody [freq, noteDur, gapDur] in seconds
+        const MUSIC_NOTES = [
+            [523.25,0.13,0.04],[587.33,0.13,0.04],[659.25,0.13,0.04],[783.99,0.18,0.04],
+            [659.25,0.13,0.04],[587.33,0.13,0.04],[523.25,0.26,0.08],
+            [392.00,0.13,0.04],[440.00,0.13,0.04],[523.25,0.13,0.04],[659.25,0.18,0.04],
+            [523.25,0.13,0.04],[440.00,0.13,0.04],[392.00,0.26,0.1],
+            [349.23,0.13,0.04],[392.00,0.13,0.04],[440.00,0.13,0.04],[523.25,0.18,0.04],
+            [440.00,0.13,0.04],[392.00,0.13,0.04],[349.23,0.26,0.08],
+            [293.66,0.13,0.04],[329.63,0.13,0.04],[392.00,0.13,0.04],[523.25,0.26,0.1]
+        ];
+        function musicTick() {
+            if (musicMuted) return;
+            const [freq, dur, gap] = MUSIC_NOTES[musicNoteIdx % MUSIC_NOTES.length];
+            musicNoteIdx++;
+            const osc = audioCtx.createOscillator();
+            osc.type = 'square';
+            osc.frequency.value = freq;
+            const noteGain = audioCtx.createGain();
+            noteGain.gain.setValueAtTime(1, audioCtx.currentTime);
+            noteGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + dur);
+            osc.connect(noteGain); noteGain.connect(musicGain);
+            osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + dur);
+            musicTimeout = setTimeout(musicTick, (dur + gap) * 1000);
+        }
+        function startBgMusic() {
+            if (musicStarted || musicMuted) return;
+            musicStarted = true;
+            audioCtx.resume().then(musicTick);
+        }
+        function toggleMusic() {
+            musicMuted = !musicMuted;
+            if (musicMuted) {
+                musicGain.gain.value = 0;
+                clearTimeout(musicTimeout);
+            } else {
+                musicGain.gain.value = 0.07;
+                musicNoteIdx = 0;
+                musicStarted = true;
+                audioCtx.resume().then(musicTick);
+            }
+            const btn = document.getElementById('musicToggleBtn');
+            if (btn) {
+                btn.textContent = musicMuted ? '▶ Play Music' : '⏸ Pause Music';
+                btn.style.background = musicMuted ? '#44aa44' : '#cc4444';
+            }
+        }
+        window.toggleMusic = toggleMusic;
+        window.isMusicMuted = () => musicMuted;
+        document.addEventListener('click',   startBgMusic, { once: true });
+        document.addEventListener('keydown', startBgMusic, { once: true });
+
         // ─── COINS & PETS DATA ─────────────────────────────────────────
         const PETS = [
             { id: 'capybara',   name: 'Capybara',    price: 50,  html: `<div class="pet-capy"><div class="body"></div><div class="head"></div><div class="nose"></div><div class="ear"></div></div>` },
@@ -5008,6 +5067,17 @@
                             <button class="hunger-item" onclick="hungerOrder('chicken',1000)"><span class="h-emoji">🍗</span>Chicken<div class="h-price">🪙 1000</div></button>
                         </div>
                         <div id="hungerOrderMsg"></div>
+                    </div>`;
+                result.classList.add('show');
+                playSound('buy');
+            } else if (raw === 'music') {
+                const playing = !window.isMusicMuted();
+                result.innerHTML = `
+                    <div class="g-result-url">music.game › player</div>
+                    <div class="g-result-title">🎵 Game Music Player</div>
+                    <div class="g-result-desc" style="display:flex;align-items:center;gap:10px;">
+                        <button id="musicToggleBtn" onclick="window.toggleMusic()" style="padding:7px 18px;background:${playing?'#cc4444':'#44aa44'};color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:14px;font-weight:bold;">${playing?'⏸ Pause Music':'▶ Play Music'}</button>
+                        <span style="color:#555;font-size:13px;">Background music for the game</span>
                     </div>`;
                 result.classList.add('show');
                 playSound('buy');
