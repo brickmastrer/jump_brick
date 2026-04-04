@@ -4880,6 +4880,13 @@
                     <div class="g-result-desc">🐢 Etchpot is a buddy.</div>`;
                 result.classList.add('show');
                 playSound('buy');
+            } else if (raw === 'capybara') {
+                result.innerHTML = `
+                    <div class="g-result-url">animals.wiki › capybara</div>
+                    <div class="g-result-title">Capybara</div>
+                    <div class="g-result-desc">🐾 A capybara is a friendly animal that likes going in pawns of water.</div>`;
+                result.classList.add('show');
+                playSound('buy');
             } else if (raw.includes('order from brickdonalds') || raw.includes('brickdonalds')) {
                 result.innerHTML = `
                     <div class="brickdonalds-panel">
