@@ -15,6 +15,7 @@
   #dpad button{width:48px;height:48px;background:rgba(255,255,255,0.18);border:2px solid rgba(255,255,255,0.3);color:#fff;font-size:20px;border-radius:8px;cursor:pointer;touch-action:none;-webkit-tap-highlight-color:transparent;}
   #dpad .row{display:flex;gap:4px;justify-content:center;}
   #kickBtn{position:fixed;bottom:10px;right:10px;z-index:100;width:72px;height:72px;background:rgba(255,200,0,0.25);border:2px solid rgba(255,200,0,0.5);color:#ffd700;font-size:13px;font-family:'Exo 2',sans-serif;border-radius:50%;cursor:pointer;touch-action:none;-webkit-tap-highlight-color:transparent;}
+  #pressBtn{display:none;position:fixed;bottom:90px;right:10px;z-index:100;width:62px;height:62px;background:rgba(255,80,80,0.25);border:2px solid rgba(255,80,80,0.5);color:#ff8080;font-size:11px;font-family:'Exo 2',sans-serif;border-radius:50%;cursor:pointer;touch-action:none;-webkit-tap-highlight-color:transparent;}
 </style>
 </head>
 <body>
@@ -28,6 +29,7 @@
   <div class="row"><button id="btnL">◀</button><button id="btnD">▼</button><button id="btnR">▶</button></div>
 </div>
 <button id="kickBtn">⚽<br>KICK</button>
+<button id="pressBtn">🛡<br>PRESS</button>
 
 <script>
 // ============================================================
@@ -80,8 +82,16 @@ let scale = 1;
 function resizeCanvas() {
   const ww = window.innerWidth, wh = window.innerHeight;
   scale = Math.min(ww / CW, wh / CH);
+  // CSS size — visual fit to the device viewport
   canvas.style.width = (CW * scale) + 'px';
   canvas.style.height = (CH * scale) + 'px';
+  // Internal buffer matches device pixel ratio for sharp rendering on
+  // hi-DPI screens (retina, phones). Game logic stays in 960x600 space
+  // because we set the context transform to DPR.
+  const dpr = Math.max(1, Math.min(3, window.devicePixelRatio || 1));
+  canvas.width = Math.round(CW * dpr);
+  canvas.height = Math.round(CH * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
@@ -218,6 +228,7 @@ function createPlayers() {
         baseGK: tdata.gk,
         speed: isGK ? 2.6 : 3.2,
         hasBall: false,
+        pressureT: 0,
         nx, ny,
         teamData: tdata
       });
@@ -272,6 +283,7 @@ function resetKickoff(team) {
     p.y = p.homeY;
     p.vx = 0; p.vy = 0;
     p.hasBall = false;
+    p.pressureT = 0;
     p.facing = G.attackDir[p.team] > 0 ? {x:1,y:0} : {x:-1,y:0};
   }
   G.ball.x = PX + PW/2;
@@ -365,6 +377,7 @@ function setupMobile() {
   if (!isMobile) return;
   document.getElementById('dpad').style.display = 'block';
   document.getElementById('kickBtn').style.display = 'block';
+  document.getElementById('pressBtn').style.display = 'block';
 
   function simKey(key, down) {
     const e = new KeyboardEvent(down ? 'keydown' : 'keyup', {key, bubbles:true});
@@ -382,6 +395,9 @@ function setupMobile() {
   const kb = document.getElementById('kickBtn');
   kb.addEventListener('touchstart', e => { e.preventDefault(); simKey(' ', true); });
   kb.addEventListener('touchend', e => { e.preventDefault(); simKey(' ', false); });
+  const pb = document.getElementById('pressBtn');
+  pb.addEventListener('touchstart', e => { e.preventDefault(); simKey('Shift', true); });
+  pb.addEventListener('touchend', e => { e.preventDefault(); simKey('Shift', false); });
 }
 setupMobile();
 
@@ -737,8 +753,62 @@ function updateDefender(p, ts) {
   p.vy = p.y - prevY;
 }
 
+// Tackle thresholds
+const PRESSURE_RANGE = PR * 2.4;    // ~26px — close enough to contest
+const PRESSURE_THRESHOLD = 40;      // ~0.67s of steady pressure dislodges
+
+function updatePressureTackle() {
+  const b = G.ball;
+  if (!b.owner) return;
+  const carrier = b.owner;
+  if (carrier.isGK) return; // keepers hold possession through pressure
+
+  let pressTotal = 0;
+  let nearestPresser = null, nearestPD = Infinity;
+  for (let o of G.players) {
+    if (o.team === carrier.team) continue;
+    if (o.isGK) continue;
+    const d = dist(o.x, o.y, carrier.x, carrier.y);
+    if (d < PRESSURE_RANGE) {
+      // Closer = more pressure, min 0.5, max ~2.0
+      let contrib = 0.5 + (PRESSURE_RANGE - d) / (PR * 1.2);
+      // Human active press: holding Shift contributes 3x
+      if (o === G.controlled && (keys['shift'])) contrib *= 3;
+      pressTotal += contrib;
+      if (d < nearestPD) { nearestPD = d; nearestPresser = o; }
+    }
+  }
+
+  if (pressTotal > 0) {
+    carrier.pressureT = (carrier.pressureT || 0) + pressTotal;
+  } else {
+    carrier.pressureT = Math.max(0, (carrier.pressureT || 0) - 0.8);
+  }
+
+  if (carrier.pressureT >= PRESSURE_THRESHOLD && nearestPresser) {
+    // Pop ball away from carrier toward the nearest defender
+    const dxv = nearestPresser.x - carrier.x;
+    const dyv = nearestPresser.y - carrier.y;
+    const dd = Math.sqrt(dxv*dxv + dyv*dyv) + 0.001;
+    const kickDir = { x: dxv/dd, y: dyv/dd };
+    // Place ball in the direction of the tackle and give it some velocity
+    G.ball.x = carrier.x + kickDir.x * (PR + BR + 2);
+    G.ball.y = carrier.y + kickDir.y * (PR + BR + 2);
+    G.ball.vx = kickDir.x * 5 + (Math.random() - 0.5) * 2;
+    G.ball.vy = kickDir.y * 5 + (Math.random() - 0.5) * 2;
+    carrier.hasBall = false;
+    carrier.pressureT = 0;
+    b.owner = null;
+    // Loose ball — no possession bias
+    b.lastTeam = null;
+  }
+}
+
 function updateAI() {
   const b = G.ball;
+
+  // Pressure tackle runs once per frame across all players
+  updatePressureTackle();
 
   // Build per-team state (possession, pressers)
   const teamState = [null, null];
@@ -784,22 +854,7 @@ function updateAI() {
         updateDefender(p, ts);
       }
 
-      // Tackle attempt on opposing carrier
-      if (!p.hasBall && b.owner && b.owner.team !== t) {
-        if (dist(p.x, p.y, b.owner.x, b.owner.y) < PR * 2.1) {
-          if (Math.random() < 0.02) {
-            const victim = b.owner;
-            victim.hasBall = false;
-            b.owner = null;
-            const kx = (Math.random() - 0.5) * 4;
-            const ky = (Math.random() - 0.5) * 4;
-            G.ball.vx = kx;
-            G.ball.vy = ky;
-            // Tackle is a 50/50 loose ball — no possession bias
-            G.ball.lastTeam = null;
-          }
-        }
-      }
+      // (Tackles are handled globally by updatePressureTackle)
     }
   }
 }
@@ -959,6 +1014,7 @@ function updateBall() {
     b.owner = closest;
     b.lastTeam = closest.team;
     closest.hasBall = true;
+    closest.pressureT = 0;
   }
 }
 
@@ -1283,6 +1339,27 @@ function drawPlayer(p) {
   ctx.fill();
   ctx.restore();
 
+  // Pressure ring on the ball carrier — fills red as carrier is pressured
+  if (p.hasBall && p.pressureT > 4) {
+    const frac = Math.min(1, p.pressureT / PRESSURE_THRESHOLD);
+    ctx.save();
+    // background ring
+    ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, PR + 5, 0, Math.PI * 2);
+    ctx.stroke();
+    // fill arc (starts at top, goes clockwise)
+    const red = Math.floor(255);
+    const gg = Math.floor(180 * (1 - frac));
+    ctx.strokeStyle = `rgb(${red},${gg},40)`;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, PR + 5, -Math.PI/2, -Math.PI/2 + frac * Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
   // Tab target indicator
   if (isTabTarget) {
     ctx.save();
@@ -1442,7 +1519,7 @@ function drawHUD() {
   ctx.font = '9px "Exo 2", sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('WASD/Arrows: Move  |  Space: Kick (hold=power)  |  Tab: Switch  |  Click: Select', CW/2, CH-17);
+  ctx.fillText('WASD/Arrows: Move  |  Space: Kick (hold=power)  |  Shift: Press  |  Tab: Switch  |  Click: Select', CW/2, CH-17);
 }
 
 function drawParticles() {
