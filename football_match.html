@@ -233,11 +233,13 @@ function createBall(kickoffTeam) {
     rotation: 0,
     trail: [],
     owner: null,
+    lastTeam: null,   // team of the last player to touch the ball
   };
   // Give ball to kickoff team's CF
   const cfIdx = G.players.findIndex(p => p.team === kickoffTeam && p.role === 'cf');
   if (cfIdx >= 0) {
     G.ball.owner = G.players[cfIdx];
+    G.ball.lastTeam = kickoffTeam;
     G.players[cfIdx].hasBall = true;
   }
 }
@@ -277,6 +279,7 @@ function resetKickoff(team) {
   G.ball.vx = 0; G.ball.vy = 0;
   G.ball.trail = [];
   G.ball.owner = null;
+  G.ball.lastTeam = team;
   const cfIdx = G.players.findIndex(p => p.team === team && p.role === 'cf');
   if (cfIdx >= 0) {
     G.ball.owner = G.players[cfIdx];
@@ -389,9 +392,12 @@ function doKick() {
   if (!G.controlled || !G.controlled.hasBall) return;
   const power = 4 + (G.spaceTime / 60) * (G.maxPower - 4);
   const p = G.controlled;
+  G.ball.x = p.x + p.facing.x * (PR + BR + 2);
+  G.ball.y = p.y + p.facing.y * (PR + BR + 2);
   G.ball.vx = p.facing.x * power;
   G.ball.vy = p.facing.y * power;
   G.ball.owner = null;
+  G.ball.lastTeam = p.team;
   p.hasBall = false;
 }
 
@@ -536,6 +542,7 @@ function updateCarrier(p, ts) {
     G.ball.vx = sdx * power;
     G.ball.vy = sdy * power;
     G.ball.owner = null;
+    G.ball.lastTeam = p.team;
     p.hasBall = false;
     p.facing = {x: sdx, y: sdy};
     return;
@@ -580,6 +587,7 @@ function updateCarrier(p, ts) {
     G.ball.vx = pdn_x * power;
     G.ball.vy = pdn_y * power;
     G.ball.owner = null;
+    G.ball.lastTeam = p.team;
     p.hasBall = false;
     p.facing = {x: pdn_x, y: pdn_y};
     p.vx = 0; p.vy = 0;
@@ -597,6 +605,7 @@ function updateCarrier(p, ts) {
     G.ball.vx = cnx * 16;
     G.ball.vy = cny * 16;
     G.ball.owner = null;
+    G.ball.lastTeam = p.team;
     p.hasBall = false;
     p.facing = {x: cnx, y: cny};
     return;
@@ -733,12 +742,16 @@ function updateAI() {
 
   // Build per-team state (possession, pressers)
   const teamState = [null, null];
+  const ballSpd = Math.sqrt(b.vx*b.vx + b.vy*b.vy);
+  const flightOwnerTeam = (!b.owner && b.lastTeam !== null && ballSpd > 2) ? b.lastTeam : null;
   for (let t = 0; t < 2; t++) {
     const tp = G.players.filter(x => x.team === t);
     const op = G.players.filter(x => x.team !== t);
     let hasBall = false, ballCarrier = null;
     for (let p of tp) if (p.hasBall) { hasBall = true; ballCarrier = p; break; }
     if (b.owner && b.owner.team === t) { hasBall = true; ballCarrier = b.owner; }
+    // Ball in flight after our kick — keep attacking shape, no specific carrier
+    if (!b.owner && flightOwnerTeam === t) { hasBall = true; }
     // Two closest outfielders to ball (presser + cover)
     let p1 = null, p1d = Infinity, p2 = null, p2d = Infinity;
     for (let p of tp) {
@@ -782,6 +795,8 @@ function updateAI() {
             const ky = (Math.random() - 0.5) * 4;
             G.ball.vx = kx;
             G.ball.vy = ky;
+            // Tackle is a 50/50 loose ball — no possession bias
+            G.ball.lastTeam = null;
           }
         }
       }
@@ -814,6 +829,7 @@ function updateGK(p, team, atkGx, defGx) {
     G.ball.vx = (ddx/dd)*13;
     G.ball.vy = (ddy/dd)*13;
     G.ball.owner = null;
+    G.ball.lastTeam = p.team;
     p.hasBall = false;
     return;
   }
@@ -941,6 +957,7 @@ function updateBall() {
     }
     for (let p of G.players) p.hasBall = false;
     b.owner = closest;
+    b.lastTeam = closest.team;
     closest.hasBall = true;
   }
 }
@@ -961,10 +978,13 @@ function updateHuman() {
   if (dx !== 0 || dy !== 0) {
     const mag = Math.sqrt(dx*dx+dy*dy);
     dx /= mag; dy /= mag;
-    p.x += dx * p.speed;
-    p.y += dy * p.speed;
+    p.vx = dx * p.speed;
+    p.vy = dy * p.speed;
+    p.x += p.vx;
+    p.y += p.vy;
     p.facing = {x: dx, y: dy};
   } else {
+    p.vx = 0; p.vy = 0;
     // Face opponent goal
     const gx = getGoalX(p.team);
     const fdx = gx - p.x;
