@@ -469,113 +469,319 @@ function triggerGoal(team, gx, gy) {
 }
 
 // ============================================================
-// AI
+// AI — role-based, with passing, pressing, marking, shape
 // ============================================================
+
+// Is the straight-line segment p→target blocked by any opponent?
+function laneBlocked(px, py, tx, ty, opps, pad) {
+  const dx = tx - px, dy = ty - py;
+  const len2 = dx*dx + dy*dy + 0.001;
+  for (let o of opps) {
+    const t = ((o.x - px) * dx + (o.y - py) * dy) / len2;
+    if (t < 0.05 || t > 0.95) continue;
+    const lx = px + t * dx, ly = py + t * dy;
+    const d = Math.sqrt((lx-o.x)**2 + (ly-o.y)**2);
+    if (d < pad) return true;
+  }
+  return false;
+}
+
+function moveTo(p, tx, ty, spd) {
+  const dx = tx - p.x, dy = ty - p.y;
+  const dd = Math.sqrt(dx*dx + dy*dy);
+  if (dd > 1) {
+    const step = Math.min(spd, dd);
+    p.x += (dx/dd) * step;
+    p.y += (dy/dd) * step;
+    if (dd > 2) p.facing = {x: dx/dd, y: dy/dd};
+  }
+}
+
+function nearestOpp(p, opps) {
+  let best = null, bd = Infinity;
+  for (let o of opps) {
+    if (o.isGK) continue;
+    const d = dist(p.x, p.y, o.x, o.y);
+    if (d < bd) { bd = d; best = o; }
+  }
+  return {opp: best, d: bd};
+}
+
+function updateCarrier(p, ts) {
+  const b = G.ball;
+  const atkGx = ts.atkGx;
+  const atkDir = ts.atkDir;
+  const opps = ts.op;
+
+  const {opp: closestOpp, d: pressD} = nearestOpp(p, opps);
+  const distToGoal = Math.abs(p.x - atkGx);
+  const yFromCenter = Math.abs(p.y - (PY + PH/2));
+
+  // --- SHOT EVALUATION ---
+  const inShootingArc = distToGoal < PW * 0.34 && yFromCenter < PH * 0.42;
+  const shotLaneClear = !laneBlocked(p.x, p.y, atkGx, PY + PH/2, opps, 18);
+  if (inShootingArc && shotLaneClear && (pressD > 22 || distToGoal < PW * 0.18)) {
+    // Aim for the corner away from keeper
+    const gk = opps.find(o => o.isGK);
+    const gkY = gk ? gk.y : (PY + PH/2);
+    const aimHigh = gkY >= PY + PH/2;
+    const targetY = aimHigh ? GOAL_Y + GOAL_H * 0.18 : GOAL_Y + GOAL_H * 0.82;
+    const shdx = atkGx - p.x;
+    const shdy = targetY - p.y;
+    const shd = Math.sqrt(shdx*shdx + shdy*shdy) + 0.001;
+    const power = 15 + Math.random() * 3;
+    const sdx = shdx/shd, sdy = shdy/shd;
+    G.ball.x = p.x + sdx * (PR + BR + 2);
+    G.ball.y = p.y + sdy * (PR + BR + 2);
+    G.ball.vx = sdx * power;
+    G.ball.vy = sdy * power;
+    G.ball.owner = null;
+    p.hasBall = false;
+    p.facing = {x: sdx, y: sdy};
+    return;
+  }
+
+  // --- PASS EVALUATION ---
+  let bestMate = null, bestScore = -Infinity;
+  for (let m of ts.tp) {
+    if (m === p || m.isGK) continue;
+    const md = dist(p.x, p.y, m.x, m.y);
+    if (md < 55 || md > 360) continue;
+    if (laneBlocked(p.x, p.y, m.x, m.y, opps, 14)) continue;
+    // Openness of receiver
+    const mo = nearestOpp(m, opps).d;
+    // Forward progress toward opponent goal
+    const progress = (m.x - p.x) * atkDir;
+    const matDistToGoal = Math.abs(m.x - atkGx);
+    // Role weight: prefer forwards
+    const roleBonus = (m.role === 'cf' || m.role === 'lw' || m.role === 'rw') ? 40
+                      : (m.role === 'cm' || m.role === 'lm' || m.role === 'rm') ? 15 : 0;
+    const score = progress * 1.3 + mo * 0.9 - matDistToGoal * 0.25 + roleBonus;
+    if (score > bestScore) { bestScore = score; bestMate = m; }
+  }
+
+  const underPressure = pressD < 36;
+  // Pass if pressured with a viable option, or occasionally to build up
+  const shouldPass = bestMate && (underPressure || Math.random() < 0.012);
+  if (shouldPass) {
+    // Lead the receiver based on their current velocity
+    const leadX = bestMate.x + bestMate.vx * 8;
+    const leadY = bestMate.y + bestMate.vy * 8;
+    const pdx = leadX - p.x;
+    const pdy = leadY - p.y;
+    const pd = Math.sqrt(pdx*pdx + pdy*pdy) + 0.001;
+    // Firm pass — must exceed stick-radius so receiver (not passer) claims it
+    const power = clamp(pd / 16, 9, 15);
+    const pdn_x = pdx/pd, pdn_y = pdy/pd;
+    // Reposition ball in front of passer in kick direction so the passer
+    // cannot instantly re-claim it on the ownership pass.
+    G.ball.x = p.x + pdn_x * (PR + BR + 2);
+    G.ball.y = p.y + pdn_y * (PR + BR + 2);
+    G.ball.vx = pdn_x * power;
+    G.ball.vy = pdn_y * power;
+    G.ball.owner = null;
+    p.hasBall = false;
+    p.facing = {x: pdn_x, y: pdn_y};
+    p.vx = 0; p.vy = 0;
+    return;
+  }
+
+  // Panic clearance — heavy pressure deep in own half with no pass
+  const inOwnThird = (atkDir > 0 && p.x < PX + PW * 0.33) || (atkDir < 0 && p.x > PX + PW * 0.67);
+  if (underPressure && inOwnThird && pressD < 24) {
+    const cdx = atkDir, cdy = (p.y < PY + PH/2 ? -0.4 : 0.4);
+    const cd = Math.sqrt(cdx*cdx + cdy*cdy);
+    const cnx = cdx/cd, cny = cdy/cd;
+    G.ball.x = p.x + cnx * (PR + BR + 2);
+    G.ball.y = p.y + cny * (PR + BR + 2);
+    G.ball.vx = cnx * 16;
+    G.ball.vy = cny * 16;
+    G.ball.owner = null;
+    p.hasBall = false;
+    p.facing = {x: cnx, y: cny};
+    return;
+  }
+
+  // --- DRIBBLE ---
+  let mvx = atkGx - p.x;
+  let mvy = (PY + PH/2) - p.y;
+  // Veer away from nearest defender if close
+  if (closestOpp && pressD < 50) {
+    const ax = p.x - closestOpp.x;
+    const ay = p.y - closestOpp.y;
+    const aN = Math.sqrt(ax*ax + ay*ay) + 0.001;
+    const weight = (50 - pressD) * 1.3;
+    mvx += (ax/aN) * weight;
+    mvy += (ay/aN) * weight;
+  }
+  const mN = Math.sqrt(mvx*mvx + mvy*mvy) + 0.001;
+  const moveSpd = p.speed * 0.88;
+  const nx = mvx/mN, ny = mvy/mN;
+  const prevX = p.x, prevY = p.y;
+  p.x += nx * moveSpd;
+  p.y += ny * moveSpd;
+  p.vx = p.x - prevX;
+  p.vy = p.y - prevY;
+  p.facing = {x: nx, y: ny};
+}
+
+function updateAttackerOffBall(p, ts) {
+  const b = G.ball;
+  const atkDir = ts.atkDir;
+  const atkGx = ts.atkGx;
+  const ballY = b.y;
+  const attackingHalf = (atkDir > 0 && b.x > PX + PW * 0.4) || (atkDir < 0 && b.x < PX + PW * 0.6);
+
+  let tx, ty;
+  if (p.role === 'cf') {
+    tx = p.homeX + (atkGx - p.homeX) * (attackingHalf ? 0.60 : 0.30);
+    ty = lerp(p.homeY, ballY, 0.20);
+    // Make diagonal runs to stretch defense
+    if (attackingHalf) ty += Math.sin(G.frame * 0.025 + p.num) * 25;
+  } else if (p.role === 'lw' || p.role === 'rw') {
+    tx = p.homeX + (atkGx - p.homeX) * (attackingHalf ? 0.55 : 0.25);
+    ty = lerp(p.homeY, ballY, 0.12); // hug touchline
+  } else if (p.role === 'cm' || p.role === 'lm' || p.role === 'rm') {
+    tx = p.homeX + (atkGx - p.homeX) * (attackingHalf ? 0.38 : 0.15);
+    ty = lerp(p.homeY, ballY, 0.30);
+  } else {
+    // Fullbacks overlap slightly, CBs hold
+    const push = (p.role === 'lb' || p.role === 'rb') ? 0.22 : 0.10;
+    tx = p.homeX + (atkGx - p.homeX) * (attackingHalf ? push : 0.03);
+    ty = lerp(p.homeY, ballY, 0.22);
+  }
+
+  // Spacing: avoid clumping with teammates
+  for (let m of ts.tp) {
+    if (m === p || m.isGK) continue;
+    const md = dist(p.x, p.y, m.x, m.y);
+    if (md > 0.1 && md < 48) {
+      const f = (48 - md) * 0.4;
+      tx += ((p.x - m.x) / md) * f;
+      ty += ((p.y - m.y) / md) * f;
+    }
+  }
+
+  tx = clamp(tx, PX + PR + 4, PX + PW - PR - 4);
+  ty = clamp(ty, PY + PR + 4, PY + PH - PR - 4);
+
+  const prevX = p.x, prevY = p.y;
+  moveTo(p, tx, ty, p.speed * 0.86);
+  p.vx = p.x - prevX;
+  p.vy = p.y - prevY;
+}
+
+function updateDefender(p, ts) {
+  const b = G.ball;
+  const defGx = ts.defGx;
+  const atkDir = ts.atkDir;
+
+  let tx, ty;
+
+  if (p === ts.press1) {
+    // Press the ball carrier from goal-side
+    const target = ts.ballCarrier || b;
+    const dxg = defGx - target.x;
+    const dyg = (PY + PH/2) - target.y;
+    const dg = Math.sqrt(dxg*dxg + dyg*dyg) + 0.001;
+    tx = target.x + (dxg/dg) * 14;
+    ty = target.y + (dyg/dg) * 14;
+  } else if (p === ts.press2) {
+    // Second defender: cover the presser
+    tx = lerp(b.x, defGx, 0.30);
+    ty = lerp(b.y, PY + PH/2, 0.25);
+  } else {
+    // Zonal mark: goal-side of nearest opponent inside our zone
+    let mark = null, markD = Infinity;
+    for (let o of ts.op) {
+      if (o.isGK) continue;
+      if (o === ts.ballCarrier) continue;
+      const d = dist(p.homeX, p.homeY, o.x, o.y);
+      if (d < 150 && d < markD) { markD = d; mark = o; }
+    }
+    if (mark) {
+      const dxg = defGx - mark.x;
+      const dyg = (PY + PH/2) - mark.y;
+      const dg = Math.sqrt(dxg*dxg + dyg*dyg) + 0.001;
+      tx = mark.x + (dxg/dg) * 20;
+      ty = mark.y + (dyg/dg) * 20;
+      // Blend with home to maintain shape
+      tx = p.homeX * 0.40 + tx * 0.60;
+      ty = p.homeY * 0.40 + ty * 0.60;
+    } else {
+      // Hold shape, shift laterally with ball
+      tx = p.homeX + (b.x - (PX + PW/2)) * 0.28;
+      ty = p.homeY + (b.y - (PY + PH/2)) * 0.28;
+      // Drop deeper when ball is in our half
+      const ballDeep = (atkDir > 0 && b.x < PX + PW * 0.45) || (atkDir < 0 && b.x > PX + PW * 0.55);
+      if (ballDeep) tx = lerp(tx, defGx, 0.22);
+    }
+  }
+
+  tx = clamp(tx, PX + PR + 4, PX + PW - PR - 4);
+  ty = clamp(ty, PY + PR + 4, PY + PH - PR - 4);
+
+  const spd = (p === ts.press1) ? p.speed * 0.92 : p.speed * 0.82;
+  const prevX = p.x, prevY = p.y;
+  moveTo(p, tx, ty, spd);
+  p.vx = p.x - prevX;
+  p.vy = p.y - prevY;
+}
+
 function updateAI() {
   const b = G.ball;
+
+  // Build per-team state (possession, pressers)
+  const teamState = [null, null];
   for (let t = 0; t < 2; t++) {
-    const teamPlayers = G.players.filter(p => p.team === t);
-    const oppPlayers  = G.players.filter(p => p.team !== t);
-    const gx = getGoalX(t);
-    const defGx = getGoalX(1-t); // our goal x
-
-    // Which team has the ball?
-    let teamHasBall = false;
-    for (let p of teamPlayers) if (p.hasBall) { teamHasBall = true; break; }
-    if (b.owner && b.owner.team === t) teamHasBall = true;
-
-    // Find closest player to ball (non-GK)
-    let closestDist = Infinity, closestPlayer = null;
-    for (let p of teamPlayers) {
+    const tp = G.players.filter(x => x.team === t);
+    const op = G.players.filter(x => x.team !== t);
+    let hasBall = false, ballCarrier = null;
+    for (let p of tp) if (p.hasBall) { hasBall = true; ballCarrier = p; break; }
+    if (b.owner && b.owner.team === t) { hasBall = true; ballCarrier = b.owner; }
+    // Two closest outfielders to ball (presser + cover)
+    let p1 = null, p1d = Infinity, p2 = null, p2d = Infinity;
+    for (let p of tp) {
       if (p.isGK) continue;
       const d = dist(p.x, p.y, b.x, b.y);
-      if (d < closestDist) { closestDist = d; closestPlayer = p; }
+      if (d < p1d) { p2 = p1; p2d = p1d; p1 = p; p1d = d; }
+      else if (d < p2d) { p2 = p; p2d = d; }
     }
+    teamState[t] = {
+      tp, op,
+      atkDir: G.attackDir[t],
+      atkGx: getGoalX(t),
+      defGx: getGoalX(1 - t),
+      hasBall, ballCarrier,
+      press1: p1, press2: p2,
+    };
+  }
 
-    for (let p of teamPlayers) {
-      if (p === G.controlled) continue; // human controls this
-
-      if (p.isGK) {
-        updateGK(p, t, gx, defGx);
-        continue;
-      }
+  for (let t = 0; t < 2; t++) {
+    const ts = teamState[t];
+    for (let p of ts.tp) {
+      if (p === G.controlled) continue;
+      if (p.isGK) { updateGK(p, t, ts.atkGx, ts.defGx); continue; }
 
       if (p.hasBall) {
-        // Dribble toward goal
-        const dx = gx - p.x;
-        const dy = (PY + PH/2) - p.y;
-        const dd = Math.sqrt(dx*dx+dy*dy);
-        // How close to goal?
-        const distToGoal = Math.abs(p.x - gx);
-        const pitchFrac = distToGoal / PW;
-        if (pitchFrac < 0.30) {
-          // Shoot
-          const targetY = PY + PH/2 + (Math.random()-0.5)*90;
-          const shdx = gx - p.x;
-          const shdy = targetY - p.y;
-          const shd = Math.sqrt(shdx*shdx+shdy*shdy);
-          const power = 13 + Math.random()*5;
-          G.ball.vx = (shdx/shd)*power;
-          G.ball.vy = (shdy/shd)*power;
-          G.ball.owner = null;
-          p.hasBall = false;
-          p.facing = {x: shdx/shd, y: shdy/shd};
-        } else {
-          // Dribble - check defenders
-          const moveSpd = p.speed * 0.91;
-          const nx2 = dx/dd, ny2 = dy/dd;
-          p.x += nx2 * moveSpd;
-          p.y += ny2 * moveSpd;
-          p.facing = {x: nx2, y: ny2};
-          // Ball follows
-          G.ball.x = p.x + p.facing.x * (PR + BR + 1);
-          G.ball.y = p.y + p.facing.y * (PR + BR + 1);
-          G.ball.vx = 0; G.ball.vy = 0;
-        }
+        updateCarrier(p, ts);
+      } else if (ts.hasBall) {
+        updateAttackerOffBall(p, ts);
       } else {
-        // Without ball
-        let tx, ty;
-        if (teamHasBall) {
-          // Support positions based on role
-          tx = p.homeX + (gx - p.homeX) * 0.3;
-          ty = p.homeY;
-          if (p.role === 'lw' || p.role === 'rw' || p.role === 'cf') {
-            tx = p.homeX + (gx - p.homeX) * 0.5;
-          }
-        } else {
-          // Press or defend
-          if (p === closestPlayer) {
-            // Press ball
-            tx = b.x; ty = b.y;
-          } else {
-            // Get between ball and own goal
-            tx = lerp(b.x, defGx, 0.4) + (Math.random()-0.5)*40;
-            ty = lerp(b.y, PY+PH/2, 0.3) + (Math.random()-0.5)*20;
-            tx = p.homeX + (tx - p.homeX) * 0.5;
-            ty = p.homeY + (ty - p.homeY) * 0.5;
-          }
-        }
-        // Smooth move
-        const spd = (p === closestPlayer && !teamHasBall) ? p.speed*0.91 : p.speed*0.91*0.85;
-        const dx2 = tx - p.x, dy2 = ty - p.y;
-        const dd2 = Math.sqrt(dx2*dx2+dy2*dy2);
-        if (dd2 > 1) {
-          const step = Math.min(spd, dd2);
-          p.x += (dx2/dd2)*step;
-          p.y += (dy2/dd2)*step;
-          p.facing = {x: dx2/dd2, y: dy2/dd2};
-        }
+        updateDefender(p, ts);
       }
 
-      // Steal ball from opponent
+      // Tackle attempt on opposing carrier
       if (!p.hasBall && b.owner && b.owner.team !== t) {
-        if (dist(p.x, p.y, b.owner.x, b.owner.y) < PR * 2) {
-          if (Math.random() < 0.012) {
-            b.owner.hasBall = false;
+        if (dist(p.x, p.y, b.owner.x, b.owner.y) < PR * 2.1) {
+          if (Math.random() < 0.02) {
+            const victim = b.owner;
+            victim.hasBall = false;
             b.owner = null;
-            // Kick ball away slightly
-            const kx = (Math.random()-0.5)*3, ky = (Math.random()-0.5)*3;
-            G.ball.vx = kx; G.ball.vy = ky;
+            const kx = (Math.random() - 0.5) * 4;
+            const ky = (Math.random() - 0.5) * 4;
+            G.ball.vx = kx;
+            G.ball.vy = ky;
           }
         }
       }
@@ -612,14 +818,19 @@ function updateGK(p, team, atkGx, defGx) {
     return;
   }
 
-  if (ballHeadingToGoal) {
+  // Is the ball loose and in our penalty area? Rush out to claim.
+  const looseBall = !b.owner;
+  const inBox = dist(b.x, b.y, goalCenterX, goalCenterY) < 110;
+  if (looseBall && inBox && ballHeadingToGoal) {
+    tx = b.x; ty = b.y;
+  } else if (ballHeadingToGoal) {
     tx = clamp(predX, goalCenterX - 35, goalCenterX + 35);
     ty = clamp(predY, GOAL_Y, GOAL_Y + GOAL_H);
   } else {
     // Position between ball and goal
     tx = lerp(goalCenterX, b.x, 0.2);
     ty = lerp(goalCenterY, b.y, 0.2);
-    // Stay within 35px of goal line
+    // Stay within 55px of goal line
     if (G.attackDir[team] > 0) {
       tx = clamp(tx, PX, PX + 55);
     } else {
